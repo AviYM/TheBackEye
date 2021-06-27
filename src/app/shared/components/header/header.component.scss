@@ -1,0 +1,36 @@
+.spacer {
+    flex: 1 0.5 auto;
+}
+
+// .mat-toolbar{
+    
+// }
+
+.header {
+    background-color: #fff;
+    padding: 0 0 !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.300);
+    width: 100%;
+}
+
+.nav-link {
+    font-size: medium;
+    color: #5b5b5b; //5f6368
+    margin: 1rem;
+}
+
+ul.nav a:hover { 
+    background-color: #f0f0f0 !important; 
+}
+ul.nav a:active { 
+    color: rgb(253, 5, 5) !important; 
+}
+ul.nav a:focus { 
+    color: rgb(133, 133, 133) !important; 
+}
+
+.tabs {
+    margin-top: 15px;
+    //align-self: flex-end;
+}
+
