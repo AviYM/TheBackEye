@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { EditClassComponent } from './classes/edit-class/edit-class.component';
+import { EditLessonComponent } from './lesson/edit-lesson/edit-lesson.component';
 import { LogService } from './shared/log/log.service';
 
 @Component({
@@ -19,7 +19,7 @@ export class AppComponent{
   }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(EditClassComponent, {}
+    const dialogRef = this.dialog.open(EditLessonComponent, {}
     );
 
     dialogRef.afterClosed().subscribe((result) => {

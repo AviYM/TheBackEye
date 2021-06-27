@@ -6,13 +6,14 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MaterialModule } from './material/material.module';
-import { EditClassComponent } from './classes/edit-class/edit-class.component';
 import { SharedModule } from './shared/shared.module';
+import { EditLessonComponent } from './lesson/edit-lesson/edit-lesson.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    EditClassComponent
+    EditLessonComponent,
+    
   ],
   imports: [
     BrowserModule,
