@@ -8,11 +8,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
 import { SharedModule } from './shared/shared.module';
 import { EditLessonComponent } from './lesson/edit-lesson/edit-lesson.component';
+import { MainComponent } from './main/main.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     EditLessonComponent,
+    MainComponent,
     
   ],
   imports: [
