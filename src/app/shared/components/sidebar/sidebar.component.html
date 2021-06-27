@@ -1,0 +1,40 @@
+<mat-nav-list>
+    <div class="profile-card">
+
+        <mat-card class="outline">
+            <mat-card-header>
+                <img mat-card-avatar src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Avi Milezky">
+                <mat-card-title>Avi Milezky</mat-card-title>
+                <mat-card-subtitle>example@email.com</mat-card-subtitle>
+            </mat-card-header>
+        </mat-card>
+        
+        <!-- <img mat-card-avatar src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Avi Milezky">
+        <div class="header">
+            <h2>Avi Milezky</h2>
+            <h4>example@email.com</h4>
+        </div> -->
+    </div>
+
+
+    <h2 matSubheader>Lessons</h2>
+
+    <a mat-list-item routerLinkActive="list-item-active" routerLink="/">lesson1</a>
+    <a mat-list-item routerLinkActive="list-item-active" routerLink="/posts">lesson2</a>
+    <a mat-list-item routerLinkActive="list-item-active" routerLink="/articles">lesson3</a>
+
+    <mat-divider></mat-divider>
+
+    <h2 matSubheader>Tools</h2>
+
+    <a mat-list-item routerLinkActive="list-item-active" routerLink="/contacts">
+        <mat-icon>import_contacts</mat-icon>
+        Contacts
+    </a>
+
+    <a mat-list-item routerLinkActive="list-item-active" routerLink="/contacts">
+        <mat-icon>contact_phone</mat-icon>
+        Leads
+    </a>
+
+</mat-nav-list>
