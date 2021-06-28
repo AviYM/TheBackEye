@@ -6,9 +6,19 @@
         <mat-card-subtitle>{{ l.description }}</mat-card-subtitle>
       </a>
 
-      <button mat-icon-button class="icon">
+      <button mat-icon-button class="icon" [matMenuTriggerFor]="vert">
         <mat-icon>more_vert</mat-icon>
       </button>
+      <mat-menu #vert="matMenu" class="menu-vert">
+        <button mat-menu-item>
+          <mat-icon>edit</mat-icon>
+          <span>Edit</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>delete</mat-icon>
+          <span>Delete</span>
+        </button>
+      </mat-menu>
     </mat-card-header>
     <!-- <mat-divider></mat-divider> -->
   </div>

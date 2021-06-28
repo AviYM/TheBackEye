@@ -3,6 +3,10 @@
     margin: 0 8px;
   }
 
+  ::ng-deep .mat-button-ripple {
+    top: -10px;
+  }
+
   .mat-card-title {
     font-size: 15px;
   }
@@ -19,4 +23,9 @@
     height: 40px;
     font-size: 20px;
   }
+}
+.menu-vert {
+  position: absolute;
+  top: 0;
+  bottom: auto;
 }
