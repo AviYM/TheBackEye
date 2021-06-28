@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EditLessonComponent } from './lesson/edit-lesson/edit-lesson.component';
-import { LogService } from './shared/log/log.service';
+import { LogService } from './shared/services/log/log.service';
 
 @Component({
   selector: 'app-root',

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LogService } from 'src/app/shared/log/log.service';
+import { LogService } from '../../shared/services/log/log.service';
 
 @Component({
   selector: 'app-edit-lesson',
