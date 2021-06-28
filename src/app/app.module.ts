@@ -5,26 +5,32 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { MaterialModule } from './material/material.module';
-import { SharedModule } from './shared/shared.module';
+import { MainModule } from './main/main/main.module';
+import { RouterModule } from '@angular/router';
+import { MainComponent } from './main/main/main.component';
 import { EditLessonComponent } from './lesson/edit-lesson/edit-lesson.component';
-import { MainComponent } from './main/main.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    EditLessonComponent,
-    MainComponent,
-    
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MaterialModule,
-    SharedModule
+    MainModule,
+    RouterModule.forRoot([
+      {
+        path: '',
+        component: MainComponent,
+        children: [
+          { path: '', component: EditLessonComponent },
+          { path: 'lesson/:id', component: EditLessonComponent },
+        ],
+      },
+      // { path: '', redirectTo: 'main', pathMatch: 'full' },
+      { path: '**', redirectTo: '', pathMatch: 'full' },
+    ]),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

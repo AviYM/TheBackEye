@@ -1,0 +1,22 @@
+.mat-card-header {
+  ::ng-deep .mat-card-header-text {
+    margin: 0 8px;
+  }
+
+  .mat-card-title {
+    font-size: 15px;
+  }
+
+  .mat-card-subtitle {
+    margin-bottom: 12px;
+  }
+
+  .mat-icon-button {
+    width: 24px;
+  }
+
+  .mat-icon {
+    height: 40px;
+    font-size: 20px;
+  }
+}
