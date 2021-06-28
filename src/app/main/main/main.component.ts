@@ -17,5 +17,4 @@ export class MainComponent implements OnInit {
   sideBarToggler() {
     this.isSideBarOpen = !this.isSideBarOpen;
   }
-
 }
