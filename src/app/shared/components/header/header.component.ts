@@ -8,11 +8,20 @@ import { ThemePalette } from '@angular/material/core';
 })
 export class HeaderComponent implements OnInit {
 
-  @Output() toggleSideBarForMe: EventEmitter<any> = new EventEmitter();
+  @Output() toggleSidebar: EventEmitter<any> = new EventEmitter();
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  toggleSideBar() {
+    this.toggleSidebar.emit();
+    setTimeout(() => {
+      window.dispatchEvent(
+        new Event('resize')
+      );
+    }, 300);
   }
 
 }
