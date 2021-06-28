@@ -1,18 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { EditLessonComponent } from './lesson/edit-lesson/edit-lesson.component';
-import { MainComponent } from './main/main.component';
 
-const routes: Routes = [
-  { path: 'register', component: MainComponent, children: [
-    { path: 'edit', component: EditLessonComponent }
-  ]},
-  { path: '', redirectTo: 'register', pathMatch: 'full' },
-  { path: '**', redirectTo: 'register', pathMatch: 'full' }
-];
+const routes: Routes = [];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
