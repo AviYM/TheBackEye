@@ -1,32 +1,33 @@
 <mat-toolbar class="header">
-    <mat-toolbar-row>
-        <button mat-icon-button class="icon" (click)="toggleSideBar()">
-            <mat-icon>menu</mat-icon>
-        </button>
-        <span class="logo">The-Back-Eye</span>
-    
-        <!-- <nav mat-tab-nav-bar class="tabs" [backgroundColor]="background">
+  <mat-toolbar-row>
+    <button mat-icon-button class="icon" (click)="toggleSideBar()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span class="logo">
+      <a [routerLink]="['']">The-Back-Eye</a>
+    </span>
+
+    <!-- <nav mat-tab-nav-bar class="tabs" [backgroundColor]="background">
             <a mat-tab-link *ngFor="let link of links"
                 [routerLink]="link.path"
                 routerLinkActive #rla="routerLinkActive"
                 [active]="rla.isActive"> {{link.label}} </a>
         </nav> -->
-    
-        <span class="spacer"></span>
 
-        <button mat-icon-button class="icon">
-            <mat-icon>add</mat-icon>
-        </button>
+    <span class="spacer"></span>
 
-        <button mat-button [matMenuTriggerFor]="menu">
-            <mat-icon>person_outline</mat-icon>
-        </button>
-        <mat-menu #menu="matMenu">
-            <button mat-menu-item>
-                <mat-icon>exit_to_app</mat-icon>
-                Sign out
-            </button>
-        </mat-menu>
+    <button mat-icon-button class="icon">
+      <mat-icon>add</mat-icon>
+    </button>
 
-    </mat-toolbar-row>
-</mat-toolbar> 
+    <button mat-button [matMenuTriggerFor]="menu">
+      <mat-icon>person_outline</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>exit_to_app</mat-icon>
+        Sign out
+      </button>
+    </mat-menu>
+  </mat-toolbar-row>
+</mat-toolbar>
