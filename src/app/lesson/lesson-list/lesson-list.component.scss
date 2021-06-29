@@ -1,18 +1,18 @@
-.mat-card-header {
-  ::ng-deep .mat-card-header-text {
-    margin: 0 8px;
-  }
+.mat-card {
+  // ::ng-deep .mat-card-header-text {
+  //   margin: 0 8px;
+  // }
 
-  ::ng-deep .mat-button-ripple {
-    top: -10px;
-  }
+  // ::ng-deep .mat-button-ripple {
+  //   top: -10px;
+  // }
 
   .mat-card-title {
     font-size: 15px;
   }
 
   .mat-card-subtitle {
-    margin-bottom: 12px;
+    margin-bottom: 0;
   }
 
   .mat-icon-button {
@@ -20,12 +20,18 @@
   }
 
   .mat-icon {
-    height: 40px;
     font-size: 20px;
   }
-}
-.menu-vert {
-  position: absolute;
-  top: 0;
-  bottom: auto;
+
+  .menu-vert {
+    position: absolute;
+    top: 0;
+    bottom: auto;
+  }
+
+  .icon {
+    position: absolute;
+    top: 6px;
+    right: 0;
+  }
 }
