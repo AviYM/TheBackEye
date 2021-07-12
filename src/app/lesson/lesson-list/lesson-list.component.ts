@@ -1,47 +1,32 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { ILesson } from '../lesson.interface';
+import { LessonService } from '../lesson.service';
 
 @Component({
   selector: 'app-lesson-list',
   templateUrl: './lesson-list.component.html',
   styleUrls: ['./lesson-list.component.scss']
 })
-export class LessonListComponent implements OnInit {
+export class LessonListComponent implements OnInit, OnDestroy {
 
-  public lessons: ILesson[] = [
-    {
-      id: 1,
-      title: "Introduction to Computer Science",
-      description: "bla bla",
-      platform: "Zoom",
-      link: "https://us02web.zoom.us/j/89772322297",
-      isActive: true,
-      dayOfWeek: "Monday",
-      startTime: "10:30",
-      endTime: "12:30",
-      breakStart: "11:30",
-      breakEnd: "11:40",
-      maxLate: "10"
-    },
-    {
-      id: 2,
-      title: "Introduction to Object Oriented Programming",
-      description: "bla bla",
-      platform: "Zoom",
-      link: "https://us02web.zoom.us/j/89772322297",
-      isActive: true,
-      dayOfWeek: "Sunday",
-      startTime: "14:00",
-      endTime: "17:00",
-      breakStart: "15:30",
-      breakEnd: "15:40",
-      maxLate: "15"
-    }
-  ];
+  public lessons: ILesson[] = [];
+  sub!: Subscription;
+  errorMessage: string = '';
 
-  constructor() { }
+  constructor(private lessonService: LessonService) { }
 
   ngOnInit(): void {
+    this.sub = this.lessonService.getLessons().subscribe({
+      next: coursesData => {
+        this.lessons = coursesData;
+      },
+      error: err => this.errorMessage = err
+    });
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
 }
