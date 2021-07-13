@@ -1,37 +1,41 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { MatIconModule } from '@angular/material/icon';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatDividerModule } from '@angular/material/divider';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatMenuModule } from '@angular/material/menu';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
-import { MatCardModule } from '@angular/material/card';
+import { MatMenuModule } from '@angular/material/menu';
 
 const materialModules = [
-  MatIconModule,
-  MatDialogModule,
-  MatDividerModule,
   MatToolbarModule,
+  MatIconModule,
   MatButtonModule,
-  MatMenuModule,
+  MatCardModule,
+  MatDividerModule,
+  MatInputModule,
+  MatFormFieldModule,
+  MatTabsModule,
+  MatDialogModule,
+  MatCheckboxModule,
+  MatSlideToggleModule,
   MatSidenavModule,
   MatListModule,
-  MatCardModule,
-  
+  MatMenuModule
 ];
 
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule,
-    ...materialModules
-  ],
-  exports: [
-    ...materialModules
-  ]
+  imports: [CommonModule, ...materialModules],
+  exports: materialModules,
 })
-export class MaterialModule { }
+export class MaterialModule {}

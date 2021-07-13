@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { EditLessonComponent } from './lesson/edit-lesson/edit-lesson.component';
 import { LogService } from './shared/services/log/log.service';
 
@@ -13,21 +12,7 @@ export class AppComponent{
   isClicked: boolean;
   showModal: boolean;
 
-  constructor(private logger: LogService, private dialog: MatDialog) {
-    this.isClicked = false;
-    this.showModal = false;
-  }
-
-  openDialog(): void {
-    const dialogRef = this.dialog.open(EditLessonComponent, {}
-    );
-
-    dialogRef.afterClosed().subscribe((result) => {
-      this.isClicked = false;
-      this.logger.log('The dialog was closed');
-      this.logger.log(result);
-    });
-
+  constructor(private logger: LogService) {
   }
 
 }

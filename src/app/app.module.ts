@@ -11,6 +11,7 @@ import { MainComponent } from './main/main/main.component';
 import { WelcomeComponent } from './main/welcome/welcome.component';
 import { ChartMeasurementComponent } from './dashboard/chart-measurement/chart-measurement.component';
 import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
+import { LessonModule } from './lesson/lesson.module';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     MainModule,
+    LessonModule,
     RouterModule.forRoot([
       {
         path: '',

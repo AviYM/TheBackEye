@@ -4,3 +4,31 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.dialog-responsive {
+    width: 50%;
+}
+
+@media only screen and (max-width: 920px) {
+    .dialog-responsive {
+        width: 60%;
+    }
+}
+
+@media only screen and (max-width: 760px) {
+    .dialog-responsive {
+        width: 70%;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .dialog-responsive {
+        width: 90%;
+    }
+}
+
+@media only screen and (max-height: 500px) {
+    .dialog-responsive {
+        height: 80%;
+    }
+}

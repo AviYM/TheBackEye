@@ -1,0 +1,49 @@
+.spacer {
+    flex: 1 0.5 auto;
+}
+
+.mat-dialog-title{
+    margin-top: 30px; //3%
+}
+
+.mat-dialog-content{
+    overflow: hidden;
+}
+
+.full-field {
+    width: 100%;
+}
+
+.half-field {
+    width: 50%;
+}
+
+#time{
+    float: left;
+}
+
+.time-field{
+    width: 50px;
+}
+
+.mat-form-field--inline {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: -10px;
+}
+
+.mat-form-field--inline .time-field {
+    display: inline-block;
+    width: 50px;
+    vertical-align: middle;
+}
+
+.mat-dialog-actions .mat-button-base+.mat-button-base {
+    margin-left: 1px;
+    margin-bottom: 16%;
+}
+
+.mat-slide-toggle {
+    margin-bottom: 3px;
+}

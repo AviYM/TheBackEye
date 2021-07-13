@@ -16,7 +16,7 @@
 
     <span class="spacer"></span>
 
-    <button mat-icon-button class="icon">
+    <button mat-icon-button class="icon" [disabled]="isClicked" (click)="openEditLessonDialog(); isClicked=true;">
       <mat-icon>add</mat-icon>
     </button>
 

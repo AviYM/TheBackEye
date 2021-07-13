@@ -1,1 +1,287 @@
-<p>edit-lesson works!</p>
+<form #f="ngForm" (ngSubmit)="saveLesson()">
+  <h1 mat-dialog-title>Course Configuration</h1>
+
+  <mat-tab-group #matgroup>
+    <mat-tab label="Lesson Details">
+      <div mat-dialog-content>
+        <mat-form-field class="full-field">
+          <mat-label>Course Name(Title)</mat-label>
+          <!--<input matInput [(ngModel)]="data.animal">-->
+          <input
+            matInput
+            type="text"
+            required="true"
+            placeholder="What is the name of the lesson?"
+            name="title"
+            ngModel
+          />
+          <mat-error *ngIf="f.submitted && f.controls.title?.invalid">
+            This field is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-field">
+          <mat-label>Description</mat-label>
+          <textarea
+            matInput
+            name="description"
+            placeholder="Enter a description?"
+            ngModel
+          ></textarea>
+          <mat-error *ngIf="f.submitted && f.controls.description?.invalid">
+            This field is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field style="width: 30%">
+          <mat-label>Platform:</mat-label>
+          <input matInput type="text" required="true" name="title" ngModel />
+          <mat-error *ngIf="f.submitted && f.controls.platform?.invalid">
+            This field is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field style="margin-left: 5%; width: 65%">
+          <mat-label>Link:</mat-label>
+          <input matInput type="text" required="true" name="title" ngModel />
+          <mat-error *ngIf="f.submitted && f.controls.link?.invalid">
+            This field is required
+          </mat-error>
+        </mat-form-field>
+
+        <li class="mat-form-field--inline" style="list-style: none">
+          <mat-slide-toggle [color]="'primary'"
+            >Make the app active?</mat-slide-toggle
+          >
+
+          <span class="spacer"></span>
+
+          <mat-form-field style="width: 15%">
+            <mat-label>Max late:</mat-label>
+            <input matInput type="number" name="max-late" ngModel [min]="0" />
+          </mat-form-field>
+
+          <span class="spacer"></span>
+
+          <mat-form-field style="display: inline-flex; margin-left: auto">
+            <!-- <mat-label>Day</mat-label> -->
+            <select matNativeControl required="true" name="day" ngModel>
+              <!-- [formControl]="selectFormControl" -->
+              <option label="-- Select Day --" disabled="true"></option>
+              <option *ngFor="let day of days" [value]="day">{{ day }}</option>
+            </select>
+            <mat-error *ngIf="f.submitted && f.controls.day?.invalid">
+              This field is required
+            </mat-error>
+            <!-- <mat-hint>Select the day</mat-hint> -->
+          </mat-form-field>
+        </li>
+
+        <li
+          class="mat-form-field--inline half-field"
+          style="list-style: none"
+          id="time"
+        >
+          <p style="margin: 10px">Start time:</p>
+
+          <mat-form-field class="time-field">
+            <mat-label>HH</mat-label>
+            <input
+              matInput
+              required="true"
+              type="number"
+              name="sHour"
+              ngModel
+              [min]="0"
+              [max]="23"
+            />
+            <mat-error *ngIf="f.submitted && f.controls.sHour?.invalid">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+
+          <p style="margin: 10px"><b>:</b></p>
+
+          <mat-form-field class="time-field">
+            <mat-label>mm</mat-label>
+            <input
+              matInput
+              required="true"
+              type="number"
+              name="sMinute"
+              ngModel
+              [min]="0"
+              [max]="59"
+            />
+            <mat-error *ngIf="f.submitted && f.controls.sMinute?.invalid">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+        </li>
+
+        <li
+          class="mat-form-field--inline half-field"
+          style="list-style: none"
+          id="time"
+        >
+          <p style="margin: 10px">End time:</p>
+
+          <mat-form-field class="time-field">
+            <mat-label>HH</mat-label>
+            <input
+              matInput
+              required="true"
+              type="number"
+              name="eHour"
+              ngModel
+              [min]="0"
+              [max]="23"
+            />
+            <mat-error *ngIf="f.submitted && f.controls.eHour?.invalid">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+
+          <p style="margin: 10px"><b>:</b></p>
+
+          <mat-form-field class="time-field">
+            <mat-label>mm</mat-label>
+            <input
+              matInput
+              required="true"
+              type="number"
+              name="eMinute"
+              ngModel
+              [min]="0"
+              [max]="59"
+            />
+            <mat-error *ngIf="f.submitted && f.controls.eMinute?.invalid">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+        </li>
+
+        <li
+          class="mat-form-field--inline half-field"
+          style="list-style: none"
+          id="time"
+        >
+          <p style="margin: 10px">Start break:</p>
+
+          <mat-form-field class="time-field">
+            <mat-label>HH</mat-label>
+            <input
+              matInput
+              required="true"
+              type="number"
+              name="sHourBreak"
+              ngModel
+              [min]="0"
+              [max]="23"
+            />
+            <mat-error *ngIf="f.submitted && f.controls.sHourBreak?.invalid">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+
+          <p style="margin: 10px"><b>:</b></p>
+
+          <mat-form-field class="time-field">
+            <mat-label>mm</mat-label>
+            <input
+              matInput
+              required="true"
+              type="number"
+              name="sMinuteBreak"
+              ngModel
+              [min]="0"
+              [max]="59"
+            />
+            <mat-error *ngIf="f.submitted && f.controls.sMinuteBreak?.invalid">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+        </li>
+
+        <li
+          class="mat-form-field--inline half-field"
+          style="list-style: none"
+          id="time"
+        >
+          <p style="margin: 10px">End time:</p>
+
+          <mat-form-field class="time-field">
+            <mat-label>HH</mat-label>
+            <input
+              matInput
+              required="true"
+              type="number"
+              name="eHourBreak"
+              ngModel
+              [min]="0"
+              [max]="23"
+            />
+            <mat-error *ngIf="f.submitted && f.controls.eHourBreak?.invalid">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+
+          <p style="margin: 10px"><b>:</b></p>
+
+          <mat-form-field class="time-field">
+            <mat-label>mm</mat-label>
+            <input
+              matInput
+              required="true"
+              type="number"
+              name="eMinuteBreak"
+              ngModel
+              [min]="0"
+              [max]="59"
+            />
+            <mat-error *ngIf="f.submitted && f.controls.eMinuteBreak?.invalid">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+        </li>
+      </div>
+
+      <div mat-dialog-actions align="end">
+        <li style="list-style: none">
+            <button mat-button matDialogClose>Cancel</button>
+          <button
+            mat-button
+            cdkFocusInitial
+            (click)="matgroup.selectedIndex=1"
+            style="margin-bottom: auto"
+          >
+            Next
+          </button>
+          
+        </li>
+      </div>
+    </mat-tab>
+    <mat-tab label="Students">
+      <div mat-dialog-content>
+        <button mat-button>
+          <mat-icon>add</mat-icon>
+          Add Student
+        </button>
+      </div>
+      <div mat-dialog-actions align="end">
+        <li style="list-style: none">
+            <button mat-button matDialogClose>Cancel</button>
+          <button
+            mat-button
+            cdkFocusInitial
+            type="submit"
+            style="margin-bottom: auto"
+          >
+            Save
+          </button>
+          
+        </li>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</form>

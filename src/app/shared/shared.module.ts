@@ -7,6 +7,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { RouterModule } from '@angular/router';
 import { LessonListComponent } from '../lesson/lesson-list/lesson-list.component';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 const componentList = [
   HeaderComponent,
@@ -18,6 +19,6 @@ const componentList = [
 @NgModule({
   declarations: [...componentList],
   imports: [CommonModule, MaterialModule, RouterModule, HttpClientModule],
-  exports: [...componentList],
+  exports: [...componentList, CommonModule, FormsModule],
 })
 export class SharedModule {}
