@@ -10,7 +10,7 @@
         <mat-icon>more_vert</mat-icon>
       </button>
       <mat-menu #vert="matMenu" class="menu-vert">
-        <button mat-menu-item>
+        <button mat-menu-item  [routerLink]="['/lesson', l.id, 'edit']">
           <mat-icon>edit</mat-icon>
           <span>Edit</span>
         </button>

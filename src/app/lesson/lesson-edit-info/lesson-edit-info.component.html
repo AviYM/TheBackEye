@@ -1,0 +1,107 @@
+<div class="card-body">
+  <form novalidate #productForm="ngForm">
+    <fieldset>
+      <legend>Lesson Configuration</legend>
+
+      <div class="form-group row">
+        <label class="col-md-2 col-form-label" for="lessonNameId">Lesson Name(Title)</label>
+
+        <div class="col-md-8">
+          <input
+            class="form-control"
+            id="lessonNameId"
+            type="text"
+            placeholder="Title (required)"
+            required
+            minlength="3"
+            [(ngModel)]="lesson.title"
+            name="lessonName"
+            #lessonNameVar="ngModel"
+            [ngClass]="{
+              'is-invalid':
+                (lessonNameVar.touched ||
+                  lessonNameVar.dirty ||
+                  lesson.id !== 0) &&
+                !lessonNameVar.valid
+            }"
+          />
+          <span class="invalid-feedback">
+            <span *ngIf="lessonNameVar.errors?.required">
+              Lesson title is required.
+            </span>
+            <span *ngIf="lessonNameVar.errors?.minlength">
+              Lesson title must be at least three characters.
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-md-2 col-form-label" for="descriptionId">Description</label>
+        
+        <div class="col-md-8">
+          <textarea
+            class="form-control"
+            id="descriptionId"
+            placeholder="Description"
+            rows="3"
+            [(ngModel)]="lesson.description"
+            name="description"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-md-2 col-form-label" for="productCodeId">Platform & Link</label>
+
+        <div class="col-md-3">
+          <input
+            class="form-control"
+            id="platformId"
+            type="text"
+            placeholder="Platform (required)"
+            required
+            [(ngModel)]="lesson.platform"
+            name="platform"
+            #platformVar="ngModel"
+            [ngClass]="{
+              'is-invalid':
+                (platformVar.touched || platformVar.dirty || lesson.id !== 0) &&
+                !platformVar.valid
+            }"
+          />
+          <span class="invalid-feedback">
+            <span *ngIf="platformVar.errors?.required">
+              Lesson platform is required.
+            </span>
+          </span>
+        </div>
+
+        <div class="col-md-5">
+          <input
+            class="form-control"
+            id="linkId"
+            type="text"
+            placeholder="Link (required)"
+            required
+            [(ngModel)]="lesson.link"
+            name="link"
+            #linkVar="ngModel"
+            [ngClass]="{
+              'is-invalid':
+                (linkVar.touched || linkVar.dirty || lesson.id !== 0) &&
+                !linkVar.valid
+            }"
+          />
+          <span class="invalid-feedback">
+            <span *ngIf="linkVar.errors?.required">
+              Lesson link is required.
+            </span>
+          </span>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</div>
+
+<div class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</div>

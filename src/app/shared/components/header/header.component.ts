@@ -1,7 +1,9 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EditLessonComponent } from 'src/app/lesson/edit-lesson/edit-lesson.component';
+import { LogService } from '../../services/log/log.service';
 
 @Component({
   selector: 'app-header',
@@ -13,7 +15,7 @@ export class HeaderComponent implements OnInit {
   @Output() toggleSidebar: EventEmitter<any> = new EventEmitter();
   isClicked: boolean;
 
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog, private router: Router, private route: ActivatedRoute, private logger: LogService) { }
 
   ngOnInit(): void {
     this.isClicked = false;
@@ -42,5 +44,9 @@ export class HeaderComponent implements OnInit {
       console.log('The dialog was closed');
       console.log(result);
     });
+  }
+
+  onAddClick(): void {
+    this.router.navigate(['/lesson', 0, 'edit']);
   }
 }
