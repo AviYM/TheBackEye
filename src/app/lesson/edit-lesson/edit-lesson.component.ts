@@ -10,29 +10,35 @@ import { LessonService } from '../lesson.service';
   styleUrls: ['./edit-lesson.component.scss'],
 })
 export class EditLessonComponent implements OnInit {
+  days: string[] = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+  ];
 
-  days: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  hours: string[];
-  minutes: string[];
-
-  @ViewChild("f") form: NgForm;
+  @ViewChild('f') form: NgForm;
 
   selectFormControl = new FormControl('', Validators.required);
+  selectedIndex: number = 0;
 
-  constructor(private dialogRef: MatDialogRef<EditLessonComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ILesson, public lessonService: LessonService) {
-    this.hours = new Array(24).fill(0).map((x, i) => String(i)).map(x => x.length < 2 ? "0" + x : x);
-    this.minutes = new Array(60).fill(0).map((x, i) => String(i)).map(x => x.length < 2 ? "0" + x : x);
+  constructor(
+    private dialogRef: MatDialogRef<EditLessonComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: ILesson,
+    public lessonService: LessonService
+  ) {
     this.dialogRef.disableClose = true;
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  public saveLesson(): void {
+  nextStep(): void {
     const formValues = this.form.form.value;
 
-    if(this.form.valid) {
+    if (this.form.valid) {
       const newLesson: ILesson = {
         id: 21,
         title: formValues.title,
@@ -40,19 +46,24 @@ export class EditLessonComponent implements OnInit {
         description: '',
         platform: 'Zoom',
         link: 'https://zoom.com',
-        startTime: formValues.hour + ":" + formValues.minute,
+        startTime: formValues.hour + ':' + formValues.minute,
         endTime: '',
         breakStart: '',
         breakEnd: '',
         maxLate: '',
-        isActive: true
-      }
-  
+        isActive: true,
+      };
+
       this.lessonService.addLesson(newLesson);
-  
-      console.log("The settings are saved");
+
+      console.log('The lesson changes are saved');
       console.log(this.form);
-      this.dialogRef.close();
+      this.selectedIndex = this.selectedIndex + 1;
     }
+  }
+
+  public saveLesson(): void {
+    console.log('The lesson changes are saved');
+    this.dialogRef.close();
   }
 }
