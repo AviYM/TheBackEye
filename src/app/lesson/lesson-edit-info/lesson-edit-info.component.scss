@@ -1,8 +1,40 @@
-fieldset{
-    legend{
-        margin: 30px 0;
+fieldset {
+  legend {
+    margin: 30px 0;
+  }
+  div {
+    margin: 5px 0;
+    #day {
+      padding: 0 0 0 7px !important;
     }
-    div{
-        margin: 5px 0;
+    #last {
+      padding: 0 7px 0 0 !important;
     }
+    #time-f {
+      padding: 0 0 !important;
+    }
+    #text-f {
+      justify-content: center !important;
+    }
+    padding: 0 7px !important;
+  }
+
+  .text-space {
+    padding: 0 20px !important;
+  }
+
+  .time {
+    padding: 0.375rem 0.375rem;
+  }
+
+  .form-field--inline {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .form-check-input {
+    margin-left: -0.5em;
+    margin-right: 0.5em;
+  }
 }
