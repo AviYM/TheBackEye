@@ -14,20 +14,19 @@ export enum LogLevel {
   providedIn: 'root'
 })
 export class LogService {
-  level: LogLevel = LogLevel.All;
   logWithDate: boolean = true;
 
   constructor() { }
 
   private shouldLog(level: LogLevel): boolean {
-    if (level !== LogLevel.Off && level >= this.level) {
+    if (level !== LogLevel.Off && level >= LogLevel.All) {
       return true;
     }
 
     return false;
   }
 
-  writeToLog(msg: string, level: LogLevel) {
+  private writeToLog(msg: any, level: LogLevel) {
     if (this.shouldLog(level)) {
 
       let value: string = "";
@@ -41,6 +40,10 @@ export class LogService {
       // Log the value
       console.log(value);
     }
+  }
+
+  error(msg: any) {
+    this.writeToLog(msg, LogLevel.Error);
   }
 
   log(msg: any) {

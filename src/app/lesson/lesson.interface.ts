@@ -8,8 +8,8 @@ export interface ILesson {
   dayOfWeek: string | number;
   startTime: string;
   endTime: string;
-  breakStart: string;
-  breakEnd: string;
+  startBreak: string;
+  endBreak: string;
   maxLate: string;
 }
 

@@ -48,8 +48,8 @@ export class EditLessonComponent implements OnInit {
         link: 'https://zoom.com',
         startTime: formValues.hour + ':' + formValues.minute,
         endTime: '',
-        breakStart: '',
-        breakEnd: '',
+        startBreak: '',
+        endBreak: '',
         maxLate: '',
         isActive: true,
       };
