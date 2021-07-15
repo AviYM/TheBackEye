@@ -22,6 +22,8 @@ import { LessonEditStudentsComponent } from './lesson/lesson-edit-students/lesso
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { LessonMockData } from './lesson/lesson-mock-data';
 
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -63,6 +65,7 @@ import { LessonMockData } from './lesson/lesson-mock-data';
       // { path: '', redirectTo: 'main', pathMatch: 'full' },
       { path: '**', redirectTo: '', pathMatch: 'full' },
     ]),
+    NgxChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -8,7 +8,7 @@ import { LessonService } from '../lesson.service';
 @Component({
   selector: 'app-lesson-edit',
   templateUrl: './lesson-edit.component.html',
-  styleUrls: ['./lesson-edit.component.scss']
+  styleUrls: ['./lesson-edit.component.scss'],
 })
 export class LessonEditComponent implements OnInit {
   pageTitle = 'Lesson Configuration';
@@ -19,7 +19,10 @@ export class LessonEditComponent implements OnInit {
   private dataIsValid: { [key: string]: boolean } = {};
 
   get isDirty(): boolean {
-    return JSON.stringify(this.originalLessson) !== JSON.stringify(this.currentLesson);
+    return (
+      JSON.stringify(this.originalLessson) !==
+      JSON.stringify(this.currentLesson)
+    );
   }
 
   private currentLesson: ILesson;
@@ -34,14 +37,16 @@ export class LessonEditComponent implements OnInit {
     this.originalLessson = value ? { ...value } : null;
   }
 
-  constructor(private lessonService: LessonService,
-              private messageService: MessageService,
-              private route: ActivatedRoute,
-              private router: Router,
-              private location: Location) { }
+  constructor(
+    private lessonService: LessonService,
+    private messageService: MessageService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private location: Location
+  ) {}
 
   ngOnInit(): void {
-    this.route.data.subscribe(data => {
+    this.route.data.subscribe((data) => {
       const resolvedData: LessonResolved = data['resolvedData'];
       this.errorMessage = resolvedData.error;
       this.onLessonRetrieved(resolvedData.lesson);
@@ -70,7 +75,7 @@ export class LessonEditComponent implements OnInit {
       if (confirm(`Really delete the lesson: ${this.lesson.title}?`)) {
         this.lessonService.removeLesson(this.lesson.id).subscribe({
           next: () => this.onSaveComplete(`${this.lesson.title} was deleted`),
-          error: err => this.errorMessage = err
+          error: (err) => (this.errorMessage = err),
         });
       }
     }
@@ -81,8 +86,10 @@ export class LessonEditComponent implements OnInit {
     if (path) {
       return this.dataIsValid[path];
     }
-    return (this.dataIsValid &&
-      Object.keys(this.dataIsValid).every(d => this.dataIsValid[d] === true));
+    return (
+      this.dataIsValid &&
+      Object.keys(this.dataIsValid).every((d) => this.dataIsValid[d] === true)
+    );
   }
 
   reset(): void {
@@ -95,13 +102,15 @@ export class LessonEditComponent implements OnInit {
     if (this.isValid()) {
       if (this.lesson.id === 0) {
         this.lessonService.addLesson(this.lesson).subscribe({
-          next: () => this.onSaveComplete(`The new ${this.lesson.title} was saved`),
-          error: err => this.errorMessage = err
+          next: () =>
+            this.onSaveComplete(`The new ${this.lesson.title} was saved`),
+          error: (err) => (this.errorMessage = err),
         });
       } else {
         this.lessonService.editLesson(this.lesson).subscribe({
-          next: () => this.onSaveComplete(`The updated ${this.lesson.title} was saved`),
-          error: err => this.errorMessage = err
+          next: () =>
+            this.onSaveComplete(`The updated ${this.lesson.title} was saved`),
+          error: (err) => (this.errorMessage = err),
         });
       }
     } else {
@@ -124,61 +133,23 @@ export class LessonEditComponent implements OnInit {
     // Clear the validation object
     this.dataIsValid = {};
 
-    // 'info' tab
-    if (this.lesson.title &&
-      this.lesson.title.length >= 3) {
+    if (
+      this.lesson.title &&
+      this.lesson.title.length >= 3 &&
+      this.lesson.platform &&
+      this.lesson.link &&
+      this.lesson.dayOfWeek &&
+      this.lesson.startTime &&
+      this.lesson.endTime &&
+      this.lesson.maxLate
+    ) {
       this.dataIsValid['info'] = true;
     } else {
       this.dataIsValid['info'] = false;
     }
-
-    // 'tags' tab
-    // if (this.product.category &&
-    //   this.product.category.length >= 3) {
-    //   this.dataIsValid['tags'] = true;
-    // } else {
-    //   this.dataIsValid['tags'] = false;
-    // }
   }
-
-  // getLesson(id: number): void {
-  //   this.lessonService.getSingleLesson(id)
-  //     .subscribe({
-  //       next: (lesson: ILesson) => this.displayLesson(lesson),
-  //       error: err => this.errorMessage = err
-  //     });
-  // }
-
-  // displayLesson(lesson: ILesson): void {
-  //   if (this.lessonForm) {
-  //     this.lessonForm.reset();
-  //   }
-  //   this.lesson = lesson;
-
-  //   if (this.lesson.id === 0) {
-  //     this.pageTitle = 'Add Lesson';
-  //   } else {
-  //     this.pageTitle = `Edit Lesson: ${this.lesson.title}`;
-  //   }
-
-  //   // Update the data on the form
-  //   this.lessonForm.patchValue({
-  //     dayOfWeek: this.lesson.dayOfWeek,
-  //     link: this.lesson.platform,
-  //     starRating: this.lesson.link,
-  //     description: this.lesson.description,
-  //     startTime: this.lesson.startTime,
-  //     endTime: this.lesson.endTime,
-  //     isActive: this.lesson.isActive,
-  //     breakStart: this.lesson.breakStart,
-  //     breakEnd: this.lesson.breakEnd,
-  //     maxLate: this.lesson.maxLate,
-  //   });
-  //   //this.lessonForm.setControl('students', this.fb.array(this.students || []));
-  // }
 
   goBack() {
     this.location.back();
   }
-
 }
