@@ -194,7 +194,7 @@
           <input
             type="number"
             min="0"
-            class="form-control"
+            class="form-control time"
             id="maxLateId"
             required
             [(ngModel)]="lesson.maxLate"
@@ -208,7 +208,7 @@
           />
           <span class="invalid-feedback">
             <span *ngIf="maxLateVar.errors?.required">
-              this Field is required.
+              required.
             </span>
           </span>
         </div>

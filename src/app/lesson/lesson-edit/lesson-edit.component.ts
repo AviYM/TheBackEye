@@ -1,12 +1,7 @@
 import { Location } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChildren } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormControlName, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, Subscription, fromEvent, merge } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
 import { MessageService } from '../../messages/message.service';
-import { GenericValidator } from '../../shared/generic-validator';
-import { LogService } from '../../shared/services/log/log.service';
 import { ILesson, LessonResolved } from '../lesson.interface';
 import { LessonService } from '../lesson.service';
 
@@ -18,6 +13,8 @@ import { LessonService } from '../lesson.service';
 export class LessonEditComponent implements OnInit {
   pageTitle = 'Lesson Configuration';
   errorMessage: string;
+
+  disableStudentLink: boolean = true;
 
   private dataIsValid: { [key: string]: boolean } = {};
 
@@ -118,8 +115,9 @@ export class LessonEditComponent implements OnInit {
     }
     this.reset();
 
-    // Navigate back to the product list
+    // Navigate back
     this.location.back();
+    //this.router.navigate(['/lesson', this.lesson.id, 'edit','students']);
   }
 
   validate(): void {

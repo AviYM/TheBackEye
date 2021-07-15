@@ -19,6 +19,9 @@ import { LessonResolver } from './lesson/lesson-resolver.service';
 import { LessonEditInfoComponent } from './lesson/lesson-edit-info/lesson-edit-info.component';
 import { LessonEditStudentsComponent } from './lesson/lesson-edit-students/lesson-edit-students.component';
 
+import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { LessonMockData } from './lesson/lesson-mock-data';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,6 +39,7 @@ import { LessonEditStudentsComponent } from './lesson/lesson-edit-students/lesso
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
+    InMemoryWebApiModule.forRoot(LessonMockData, { delay: 1000 }),
     RouterModule.forRoot([
       {
         path: '',

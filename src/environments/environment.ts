@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   api: {
-    baseUrl: 'assets/mock_data/'
+    baseUrl: 'api'
   }
 };
 

@@ -1,4 +1,8 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -19,11 +23,14 @@ export class HttpService {
     this.END_POINT = environment.api.baseUrl; //`${environment.api.baseUrl}`
   }
 
-  public create<T>(route: string, item: T): Observable<T> {
-    return this.http.post<T>(`${this.END_POINT}/${route}`, item).pipe(
-      tap((data) => this.logger.log('createItem: ' + JSON.stringify(data))),
-      catchError(this.handleError)
-    );
+  public create<T>(route: string, item: T, hdrs?: any): Observable<T> {
+    const headers = new HttpHeaders(hdrs);
+    return this.http
+      .post<T>(`${this.END_POINT}/${route}`, item, { headers })
+      .pipe(
+        tap((data) => this.logger.log('createItem: ' + JSON.stringify(data))),
+        catchError(this.handleError)
+      );
   }
 
   public read<T>(route: string): Observable<T> {
@@ -35,18 +42,24 @@ export class HttpService {
     );
   }
 
-  public update<T>(route: string, item: T): Observable<T> {
-    return this.http.put<T>(`${this.END_POINT}/${route}`, item).pipe(
-      tap((data) => this.logger.log('updateItem: ' + JSON.stringify(data))),
-      catchError(this.handleError)
-    );
+  public update<T>(route: string, item: T, hdrs?: any): Observable<T> {
+    const headers = new HttpHeaders(hdrs);
+    return this.http
+      .put<T>(`${this.END_POINT}/${route}`, item, { headers })
+      .pipe(
+        tap((data) => this.logger.log('updateItem: ' + JSON.stringify(data))),
+        catchError(this.handleError)
+      );
   }
 
-  public delete<T>(route: string, id: number): Observable<T> {
-    return this.http.delete<T>(`${this.END_POINT}/${route}/${id}`).pipe(
-      tap((data) => this.logger.log('deleteItem: ' + id)),
-      catchError(this.handleError)
-    );
+  public delete<T>(route: string, id: number, hdrs?: any): Observable<T> {
+    const headers = new HttpHeaders(hdrs);
+    return this.http
+      .delete<T>(`${this.END_POINT}/${route}/${id}`, { headers })
+      .pipe(
+        tap((data) => this.logger.log('deleteItem: ' + id)),
+        catchError(this.handleError)
+      );
   }
 
   private handleError(err: HttpErrorResponse) {

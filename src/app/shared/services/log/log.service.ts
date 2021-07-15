@@ -38,8 +38,16 @@ export class LogService {
       value += " - Message: " + JSON.stringify(msg);
 
       // Log the value
-      console.log(value);
+      level === LogLevel.Error ? console.error(value) : console.log(value);
     }
+  }
+
+  info(msg: any) {
+    this.writeToLog(msg, LogLevel.Info);
+  }
+
+  debug(msg: any) {
+    this.writeToLog(msg, LogLevel.Debug);
   }
 
   error(msg: any) {
