@@ -11,27 +11,35 @@ import { ILesson } from './lesson.interface';
 export class LessonService {
   baseUrl = 'lessons';
 
+  lessons: ILesson[] = [];
+  errorMessage: string = '';
+
   constructor(private http: HttpService, private logger: LogService) {}
 
-  public getLessons(): Observable<ILesson[]> {
+  public getLessons(isRefresh?: boolean): Observable<ILesson[]> {
     this.logger.debug('The LessonService.getLessons() is called');
 
-    return this.http.read<ILesson[]>(this.baseUrl).pipe(
-      tap(data => this.logger.log('getLessons: ' + JSON.stringify(data))),
-      catchError(this.handleError)
-    );
+    if (!isRefresh) {
+      return of(this.lessons);
+    } else {
+      return this.http.read<ILesson[]>(this.baseUrl).pipe(
+        tap((data) => {
+          this.logger.log('getLessons: ' + JSON.stringify(data));
+          this.lessons = data;
+        }),
+        catchError(this.handleError)
+      );
+    }
   }
 
   public getSingleLesson(id: number): Observable<ILesson> {
+    this.logger.debug('The LessonService.getSingleLesson(' + id + ') is called');
     if (id === 0) {
       return of(this.initializeLesson());
     }
-    this.logger.debug('The LessonService.getSingleLesson() is called');
 
-    return this.http.read<ILesson>(this.baseUrl + '/' + id).pipe(
-        tap(data => this.logger.log('getLesson: ' + JSON.stringify(data))),
-        catchError(this.handleError)
-      );
+    // return of(this.lessons.find((element) => element.id === id));
+    return this.getLessons(true).pipe(map((lessons: ILesson[]) => lessons.find((element) => element.id === id)));
   }
 
   public addLesson(newLesson: ILesson): Observable<ILesson> {
@@ -40,7 +48,7 @@ export class LessonService {
     newLesson.id = null;
 
     return this.http.create<ILesson>(this.baseUrl, newLesson, headers).pipe(
-      tap(data => this.logger.log('addLesson: ' + JSON.stringify(data))),
+      tap((data) => this.logger.log('addLesson: ' + JSON.stringify(data))),
       catchError(this.handleError)
     );
   }
@@ -48,9 +56,10 @@ export class LessonService {
   public editLesson(lesson: ILesson): Observable<ILesson> {
     const headers = { 'Content-Type': 'application/json' };
     this.logger.debug('The LessonService.editLesson() is called');
+    this.logger.info(lesson);
     const url = `${this.baseUrl}/${lesson.id}`;
 
-    return this.http.update<ILesson>(url, lesson, headers) .pipe(
+    return this.http.update<ILesson>(url, lesson, headers).pipe(
       tap(() => this.logger.log('editLesson: ' + lesson.id)),
       map(() => lesson),
       catchError(this.handleError)
@@ -61,16 +70,13 @@ export class LessonService {
     const headers = { 'Content-Type': 'application/json' };
     this.logger.debug('The LessonService.removeLesson() is called');
 
-    return this.http.delete<ILesson>(this.baseUrl, id, headers)
-      .pipe(
-        tap(data => this.logger.log('deleteLesson: ' + id)),
-        catchError(this.handleError)
-      );
+    return this.http.delete<ILesson>(this.baseUrl, id, headers).pipe(
+      tap((data) => this.logger.log('deleteLesson: ' + id)),
+      catchError(this.handleError)
+    );
   }
 
   private handleError(err: any): Observable<never> {
-    // in a real world app, we may send the server to some remote logging infrastructure
-    // instead of just logging it to the console
     let errorMessage: string;
     if (err.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.

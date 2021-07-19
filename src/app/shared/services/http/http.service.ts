@@ -34,10 +34,10 @@ export class HttpService {
   }
 
   public read<T>(route: string): Observable<T> {
-    this.logger.log('HttpService.getItems is called with: ' + route);
+    this.logger.log('HttpService.read is called with: ' + route);
     // const cfqu = this.correctFormatForQueryUrl(qp);
     return this.http.get<T>(`${this.END_POINT}/${route}`).pipe(
-      tap((data) => this.logger.log('getItem: ' + JSON.stringify(data))),
+      tap((data) => this.logger.log('readItem: ' + JSON.stringify(data))),
       catchError(this.handleError)
     );
   }

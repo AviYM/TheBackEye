@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class ChartMeasurementComponent implements OnInit {
   name = 'Angular';
   // view: any[];
-  width: number = 800;
+  width: number = 1000;
   height: number = 300;
   fitContainer: boolean = false;
 

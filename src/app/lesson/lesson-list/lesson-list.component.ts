@@ -17,9 +17,9 @@ export class LessonListComponent implements OnInit, OnDestroy {
   constructor(private lessonService: LessonService) { }
 
   ngOnInit(): void {
-    this.sub = this.lessonService.getLessons().subscribe({
-      next: coursesData => {
-        this.lessons = coursesData;
+    this.sub = this.lessonService.getLessons(true).subscribe({
+      next: lessonsData => {
+        this.lessons = lessonsData;
       },
       error: err => this.errorMessage = err
     });
