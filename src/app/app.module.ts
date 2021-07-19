@@ -1,28 +1,24 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { MainModule } from './main/main/main.module';
-import { RouterModule } from '@angular/router';
-import { MainComponent } from './main/main/main.component';
 import { WelcomeComponent } from './main/welcome/welcome.component';
 import { ChartMeasurementComponent } from './dashboard/chart-measurement/chart-measurement.component';
 import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
 import { LessonModule } from './lesson/lesson.module';
 import { SharedModule } from './shared/shared.module';
 import { LessonEditComponent } from './lesson/lesson-edit/lesson-edit.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { LessonResolver } from './lesson/lesson-resolver.service';
-import { LessonEditInfoComponent } from './lesson/lesson-edit-info/lesson-edit-info.component';
-import { LessonEditStudentsComponent } from './lesson/lesson-edit-students/lesson-edit-students.component';
 
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { LessonMockData } from './lesson/lesson-mock-data';
 
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { LessonConfigComponent } from './lesson/lesson-config/lesson-config.component';
+import { MaterialModule } from './material/material.module';
 
 @NgModule({
   declarations: [
@@ -30,42 +26,21 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     DashboardComponent,
     WelcomeComponent,
     ChartMeasurementComponent,
-    LessonEditComponent
+    LessonEditComponent,
+    LessonConfigComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    MaterialModule,
     MainModule,
     LessonModule,
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
     InMemoryWebApiModule.forRoot(LessonMockData, { delay: 1000 }),
-    RouterModule.forRoot([
-      {
-        path: '',
-        component: MainComponent,
-        children: [
-          { path: '', component: WelcomeComponent },
-          { path: 'lesson/:id', component: DashboardComponent },
-          {
-            path: 'lesson/:id/edit',
-            component: LessonEditComponent,
-            //canDeactivate: [ProductEditGuard],
-            resolve: { resolvedData: LessonResolver },
-            children: [
-              { path: '', redirectTo: 'info', pathMatch: 'full' },
-              { path: 'info', component: LessonEditInfoComponent },
-              { path: 'students', component: LessonEditStudentsComponent }
-            ]
-          }
-        ],
-      },
-      // { path: '', redirectTo: 'main', pathMatch: 'full' },
-      { path: '**', redirectTo: '', pathMatch: 'full' },
-    ]),
-    NgxChartsModule
+    NgxChartsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

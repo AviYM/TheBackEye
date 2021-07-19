@@ -7,7 +7,7 @@ import { LessonEditInfoComponent } from './lesson-edit-info/lesson-edit-info.com
 import { LessonEditStudentsComponent } from './lesson-edit-students/lesson-edit-students.component';
 
 @NgModule({
-  declarations: [EditLessonComponent, LessonEditInfoComponent, LessonEditStudentsComponent],
+  declarations: [EditLessonComponent, LessonEditInfoComponent, LessonEditStudentsComponent,],
   imports: [CommonModule, MaterialModule, FormsModule],
 })
 export class LessonModule {}

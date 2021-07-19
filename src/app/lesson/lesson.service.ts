@@ -24,7 +24,7 @@ export class LessonService {
     } else {
       return this.http.read<ILesson[]>(this.baseUrl).pipe(
         tap((data) => {
-          this.logger.log('getLessons: ' + JSON.stringify(data));
+          // this.logger.log('getLessons: ' + JSON.stringify(data));
           this.lessons = data;
         }),
         catchError(this.handleError)

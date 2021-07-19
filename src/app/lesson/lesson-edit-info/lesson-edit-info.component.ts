@@ -3,26 +3,6 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ILesson } from '../lesson.interface';
 
-class Time {
-  hour: number;
-  minutes: number;
-
-  setHour(h: number) {
-    this.hour = h;
-  }
-
-  setMinutes(m: number) {
-    this.minutes = m;
-  }
-
-  getTime(): string {
-    if (this.hour && this.minutes) {
-      return this.hour + ':' + this.minutes;
-    }
-    return '';
-  }
-}
-
 @Component({
   selector: 'app-lesson-edit-info',
   templateUrl: './lesson-edit-info.component.html',

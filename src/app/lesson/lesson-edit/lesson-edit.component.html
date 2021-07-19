@@ -11,7 +11,7 @@
         Lesson Information<span [ngClass]="{'fa fa-exclamation': !isValid('info')}"></span>
       </a>
       <a [routerLink]="['students']"
-         routerLinkActive="active">
+         routerLinkActive="active" disabled>
          Lesson's students<span [ngClass]="{'fa fa-exclamation': !isValid('students')}"></span>
       </a>
     </div>

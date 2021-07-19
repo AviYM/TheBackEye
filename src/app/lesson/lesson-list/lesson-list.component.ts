@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { LogService } from 'src/app/shared/services/log/log.service';
 import { ILesson } from '../lesson.interface';
 import { LessonService } from '../lesson.service';
 
@@ -14,7 +15,7 @@ export class LessonListComponent implements OnInit, OnDestroy {
   sub!: Subscription;
   errorMessage: string = '';
 
-  constructor(private lessonService: LessonService) { }
+  constructor(private lessonService: LessonService, private logger: LogService) { }
 
   ngOnInit(): void {
     this.sub = this.lessonService.getLessons(true).subscribe({
@@ -27,6 +28,13 @@ export class LessonListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sub.unsubscribe();
+  }
+
+  onDelete(id: number) {
+    this.lessonService.removeLesson(id).subscribe({
+      next: () => this.logger.log("the lesson No. " + id + " deleted"),
+      error: (err) => (this.errorMessage = err),
+    });
   }
 
 }

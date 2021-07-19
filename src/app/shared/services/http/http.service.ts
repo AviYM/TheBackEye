@@ -68,7 +68,7 @@ export class HttpService {
     if (err.error instanceof ErrorEvent) {
       errorMessage = `An error accurred: ${err.error.message}`;
     } else {
-      errorMessage = `Server returned code: ${err.status}, error nessage is: ${err.message}`;
+      errorMessage = `Server returned code: ${err.status}, error message is: ${err.message}`;
     }
     console.error(errorMessage);
     return throwError(errorMessage);
