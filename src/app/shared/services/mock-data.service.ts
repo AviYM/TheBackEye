@@ -1,8 +1,9 @@
 import { InMemoryDbService } from 'angular-in-memory-web-api';
-import { ILesson } from './lesson.interface';
+import { ILesson } from '../../lesson/lesson.interface';
+import { IStudent } from '../../student/student.interface';
 
-export class LessonMockData implements InMemoryDbService {
-  createDb(): { lessons: ILesson[] } {
+export class MockDataService implements InMemoryDbService {
+  createDb(): { lessons: ILesson[], students: IStudent[] } {
     const lessons: ILesson[] = [
       {
         id: 1,
@@ -75,6 +76,28 @@ export class LessonMockData implements InMemoryDbService {
         maxLate: '8',
       },
     ];
-    return { lessons };
+
+    const students: IStudent[] = [
+      {
+        id: 1,
+        fName: 'Jon',
+        lName: 'Mile',
+        birthId: '321321321'
+      },
+      {
+        id: 2,
+        fName: 'Roni',
+        lName: 'Mile',
+        birthId: '432432321'
+      },
+      {
+        id: 3,
+        fName: 'david',
+        lName: 'Ram',
+        birthId: '257257257'
+      },
+    ];
+
+    return { lessons, students };
   }
 }

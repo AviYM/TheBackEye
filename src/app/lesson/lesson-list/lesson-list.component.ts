@@ -7,34 +7,53 @@ import { LessonService } from '../lesson.service';
 @Component({
   selector: 'app-lesson-list',
   templateUrl: './lesson-list.component.html',
-  styleUrls: ['./lesson-list.component.scss']
+  styleUrls: ['./lesson-list.component.scss'],
 })
 export class LessonListComponent implements OnInit, OnDestroy {
-
-  public lessons: ILesson[] = [];
+  lessons: ILesson[] = [];
   sub!: Subscription;
   errorMessage: string = '';
 
-  constructor(private lessonService: LessonService, private logger: LogService) { }
+  constructor(
+    private lessonService: LessonService,
+    private logger: LogService
+  ) {}
 
-  ngOnInit(): void {
-    this.sub = this.lessonService.getLessons(true).subscribe({
-      next: lessonsData => {
-        this.lessons = lessonsData;
-      },
-      error: err => this.errorMessage = err
-    });
+  ngOnInit() {
+    this.initLessonChangedSubscription();
+    this.lessonService.lessonListChanged.next(true);
+
+    // this.sub = this.lessonService.getLessons(true).subscribe({
+    //   next: lessonsData => {
+    //     this.lessons = lessonsData;
+    //   },
+    //   error: err => this.errorMessage = err
+    // });
   }
 
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
 
-  onDelete(id: number) {
-    this.lessonService.removeLesson(id).subscribe({
-      next: () => this.logger.log("the lesson No. " + id + " deleted"),
-      error: (err) => (this.errorMessage = err),
-    });
+  initLessonChangedSubscription() {
+    this.lessonService.lessonListChanged.subscribe(
+      async (isChanged: boolean) => {
+        if (isChanged) {
+          this.lessons = await this.lessonService.getLessonList();
+        }
+      }
+    );
   }
 
+  onDelete(lesson: ILesson) {
+    if (confirm(`Really delete the lesson: ${lesson.title}?`)) {
+      this.lessonService.removeLesson(lesson.id).subscribe({
+        next: () => {
+          this.logger.log('the lesson No. ' + lesson.id + ' deleted');
+          this.lessonService.lessonListChanged.next(true);
+        },
+        error: (err) => (this.errorMessage = err),
+      });
+    }
+  }
 }

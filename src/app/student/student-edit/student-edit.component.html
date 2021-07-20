@@ -1,0 +1,112 @@
+<div class="card-body">
+    <form novalidate>
+      <fieldset>
+        <legend>Add Student</legend>
+  
+        <div class="form-group row">
+          <label class="col-md-2 col-form-label" for="categoryId"
+            >Full Name</label
+          >
+  
+          <div class="col-md-4">
+            <input
+              class="form-control"
+              id="fNameId"
+              type="text"
+              placeholder="First Name (required)"
+              required
+              minlength="2"
+              [(ngModel)]="student.fName"
+              name="fName"
+              #fNameVar="ngModel"
+              [ngClass]="{
+                'is-invalid':
+                  (fNameVar.touched || fNameVar.dirty || student.id !== 0) &&
+                  !fNameVar.valid
+              }"
+            />
+            <span class="invalid-feedback">
+              <span *ngIf="fNameVar.errors?.required">
+                The first name must be entered.
+              </span>
+              <span *ngIf="fNameVar.errors?.minlength">
+                The first name must be at least 2 characters.
+              </span>
+            </span>
+          </div>
+  
+          <div class="col-md-4">
+            <input
+              class="form-control"
+              id="lNameId"
+              type="text"
+              placeholder="Last Name (required)"
+              required
+              minlength="2"
+              [(ngModel)]="student.lName"
+              name="lName"
+              #lNameVar="ngModel"
+              [ngClass]="{
+                'is-invalid':
+                  (lNameVar.touched || lNameVar.dirty || student.id !== 0) &&
+                  !lNameVar.valid
+              }"
+            />
+            <span class="invalid-feedback">
+              <span *ngIf="lNameVar.errors?.required">
+                The last name must be entered.
+              </span>
+              <span *ngIf="lNameVar.errors?.minlength">
+                The last name must be at least 2 characters.
+              </span>
+            </span>
+          </div>
+        </div>
+  
+        <div class="form-group row">
+          <label class="col-md-2 col-form-label" for="tagsId">ID</label>
+  
+          <div class="col-md-8">
+            <input
+              class="form-control"
+              id="birthIdId"
+              type="text"
+              placeholder="Enter student's ID"
+              required
+              minlength="8"
+              [(ngModel)]="student.birthId"
+              name="birthId"
+              #birthIdVar="ngModel"
+              [ngClass]="{
+                'is-invalid':
+                  (birthIdVar.touched || birthIdVar.dirty || student.id !== 0) &&
+                  !birthIdVar.valid
+              }"
+            />
+            <span class="invalid-feedback">
+              <span *ngIf="birthIdVar.errors?.required">
+                Student's ID is required.
+              </span>
+              <span *ngIf="birthIdVar.errors?.minlength">
+                Student's ID must be at least 2 characters.
+              </span>
+            </span>
+          </div>
+          <div class="col-md-1">
+            <button
+              class="btn btn-outline-primary"
+              type="button"
+              title="Enter all the required fields and then click Add"
+              (click)="addStudent()"
+            >
+              Add
+            </button>
+          </div>
+        </div>
+  
+      </fieldset>
+    </form>
+  </div>
+  
+  <div class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</div>
+  

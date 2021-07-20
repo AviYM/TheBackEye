@@ -10,13 +10,17 @@
         <mat-icon>more_vert</mat-icon>
       </button>
       <mat-menu #vert="matMenu" class="menu-vert">
-        <button mat-menu-item  [routerLink]="['/lesson', l.id, 'edit']">
+        <button mat-menu-item [routerLink]="['/lesson', l.id, 'edit']">
           <mat-icon>edit</mat-icon>
           <span>Edit</span>
         </button>
-        <button mat-menu-item (click)="onDelete(l.id)">
+        <button mat-menu-item (click)="onDelete(l)">
           <mat-icon>delete</mat-icon>
           <span>Delete</span>
+        </button>
+        <button mat-menu-item [routerLink]="['/lesson', l.id, 'students']">
+          <mat-icon>group_add</mat-icon>
+          <span>Add Student</span>
         </button>
       </mat-menu>
     </mat-card>

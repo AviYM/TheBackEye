@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of, Subject, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { HttpService } from '../shared/services/http/http.service';
 import { LogService } from '../shared/services/log/log.service';
@@ -9,12 +9,16 @@ import { ILesson } from './lesson.interface';
   providedIn: 'root',
 })
 export class LessonService {
-  baseUrl = 'lessons';
+  private baseUrl = 'lessons';
 
-  lessons: ILesson[] = [];
+  private lessons: ILesson[] = [];
   errorMessage: string = '';
 
-  constructor(private http: HttpService, private logger: LogService) {}
+  public lessonListChanged: Subject<boolean>;
+
+  constructor(private http: HttpService, private logger: LogService) {
+    this.lessonListChanged = new Subject<boolean>();
+  }
 
   public getLessons(isRefresh?: boolean): Observable<ILesson[]> {
     this.logger.debug('The LessonService.getLessons() is called');
@@ -30,6 +34,12 @@ export class LessonService {
         catchError(this.handleError)
       );
     }
+  }
+
+  public async getLessonList(): Promise<ILesson[]> {
+    this.logger.debug('The LessonService.getLessonList() is called');
+
+    return this.http.read<ILesson[]>(this.baseUrl).toPromise();
   }
 
   public getSingleLesson(id: number): Observable<ILesson> {

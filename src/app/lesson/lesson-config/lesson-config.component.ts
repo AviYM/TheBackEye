@@ -85,7 +85,10 @@ export class LessonConfigComponent implements OnInit {
     } else {
       if (confirm(`Really delete the lesson: ${this.lesson.title}?`)) {
         this.lessonService.removeLesson(this.lesson.id).subscribe({
-          next: () => this.onSaveComplete(`${this.lesson.title} was deleted`),
+          next: () => {
+            this.onSaveComplete(`${this.lesson.title} was deleted`);
+            this.lessonService.lessonListChanged.next(true);
+          },
           error: (err) => (this.errorMessage = err),
         });
       }
@@ -113,14 +116,18 @@ export class LessonConfigComponent implements OnInit {
     if (this.isValid()) {
       if (this.lesson.id === 0) {
         this.lessonService.addLesson(this.lesson).subscribe({
-          next: () =>
-            this.onSaveComplete(`The new ${this.lesson.title} was saved`),
+          next: () => {
+            this.onSaveComplete(`The new ${this.lesson.title} was saved`);
+            this.lessonService.lessonListChanged.next(true);
+          },
           error: (err) => (this.errorMessage = err),
         });
       } else {
         this.lessonService.editLesson(this.lesson).subscribe({
-          next: () =>
-            this.onSaveComplete(`The updated ${this.lesson.title} was saved`),
+          next: () => {
+            this.onSaveComplete(`The updated ${this.lesson.title} was saved`);
+            this.lessonService.lessonListChanged.next(true);
+          },
           error: (err) => (this.errorMessage = err),
         });
       }

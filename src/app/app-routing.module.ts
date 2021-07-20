@@ -8,6 +8,7 @@ import { LessonEditComponent } from './lesson/lesson-edit/lesson-edit.component'
 import { LessonResolver } from './lesson/lesson-resolver.service';
 import { MainComponent } from './main/main/main.component';
 import { WelcomeComponent } from './main/welcome/welcome.component';
+import { StudentListComponent } from './student/student-list/student-list.component';
 
 const routes: Routes = [
   {
@@ -26,7 +27,8 @@ const routes: Routes = [
         //   { path: 'info', component: LessonEditInfoComponent },
         //   { path: 'students', component: LessonEditStudentsComponent }
         // ]
-      }
+      },
+      { path: 'lesson/:id/students', component: StudentListComponent },
     ],
   },
   // { path: '', redirectTo: 'main', pathMatch: 'full' },
