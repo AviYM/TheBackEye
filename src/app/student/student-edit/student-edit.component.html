@@ -1,14 +1,12 @@
 <div class="card-body">
   <form novalidate>
     <fieldset>
-      <legend>Add Student</legend>
-
+      <!-- <legend>Add Student</legend> -->
+      <li><b>Add Student</b></li>
       <div class="form-group row">
-        <label class="col-md-2 col-form-label" for="categoryId"
-          >Full Name</label
-        >
+        <label class="col-md-1 col-form-label" for="categoryId"></label>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
           <input
             class="form-control"
             id="fNameId"
@@ -35,7 +33,7 @@
           </span>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
           <input
             class="form-control"
             id="lNameId"
@@ -61,12 +59,12 @@
             </span>
           </span>
         </div>
-      </div>
+        <!-- </div> -->
 
-      <div class="form-group row">
-        <label class="col-md-2 col-form-label" for="tagsId">ID</label>
+        <!-- <div class="form-group row">
+        <label class="col-md-2 col-form-label" for="tagsId">ID</label> -->
 
-        <div class="col-md-8">
+        <div class="col-md-3">
           <input
             class="form-control"
             id="birthIdId"
@@ -97,20 +95,20 @@
             class="btn btn-outline-primary"
             type="button"
             title="Enter all the required fields and then click Add"
-            (click)="addStudent()"
+            (click)="saveStudent()"
           >
             Add
           </button>
         </div>
       </div>
 
+      <br>
+      <li><b>Add students by file</b></li>
       <div class="form-group row">
-        <label class="col-md-2 col-form-label" for="categoryId"
-          >Add students by file</label
-        >
-        <div class="col-md-8">
-          <input type="file" />
-        </div>
+        <label class="col-md-1 col-form-label"></label>
+        <div class="col-md-2">
+          <input type="file" id="students-file"/>
+        </div>     
       </div>
     </fieldset>
   </form>

@@ -1,17 +1,178 @@
+<!-- <div class="row mb-2">
+  <div class="col-md-2 buttons">
+
+  </div>
+</div> -->
+
 <table class="table" *ngIf="students.length">
   <thead>
     <tr>
       <th>First Name</th>
       <th>Last Name</th>
       <th>Birth_ID</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let student of students">
-      <td>{{ student.fName }}</td>
-      <td>{{ student.lName }}</td>
-      <td>{{ student.birthId }}</td>
+    <tr *ngFor="let s of students">
+      <td>{{ s.fName }}</td>
+      <td>{{ s.lName }}</td>
+      <td>{{ s.birthId }}</td>
+      <td>
+        <button
+          mat-icon-button
+          title="Delete this lesson"
+          (click)="deleteStudent(s)"
+        >
+          <mat-icon style="font-size: 20px">delete</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          title="Edit this lesson"
+          (click)="editStudent(s)"
+        >
+          <mat-icon style="font-size: 20px">edit</mat-icon>
+        </button>
+      </td>
     </tr>
   </tbody>
 </table>
-<app-student-edit></app-student-edit>
+
+<div class="card-body" *ngIf="showAddStudentForm">
+  <form novalidate>
+    <fieldset>
+      <!-- <legend>Add Student</legend> -->
+      <li><b>Add Student</b></li>
+      <br>
+      <div class="form-group row">
+        <label class="col-md-1 col-form-label"></label>
+
+        <div class="col-md-3">
+          <input
+            class="form-control"
+            id="fNameId"
+            type="text"
+            placeholder="First Name (required)"
+            required
+            minlength="2"
+            [(ngModel)]="student.fName"
+            name="fName"
+            #fNameVar="ngModel"
+            [ngClass]="{
+              'is-invalid':
+                (fNameVar.touched || fNameVar.dirty || student.id !== 0) &&
+                !fNameVar.valid
+            }"
+          />
+          <span class="invalid-feedback">
+            <span *ngIf="fNameVar.errors?.required">
+              The first name must be entered.
+            </span>
+            <span *ngIf="fNameVar.errors?.minlength">
+              The first name must be at least 2 characters.
+            </span>
+          </span>
+        </div>
+
+        <div class="col-md-3">
+          <input
+            class="form-control"
+            id="lNameId"
+            type="text"
+            placeholder="Last Name (required)"
+            required
+            minlength="2"
+            [(ngModel)]="student.lName"
+            name="lName"
+            #lNameVar="ngModel"
+            [ngClass]="{
+              'is-invalid':
+                (lNameVar.touched || lNameVar.dirty || student.id !== 0) &&
+                !lNameVar.valid
+            }"
+          />
+          <span class="invalid-feedback">
+            <span *ngIf="lNameVar.errors?.required">
+              The last name must be entered.
+            </span>
+            <span *ngIf="lNameVar.errors?.minlength">
+              The last name must be at least 2 characters.
+            </span>
+          </span>
+        </div>
+
+        <div class="col-md-3">
+          <input
+            class="form-control"
+            id="birthIdId"
+            type="text"
+            placeholder="Enter student's ID"
+            required
+            minlength="8"
+            [(ngModel)]="student.birthId"
+            name="birthId"
+            #birthIdVar="ngModel"
+            [ngClass]="{
+              'is-invalid':
+                (birthIdVar.touched || birthIdVar.dirty || student.id !== 0) &&
+                !birthIdVar.valid
+            }"
+          />
+          <span class="invalid-feedback">
+            <span *ngIf="birthIdVar.errors?.required">
+              Student's ID is required.
+            </span>
+            <span *ngIf="birthIdVar.errors?.minlength">
+              Student's ID must be at least 2 characters.
+            </span>
+          </span>
+        </div>
+        <div class="col-md-1">
+          <button
+            class="btn btn-outline-primary"
+            type="button"
+            title="Enter all the required fields and then click Add"
+            (click)="saveStudent()"
+          >
+            Save
+          </button>
+        </div>
+      </div>
+
+      <br />
+      <li><b>Add students by file</b></li>
+      <br>
+      <div class="form-group row">
+        <label class="col-md-1 col-form-label"></label>
+        <div class="col-md-2">
+          <input type="file" id="students-file" (change)="fileChanged($event)" accept=".csv" />
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</div>
+
+<div class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</div>
+<!-- <app-student-edit></app-student-edit> -->
+
+<div class="row mb-2" style="margin-top: 30px">
+  <div class="col-md-4 buttons">
+    <button
+      class="btn btn-primary mr-3"
+      type="button"
+      title="Add a new student"
+      (click)="addNewStudent()"
+    >
+      Add Student
+    </button>
+    <button
+      class="btn btn-outline-secondary mr-3"
+      style="width: 80px"
+      type="button"
+      title="Cancel your edits"
+      [routerLink]="['']"
+    >
+      Cancel
+    </button>
+  </div>
+</div>
