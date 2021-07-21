@@ -7,6 +7,29 @@
   // margin-left: auto;
 }
 
-#add-st-btn{
+#add-st-btn {
   margin-bottom: 30px;
 }
+
+#td-icons {
+  width: 10%;
+}
+
+@media only screen and (max-width: 1250px) {
+  #td-icons {
+      width: 15%;
+  }
+}
+
+@media only screen and (max-height: 920px) {
+  #td-icons {
+      width: 20%;
+  }
+}
+
+@media only screen and (max-height: 700px) {
+  #td-icons {
+      width: 30%;
+  }
+}
+
