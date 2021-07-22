@@ -2,7 +2,8 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EditLessonComponent } from 'src/app/lesson/edit-lesson/edit-lesson.component';
+import { EditLessonComponent } from '../../../lesson/edit-lesson/edit-lesson.component';
+import { LessonListChangedAction, LessonService } from '../../../lesson/lesson.service';
 import { LogService } from '../../services/log/log.service';
 
 @Component({
@@ -15,7 +16,7 @@ export class HeaderComponent implements OnInit {
   @Output() toggleSidebar: EventEmitter<any> = new EventEmitter();
   isClicked: boolean;
 
-  constructor(private dialog: MatDialog, private router: Router, private route: ActivatedRoute, private logger: LogService) { }
+  constructor(private dialog: MatDialog, private router: Router, private route: ActivatedRoute, private logger: LogService, private lessonService: LessonService) { }
 
   ngOnInit(): void {
     this.isClicked = false;
@@ -48,5 +49,10 @@ export class HeaderComponent implements OnInit {
 
   onAddClick(): void {
     this.router.navigate(['/lesson', 0, 'edit']);
+  }
+
+  onLogoClick(): void {
+    this.lessonService.lessonListChanged.next(LessonListChangedAction.Refresh);
+    this.router.navigate(['']);
   }
 }

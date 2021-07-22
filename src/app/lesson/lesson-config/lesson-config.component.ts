@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from '../../messages/message.service';
 import { ILesson, LessonResolved } from '../lesson.interface';
-import { LessonService } from '../lesson.service';
+import { LessonListChangedAction, LessonService } from '../lesson.service';
 
 @Component({
   selector: 'app-lesson-config',
@@ -138,7 +138,7 @@ export class LessonConfigComponent implements OnInit {
       this.messageService.addMessage(message);
     }
     this.reset();
-    this.lessonService.lessonListChanged.next(true);
+    this.lessonService.lessonListChanged.next(LessonListChangedAction.Reload);
     this.router.navigate(['/lesson', l.id, 'students']);
   }
 
@@ -151,7 +151,7 @@ export class LessonConfigComponent implements OnInit {
         this.lessonService.removeLesson(this.lesson.id).subscribe({
           next: () => {
             this.onDeleteComplete(`${this.lesson.title} was deleted`);
-            this.lessonService.lessonListChanged.next(true);
+            this.lessonService.lessonListChanged.next(LessonListChangedAction.Reload);
           },
           error: (err) => (this.errorMessage = err),
         });
@@ -178,6 +178,7 @@ export class LessonConfigComponent implements OnInit {
 
   goBack() {
     //this.location.back();
+    this.lessonService.lessonListChanged.next(LessonListChangedAction.Refresh);
     this.router.navigate(['']);
   }
 }

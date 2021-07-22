@@ -150,13 +150,15 @@ export class StudentListComponent implements OnInit, OnDestroy {
       let curruntStudent = (<string>csvStudentArray[i]).split(',');
       if (curruntStudent.length == headerLength) {
         let newStudent: IStudent = this.initializeStudent();
-        newStudent.fName = curruntStudent[1].trim();
-        newStudent.lName = curruntStudent[2].trim();
-        newStudent.birthId = curruntStudent[3].trim();
+        let len: number = 3;
+        newStudent.fName = curruntStudent[headerLength-len].trim();
+        newStudent.lName = curruntStudent[(headerLength-len)+1].trim();
+        newStudent.birthId = curruntStudent[(headerLength-len)+2].trim();
   
         this.addStudent(newStudent);
       }
     }
+    this.showAddStudentForm = false;
   }
 
   addStudent(s: IStudent): void{

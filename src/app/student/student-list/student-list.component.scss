@@ -12,24 +12,5 @@
 }
 
 #td-icons {
-  width: 10%;
+  width: 100px;
 }
-
-@media only screen and (max-width: 1250px) {
-  #td-icons {
-      width: 15%;
-  }
-}
-
-@media only screen and (max-height: 920px) {
-  #td-icons {
-      width: 20%;
-  }
-}
-
-@media only screen and (max-height: 700px) {
-  #td-icons {
-      width: 30%;
-  }
-}
-

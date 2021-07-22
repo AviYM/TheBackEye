@@ -1,16 +1,16 @@
 <div class="lesson-list" *ngIf="lessons.length">
-  <div class="item-wrap" *ngFor="let l of lessons">
-    <mat-card>
-      <a [routerLink]="['/lesson', l.id]">
-        <mat-card-title>{{ l.title }}</mat-card-title>
-        <mat-card-subtitle>{{ l.description }}</mat-card-subtitle>
-      </a>
+  <div class="item-wrap" *ngFor="let l of lessons; let i = index">
+    <mat-card (click)="onLessonClick(l.lesson.id, i)" [ngClass]="{ selected: l.isSelected }">
+      <!-- <a [routerLink]="['/lesson', l.lesson.id]" > -->
+      <mat-card-title>{{ l.lesson.title }}</mat-card-title>
+      <mat-card-subtitle>{{ l.lesson.description }}</mat-card-subtitle>
+      <!-- </a> -->
 
       <button mat-icon-button class="icon" [matMenuTriggerFor]="vert">
         <mat-icon>more_vert</mat-icon>
       </button>
       <mat-menu #vert="matMenu" class="menu-vert">
-        <button mat-menu-item [routerLink]="['/lesson', l.id, 'edit']">
+        <button mat-menu-item [routerLink]="['/lesson', l.lesson.id, 'edit']">
           <mat-icon>edit</mat-icon>
           <span>Edit</span>
         </button>
@@ -18,7 +18,7 @@
           <mat-icon>delete</mat-icon>
           <span>Delete</span>
         </button>
-        <button mat-menu-item [routerLink]="['/lesson', l.id, 'students']">
+        <button mat-menu-item [routerLink]="['/lesson', l.lesson.id, 'students']">
           <mat-icon>group_add</mat-icon>
           <span>Add Student</span>
         </button>

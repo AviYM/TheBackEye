@@ -17,3 +17,8 @@ export interface LessonResolved {
   lesson: ILesson;
   error?: any;
 }
+
+export interface SelectedLesson {
+  lesson: ILesson;
+  isSelected: boolean;
+}

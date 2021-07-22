@@ -5,6 +5,11 @@ import { HttpService } from '../shared/services/http/http.service';
 import { LogService } from '../shared/services/log/log.service';
 import { ILesson } from './lesson.interface';
 
+export enum LessonListChangedAction {
+  Reload = 1,
+  Refresh,
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -14,10 +19,10 @@ export class LessonService {
   private lessons: ILesson[] = [];
   errorMessage: string = '';
 
-  public lessonListChanged: Subject<boolean>;
+  public lessonListChanged: Subject<number>;
 
   constructor(private http: HttpService, private logger: LogService) {
-    this.lessonListChanged = new Subject<boolean>();
+    this.lessonListChanged = new Subject<number>();
   }
 
   public getLessons(isRefresh?: boolean): Observable<ILesson[]> {

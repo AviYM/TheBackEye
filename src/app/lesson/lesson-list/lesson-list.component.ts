@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { LogService } from 'src/app/shared/services/log/log.service';
-import { ILesson } from '../lesson.interface';
-import { LessonService } from '../lesson.service';
+import { ILesson, SelectedLesson } from '../lesson.interface';
+import { LessonListChangedAction, LessonService } from '../lesson.service';
 
 @Component({
   selector: 'app-lesson-list',
@@ -10,18 +11,19 @@ import { LessonService } from '../lesson.service';
   styleUrls: ['./lesson-list.component.scss'],
 })
 export class LessonListComponent implements OnInit, OnDestroy {
-  lessons: ILesson[] = [];
+  lessons: SelectedLesson[] = [];
   sub!: Subscription;
   errorMessage: string = '';
 
   constructor(
     private lessonService: LessonService,
-    private logger: LogService
+    private logger: LogService,
+    private router: Router
   ) {}
 
   ngOnInit() {
     this.initLessonChangedSubscription();
-    this.lessonService.lessonListChanged.next(true);
+    this.lessonService.lessonListChanged.next(LessonListChangedAction.Reload);
 
     // this.sub = this.lessonService.getLessons(true).subscribe({
     //   next: lessonsData => {
@@ -32,27 +34,50 @@ export class LessonListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if(this.sub) {
+    if (this.sub) {
       this.sub.unsubscribe();
     }
   }
 
   initLessonChangedSubscription() {
     this.lessonService.lessonListChanged.subscribe(
-      async (isChanged: boolean) => {
-        if (isChanged) {
-          this.lessons = await this.lessonService.getLessonList();
+      async (isChanged: number) => {
+        if (isChanged === LessonListChangedAction.Reload) {
+          let lessonList = await this.lessonService.getLessonList();
+          this.lessons = [];
+          lessonList.forEach((l) => {
+            this.lessons.push({
+              lesson: l,
+              isSelected: false,
+            });
+          });
+        } else if(isChanged === LessonListChangedAction.Refresh) {
+          this.lessons.forEach((lesson) => {
+            if (lesson.isSelected) {
+              lesson.isSelected = false;
+            }
+          });
         }
       }
     );
   }
 
-  onDelete(lesson: ILesson) {
-    if (confirm(`Really delete the lesson: ${lesson.title}?`)) {
-      this.lessonService.removeLesson(lesson.id).subscribe({
+  onLessonClick(lessonId: number, index: number) {
+    this.lessons.forEach((lesson) => {
+      if (lesson.isSelected) {
+        lesson.isSelected = false;
+      }
+    });
+    this.lessons[index].isSelected = true;
+    this.router.navigate(['/lesson', lessonId]);
+  }
+
+  onDelete(sl: SelectedLesson) {
+    if (confirm(`Really delete the lesson: ${sl.lesson.title}?`)) {
+      this.lessonService.removeLesson(sl.lesson.id).subscribe({
         next: () => {
-          this.logger.log('the lesson No. ' + lesson.id + ' deleted');
-          this.lessonService.lessonListChanged.next(true);
+          this.logger.log('the lesson No. ' + sl.lesson.id + ' deleted');
+          this.lessonService.lessonListChanged.next(LessonListChangedAction.Reload);
         },
         error: (err) => (this.errorMessage = err),
       });
