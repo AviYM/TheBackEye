@@ -197,6 +197,7 @@ export class StudentListComponent implements OnInit, OnDestroy {
       fName: null,
       lName: null,
       birthId: null,
+      password: null
     };
   }
 }

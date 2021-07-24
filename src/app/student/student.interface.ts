@@ -3,4 +3,5 @@ export interface IStudent {
     fName: string;
     lName: string;
     birthId: string;
+    password: string;
 }

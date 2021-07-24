@@ -92,7 +92,8 @@ export class StudentService {
       id: 0,
       fName: null,
       lName: null,
-      birthId: null
+      birthId: null,
+      password: null
     };
   }
 }

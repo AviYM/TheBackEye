@@ -82,19 +82,22 @@ export class MockDataService implements InMemoryDbService {
         id: 1,
         fName: 'Jon',
         lName: 'Mile',
-        birthId: '321321321'
+        birthId: '321321321',
+        password: '7G39p85BX4'
       },
       {
         id: 2,
         fName: 'Roni',
         lName: 'Mile',
-        birthId: '432432321'
+        birthId: '432432321',
+        password: '3472fJN39j'
       },
       {
         id: 3,
         fName: 'david',
         lName: 'Ram',
-        birthId: '257257257'
+        birthId: '257257257',
+        password: 'p94U7d1q26'
       },
     ];
 
