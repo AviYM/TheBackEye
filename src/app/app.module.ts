@@ -22,8 +22,6 @@ import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MockDataService } from './shared/services/mock-data.service';
-import { StudentEditComponent } from './student/student-edit/student-edit.component';
-
 
 @NgModule({
   declarations: [
@@ -34,7 +32,6 @@ import { StudentEditComponent } from './student/student-edit/student-edit.compon
     LessonEditComponent,
     LessonConfigComponent,
     StudentListComponent,
-    StudentEditComponent
   ],
   imports: [
     BrowserModule,

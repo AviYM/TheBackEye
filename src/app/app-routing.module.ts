@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
+import { LessonConfigGuard } from './lesson/lesson-config.guard';
 import { LessonConfigComponent } from './lesson/lesson-config/lesson-config.component';
 import { LessonEditInfoComponent } from './lesson/lesson-edit-info/lesson-edit-info.component';
 import { LessonEditStudentsComponent } from './lesson/lesson-edit-students/lesson-edit-students.component';
@@ -20,7 +21,7 @@ const routes: Routes = [
       {
         path: 'lesson/:id/edit',
         component: LessonConfigComponent,
-        //canDeactivate: [ProductEditGuard],
+        canDeactivate: [LessonConfigGuard],
         resolve: { resolvedData: LessonResolver },
         // children: [
         //   { path: '', redirectTo: 'info', pathMatch: 'full' },
