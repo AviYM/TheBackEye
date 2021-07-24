@@ -1,14 +1,6 @@
 .mat-card {
-  cursor: pointer;
-  // ::ng-deep .mat-card-header-text {
-  //   margin: 0 8px;
-  // }
-
-  // ::ng-deep .mat-button-ripple {
-  //   top: -10px;
-  // }
-
   .mat-card-title {
+    cursor: pointer;
     font-size: 15px;
   }
 
