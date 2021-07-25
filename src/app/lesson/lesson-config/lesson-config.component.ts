@@ -119,12 +119,12 @@ export class LessonConfigComponent implements OnInit {
     if (this.isValid()) {
       if (this.lesson.id === 0) {
         this.lessonService.addLesson(this.lesson).subscribe({
-          next: (retNewLesson) => this.onSaveComplete(retNewLesson, `The new ${retNewLesson.title} was saved`),
+          next: (retNewLesson) => this.onSaveComplete(retNewLesson, true, `The new ${retNewLesson.title} was saved`),
           error: (err) => (this.errorMessage = err),
         });
       } else {
         this.lessonService.editLesson(this.lesson).subscribe({
-          next: (retNewLesson) => this.onSaveComplete(retNewLesson, `The new ${retNewLesson.title} was saved`),
+          next: (retNewLesson) => this.onSaveComplete(retNewLesson, false, `The new ${retNewLesson.title} was saved`),
           error: (err) => (this.errorMessage = err),
         });
       }
@@ -133,13 +133,17 @@ export class LessonConfigComponent implements OnInit {
     }
   }
 
-  private onSaveComplete(l: ILesson, message?: string): void {
+  private onSaveComplete(l: ILesson, continueToAddStudent: boolean, message?: string): void {
     if (message) {
       this.messageService.addMessage(message);
     }
     this.reset();
     this.lessonService.lessonListChanged.next(LessonListChangedAction.Reload);
-    this.router.navigate(['/lesson', l.id, 'students']);
+    if(continueToAddStudent) {
+      this.router.navigate(['/lesson', l.id, 'students']);
+    } else {
+      this.router.navigate(['']);
+    }
   }
 
   deleteLesson(): void {
