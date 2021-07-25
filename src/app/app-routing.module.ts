@@ -10,6 +10,7 @@ import { LessonResolver } from './lesson/lesson-resolver.service';
 import { MainComponent } from './main/main/main.component';
 import { WelcomeComponent } from './main/welcome/welcome.component';
 import { StudentListComponent } from './student/student-list/student-list.component';
+import { StudentResolver } from './student/student-resolver.service';
 
 const routes: Routes = [
   {
@@ -29,7 +30,11 @@ const routes: Routes = [
         //   { path: 'students', component: LessonEditStudentsComponent }
         // ]
       },
-      { path: 'lesson/:id/students', component: StudentListComponent },
+      {
+        path: 'lesson/:id/students',
+        component: StudentListComponent,
+        resolve: { studentResolver: StudentResolver },
+      },
     ],
   },
   // { path: '', redirectTo: 'main', pathMatch: 'full' },

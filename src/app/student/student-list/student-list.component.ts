@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { LogService } from '../../shared/services/log/log.service';
 import { IStudent } from '../student.interface';
@@ -20,7 +21,8 @@ export class StudentListComponent implements OnInit, OnDestroy {
 
   constructor(
     private studentService: StudentService,
-    private logger: LogService
+    private logger: LogService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -40,7 +42,8 @@ export class StudentListComponent implements OnInit, OnDestroy {
     this.sub = this.studentService.studentListChanged.subscribe(
       async (isChanged: boolean) => {
         if (isChanged) {
-          this.students = await this.studentService.getStudentList();
+          this.students = await this.route.snapshot.data.studentResolver;
+          // this.students = await this.studentService.getStudentList();
         }
       }
     );
