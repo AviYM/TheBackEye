@@ -22,7 +22,7 @@ export class MockDataService implements InMemoryDbService {
       {
         id: 2,
         title: 'Introduction to Object Oriented Programming',
-        description: 'bla bla',
+        description: '',
         platform: 'Zoom',
         link: 'https://us02web.zoom.us/j/89772322297',
         isActive: false,
@@ -36,7 +36,7 @@ export class MockDataService implements InMemoryDbService {
       {
         id: 3,
         title: 'Artificial Intelligence',
-        description: 'bla bla bla',
+        description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
         platform: 'Zoom',
         link: 'https://us02web.zoom.us/j/89772322293',
         isActive: true,
@@ -50,7 +50,7 @@ export class MockDataService implements InMemoryDbService {
       {
         id: 4,
         title: 'Operating System',
-        description: 'bla bla',
+        description: 'bla bla bla',
         platform: 'Zoom',
         link: 'https://us02web.zoom.us/j/89772322294',
         isActive: false,
@@ -64,7 +64,7 @@ export class MockDataService implements InMemoryDbService {
       {
         id: 5,
         title: 'Machine Learning',
-        description: 'bla bla',
+        description: 'Lorem ipsum dolor sit amet, has hinc possit et, ei quot vitae sit.',
         platform: 'Zoom',
         link: 'https://us02web.zoom.us/j/89772322296',
         isActive: true,

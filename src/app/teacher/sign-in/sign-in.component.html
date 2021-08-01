@@ -1,0 +1,81 @@
+<form
+  novalidate
+  (ngSubmit)="signIn(signInForm)"
+  #signInForm="ngForm"
+  autocomplete="off"
+>
+  <fieldset>
+    <h2>{{ pageTitle }}</h2>
+    <div class="form-group row">
+      <div>
+        <input
+          class="form-control"
+          id="emailId"
+          type="email"
+          placeholder="Email (required)"
+          required
+          ngModel
+          name="email"
+          #emailVar="ngModel"
+          [ngClass]="{
+            'is-invalid':
+              (emailVar.touched || emailVar.dirty) && !emailVar.valid
+          }"
+        />
+        <span class="invalid-feedback">
+          <span *ngIf="emailVar.errors?.required"> Email is required. </span>
+        </span>
+      </div>
+    </div>
+
+    <br />
+
+    <div class="form-group row">
+      <div>
+        <input
+          class="form-control"
+          id="passwordId"
+          type="password"
+          placeholder="Password (required)"
+          required
+          minlength="4"
+          ngModel
+          name="password"
+          #passwordVar="ngModel"
+          [ngClass]="{
+            'is-invalid':
+              (passwordVar.touched || passwordVar.dirty) && !passwordVar.valid
+          }"
+        />
+        <span class="invalid-feedback">
+          <span *ngIf="passwordVar.errors?.required">
+            Password is required.
+          </span>
+          <span *ngIf="passwordVar.errors?.minlength">
+            The password must be at least 2 characters.
+          </span>
+        </span>
+      </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+      <div class="col-md-4 offset-md-0">
+        <button
+        class="btn btn-primary mr-3"
+        type="submit"
+        style="width: 80px"
+        [disabled]="!signInForm.valid"
+      >
+        Sign In
+      </button>
+      </div>
+    </div>
+
+    <br>
+    
+  </fieldset>
+</form>
+
+<div class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</div>

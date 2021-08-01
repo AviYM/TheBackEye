@@ -25,10 +25,10 @@
     </button>
 
     <button mat-button [matMenuTriggerFor]="menu">
-      <mat-icon>person_outline</mat-icon>Avi
+      <mat-icon>person_outline</mat-icon> {{ currentTeacherName }}
     </button>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item>
+      <button mat-menu-item (click)="signOut()">
         <mat-icon>exit_to_app</mat-icon>
         Sign out
       </button>

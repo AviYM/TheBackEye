@@ -23,6 +23,8 @@ import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MockDataService } from './shared/services/mock-data.service';
 import { AuthComponent } from './teacher/auth/auth.component';
+import { SignInComponent } from './teacher/sign-in/sign-in.component';
+import { SignUpComponent } from './teacher/sign-up/sign-up.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,8 @@ import { AuthComponent } from './teacher/auth/auth.component';
     LessonConfigComponent,
     StudentListComponent,
     AuthComponent,
+    SignInComponent,
+    SignUpComponent,
   ],
   imports: [
     BrowserModule,

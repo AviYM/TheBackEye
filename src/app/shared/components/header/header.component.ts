@@ -1,50 +1,52 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { ThemePalette } from '@angular/material/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
-import { EditLessonComponent } from '../../../lesson/edit-lesson/edit-lesson.component';
-import { LessonListChangedAction, LessonService } from '../../../lesson/lesson.service';
-import { LogService } from '../../services/log/log.service';
+import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { TeacherAuthService } from 'src/app/teacher/teacher-auth.service';
+import {
+  LessonListChangedAction,
+  LessonService,
+} from '../../../lesson/lesson.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
+  currentTeacherName: string;
+  sub!: Subscription;
 
   @Output() toggleSidebar: EventEmitter<any> = new EventEmitter();
-  isClicked: boolean;
 
-  constructor(private dialog: MatDialog, private router: Router, private route: ActivatedRoute, private logger: LogService, private lessonService: LessonService) { }
+  constructor(
+    private router: Router,
+    private lessonService: LessonService,
+    private teacherService: TeacherAuthService
+  ) {}
 
   ngOnInit(): void {
-    this.isClicked = false;
+    this.initCurrentTeacherChangedSubscription();
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
+  }
+
+  initCurrentTeacherChangedSubscription(): void {
+    this.sub = this.teacherService.currentTeacherChanged.subscribe(
+      async (isChanged: boolean) => {
+        if (isChanged) {
+          this.currentTeacherName = this.teacherService.getCurrentTeacherFirstName();
+        }
+      }
+    );
   }
 
   toggleSideBar() {
     this.toggleSidebar.emit();
     setTimeout(() => {
-      window.dispatchEvent(
-        new Event('resize')
-      );
+      window.dispatchEvent(new Event('resize'));
     }, 300);
-  }
-
-  config: MatDialogConfig = {
-    panelClass: "dialog-responsive",
-    //height: '100%'
-  }
-
-  openEditLessonDialog(): void {
-    const dialogRef = this.dialog.open(EditLessonComponent, this.config
-    );
-
-    dialogRef.afterClosed().subscribe((result) => {
-      this.isClicked = false;
-      console.log('The dialog was closed');
-      console.log(result);
-    });
   }
 
   onAddClick(): void {
@@ -53,6 +55,12 @@ export class HeaderComponent implements OnInit {
 
   onLogoClick(): void {
     this.lessonService.lessonListChanged.next(LessonListChangedAction.Refresh);
+    this.router.navigate(['']);
+  }
+
+  signOut(): void {
+    this.teacherService.signOut();
+    this.teacherService.currentTeacherChanged.next(true);
     this.router.navigate(['']);
   }
 }
