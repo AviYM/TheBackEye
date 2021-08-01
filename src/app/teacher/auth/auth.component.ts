@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-auth',
@@ -9,17 +8,14 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class AuthComponent implements OnInit {
   isSignIn: boolean;
 
-  constructor(private dialogRef: MatDialogRef<AuthComponent>) {}
+  constructor() {}
 
   ngOnInit(): void {
     this.isSignIn = true;
   }
 
   toggleForm(): void {
-    // const container = document.querySelector('.container');
-    // container.classList.toggle('active');
     this.isSignIn = !this.isSignIn;
     console.log('The value of isSignIn = ' + this.isSignIn);
-    // this.dialogRef.close();
   }
 }

@@ -32,6 +32,13 @@ export class TeacherAuthService {
     this.currentTeacherChanged.next(true);
   }
 
+  signUp(newTeacher: ITeacher): void {
+    this.logger.info(newTeacher);
+
+    this.currentTeacher = newTeacher;
+    this.currentTeacherChanged.next(true);
+  }
+
   getCurrentTeacherFirstName(): string {
     if(this.currentTeacher) {
       return this.currentTeacher.fName;
