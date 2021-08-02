@@ -25,8 +25,9 @@ export class StudentListComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.showAddStudentForm = false;
+    this.students = await this.route.snapshot.data.studentResolver;
 
     this.initStudentsChangedSubscription();
     this.studentService.studentListChanged.next(true);
@@ -42,8 +43,7 @@ export class StudentListComponent implements OnInit, OnDestroy {
     this.sub = this.studentService.studentListChanged.subscribe(
       async (isChanged: boolean) => {
         if (isChanged) {
-          this.students = await this.route.snapshot.data.studentResolver;
-          // this.students = await this.studentService.getStudentList();
+          this.students = await this.studentService.getStudentList();
         }
       }
     );
