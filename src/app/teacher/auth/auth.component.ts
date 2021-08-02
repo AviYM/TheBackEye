@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LogService } from 'src/app/shared/services/log/log.service';
 
 @Component({
   selector: 'app-auth',
@@ -16,6 +17,5 @@ export class AuthComponent implements OnInit {
 
   toggleForm(): void {
     this.isSignIn = !this.isSignIn;
-    console.log('The value of isSignIn = ' + this.isSignIn);
   }
 }

@@ -44,7 +44,7 @@ export class AppComponent implements OnInit, OnDestroy {
   openDialog(): void {
     const dialogRef = this.dialog.open(
       AuthComponent,
-      { disableClose: true } //, width: "100%", height: "100%"
+      { disableClose: true, autoFocus: false, width: "350px" } //, width: "100%", height: "100%"
     );
 
     dialogRef.afterClosed().subscribe((result) => {

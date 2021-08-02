@@ -24,10 +24,10 @@ export class SignInComponent implements OnInit {
       const password = signInForm.form.value.password;
 
       this.authService.signIn(email, password);
+      this.dialogRef.close();
     } else {
       this.errorMessage = 'Please enter a user name and password.';
     }
-    this.dialogRef.close();
   }
 
 }

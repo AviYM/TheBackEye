@@ -20,8 +20,14 @@ export class SignUpComponent implements OnInit {
   }
 
   signUp(signUpForm: NgForm): void {
-    let formValue = signUpForm.form.value;
-    if (signUpForm && signUpForm.valid && (formValue.password === formValue.cpwd)) {
+    if (signUpForm && signUpForm.valid) {
+      let formValue = signUpForm.form.value;
+
+      if (formValue.password !== formValue.cPwd) {
+        this.errorMessage = 'Password confirmation failed, please try again.';
+        return;
+      }
+     
       let newTeacher: ITeacher = {
         id: 0,
         fName: formValue.fName,
@@ -29,12 +35,11 @@ export class SignUpComponent implements OnInit {
         email: formValue.email,
         password: formValue.password
       }
-      console.log(formValue);
-      console.log(newTeacher);
+
       this.authService.signUp(newTeacher);
+      this.dialogRef.close();
     } else {
       this.errorMessage = 'Please enter a user name and password.';
-    }
-    this.dialogRef.close();
+    }    
   }
 }
