@@ -55,12 +55,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   onLogoClick(): void {
     this.lessonService.lessonListChanged.next(LessonListChangedAction.Refresh);
-    this.router.navigate(['']);
+    this.router.navigate(['/welcome']);
   }
 
   signOut(): void {
     this.teacherService.signOut();
     this.teacherService.currentTeacherChanged.next(true);
-    this.router.navigate(['']);
+    this.router.navigate(['/welcome']);
   }
 }

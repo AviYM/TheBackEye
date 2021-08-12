@@ -3,37 +3,39 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
 import { LessonConfigGuard } from './lesson/lesson-config.guard';
 import { LessonConfigComponent } from './lesson/lesson-config/lesson-config.component';
-import { LessonEditInfoComponent } from './lesson/lesson-edit-info/lesson-edit-info.component';
-import { LessonEditStudentsComponent } from './lesson/lesson-edit-students/lesson-edit-students.component';
-import { LessonEditComponent } from './lesson/lesson-edit/lesson-edit.component';
 import { LessonResolver } from './lesson/lesson-resolver.service';
 import { MainComponent } from './main/main/main.component';
 import { WelcomeComponent } from './main/welcome/welcome.component';
 import { StudentListComponent } from './student/student-list/student-list.component';
 import { StudentResolver } from './student/student-resolver.service';
+import { AuthGuard } from './teacher/auth.guard';
+import { AuthComponent } from './teacher/auth/auth.component';
 
 const routes: Routes = [
   {
     path: '',
+    component: AuthComponent,
+  },
+  {
+    path: '',
     component: MainComponent,
+    canActivate: [AuthGuard],
     children: [
-      { path: '', component: WelcomeComponent },
-      { path: 'lesson/:id', component: DashboardComponent },
+      { path: '', redirectTo: 'welcome', pathMatch: 'full' },
+      { path: 'welcome', component: WelcomeComponent, canActivate: [AuthGuard]},
+      { path: 'lesson/:id', component: DashboardComponent, canActivate: [AuthGuard] },
       {
         path: 'lesson/:id/edit',
         component: LessonConfigComponent,
         canDeactivate: [LessonConfigGuard],
+        canActivate: [AuthGuard],
         resolve: { resolvedData: LessonResolver },
-        // children: [
-        //   { path: '', redirectTo: 'info', pathMatch: 'full' },
-        //   { path: 'info', component: LessonEditInfoComponent },
-        //   { path: 'students', component: LessonEditStudentsComponent }
-        // ]
       },
       {
         path: 'lesson/:id/students',
         component: StudentListComponent,
-        resolve: { studentResolver: StudentResolver },
+        canActivate: [AuthGuard],
+        // resolve: { studentResolver: StudentResolver },
       },
     ],
   },

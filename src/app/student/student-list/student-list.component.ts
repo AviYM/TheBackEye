@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { IPerson } from 'src/app/shared/person.interface';
 import { LogService } from '../../shared/services/log/log.service';
-import { IStudent } from '../student.interface';
 import { StudentService } from '../student.service';
 
 @Component({
@@ -11,26 +11,39 @@ import { StudentService } from '../student.service';
   styleUrls: ['./student-list.component.scss'],
 })
 export class StudentListComponent implements OnInit, OnDestroy {
-  students: IStudent[] = [];
+  students: IPerson[] = [];
   sub!: Subscription;
   errorMessage: string = '';
-
-  student: IStudent;
+  lessonId: number;
+  student: IPerson;
   private dataIsValid: boolean;
   showAddStudentForm: boolean;
 
   constructor(
     private studentService: StudentService,
     private logger: LogService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {}
 
   async ngOnInit(): Promise<void> {
     this.showAddStudentForm = false;
-    this.students = await this.route.snapshot.data.studentResolver;
+    this.lessonId = +this.route.snapshot.paramMap.get('id'); 
+    console.log('~~~~~~*~~~~~~' + this.lessonId);
+
+    //this.students = await this.route.snapshot.data.studentResolver;
+    this.students = await this.studentService.getStudentList(this.lessonId);
 
     this.initStudentsChangedSubscription();
     this.studentService.studentListChanged.next(true);
+
+    // In case of routing from the student-list of one lesson 
+    // to the student-list of another lesson directly.
+    this.route.params.subscribe(params => {
+      this.lessonId = params['id'];
+      this.logger.log("URL id has changed")
+      this.initStudentsChangedSubscription();
+      this.studentService.studentListChanged.next(true);
+    });
   }
 
   ngOnDestroy() {
@@ -43,7 +56,8 @@ export class StudentListComponent implements OnInit, OnDestroy {
     this.sub = this.studentService.studentListChanged.subscribe(
       async (isChanged: boolean) => {
         if (isChanged) {
-          this.students = await this.studentService.getStudentList();
+          this.students = [];
+          this.students = await this.studentService.getStudentList(this.lessonId);
         }
       }
     );
@@ -58,7 +72,14 @@ export class StudentListComponent implements OnInit, OnDestroy {
     if (this.isValid()) {
       if (this.student.id === 0) {
         this.studentService.addStudent(this.student).subscribe({
-          next: (retNewStudent) => this.onSaveComplete(retNewStudent),
+          next: (retNewStudent) => {
+            this.studentService
+              .addStudentToLesson(this.lessonId, retNewStudent.id)
+              .subscribe({
+                next: () => this.onSaveComplete(retNewStudent),
+                error: (err) => (this.errorMessage = err),
+              });
+          },
           error: (err) => (this.errorMessage = err),
         });
       } else {
@@ -72,22 +93,29 @@ export class StudentListComponent implements OnInit, OnDestroy {
     }
   }
 
-  onSaveComplete(s: IStudent): void {
+  onSaveComplete(s: IPerson): void {
     this.reset();
     this.studentService.studentListChanged.next(true);
     this.showAddStudentForm = false;
   }
 
-  editStudent(s: IStudent) {
+  editStudent(s: IPerson) {
     this.showAddStudentForm = true;
     this.student = s;
   }
 
-  deleteStudent(student: IStudent) {
+  onCancelClick() {
+    this.showAddStudentForm = false;
+    this.student = null;
+  }
+
+  deleteStudent(student: IPerson) {
     if (
-      confirm(`Really delete the student: ${student.fName + student.lName}?`)
+      confirm(
+        `Really delete the student: ${student.firstName + student.lastName}?`
+      )
     ) {
-      this.studentService.removeStudent(student.id).subscribe({
+      this.studentService.removeStudent(student.id, this.lessonId).subscribe({
         next: () => {
           this.logger.log('the student No. ' + student.id + ' deleted');
           this.studentService.studentListChanged.next(true);
@@ -101,12 +129,12 @@ export class StudentListComponent implements OnInit, OnDestroy {
     this.dataIsValid = false;
   }
 
-  validate(s:IStudent=this.student): void {
+  validate(s: IPerson = this.student): void {
     if (
-      s.fName &&
-      s.fName.length >= 2 &&
-      s.lName &&
-      s.lName.length >= 2 &&
+      s.firstName &&
+      s.firstName.length >= 2 &&
+      s.lastName &&
+      s.lastName.length >= 2 &&
       s.birthId &&
       s.birthId.length >= 8
     ) {
@@ -116,7 +144,7 @@ export class StudentListComponent implements OnInit, OnDestroy {
     }
   }
 
-  isValid(s:IStudent=this.student): boolean {
+  isValid(s: IPerson = this.student): boolean {
     this.validate(s);
     return this.dataIsValid;
   }
@@ -136,41 +164,51 @@ export class StudentListComponent implements OnInit, OnDestroy {
           let csvStudentArray = (reader.result as string).split(/\r\n|\n/);
           this.logger.log(csvStudentArray);
 
-          let headersRow = this.getHeaderArray(csvStudentArray); 
-          this.getDataStudentArrayFromCSVFile(csvStudentArray, headersRow.length);
+          let headersRow = this.getHeaderArray(csvStudentArray);
+          this.getDataStudentArrayFromCSVFile(
+            csvStudentArray,
+            headersRow.length
+          );
         };
-        reader.onerror = function () {  
-          console.log('error is occured while reading file!');  
+        reader.onerror = function () {
+          console.log('error is occured while reading file!');
         };
-      } else {  
-        alert("Please import valid .csv file.");  
-      }  
+      } else {
+        alert('Please import valid .csv file.');
+      }
     }
   }
 
-  getDataStudentArrayFromCSVFile(csvStudentArray: any, headerLength: number) {    
+  getDataStudentArrayFromCSVFile(csvStudentArray: any, headerLength: number) {
     for (let i = 1; i < csvStudentArray.length; i++) {
       let curruntStudent = (<string>csvStudentArray[i]).split(',');
       if (curruntStudent.length == headerLength) {
-        let newStudent: IStudent = this.initializeStudent();
+        let newStudent: IPerson = this.initializeStudent();
         let len: number = 3;
-        newStudent.fName = curruntStudent[headerLength-len].trim();
-        newStudent.lName = curruntStudent[(headerLength-len)+1].trim();
-        newStudent.birthId = curruntStudent[(headerLength-len)+2].trim();
-  
+        newStudent.firstName = curruntStudent[headerLength - len].trim();
+        newStudent.lastName = curruntStudent[headerLength - len + 1].trim();
+        newStudent.birthId = curruntStudent[headerLength - len + 2].trim();
+
         this.addStudent(newStudent);
       }
     }
     this.showAddStudentForm = false;
   }
 
-  addStudent(s: IStudent): void{
+  addStudent(s: IPerson): void {
     if (this.isValid(s)) {
       if (s.id === 0) {
         this.studentService.addStudent(s).subscribe({
-          next: () => {
-            this.reset();
-            this.studentService.studentListChanged.next(true);
+          next: (retNewStudent) => {
+            this.studentService
+              .addStudentToLesson(this.lessonId, retNewStudent.id)
+              .subscribe({
+                next: () => {
+                  this.reset();
+                  this.studentService.studentListChanged.next(true);
+                },
+                error: (err) => (this.errorMessage = err),
+              });
           },
           error: (err) => (this.errorMessage = err),
         });
@@ -180,27 +218,30 @@ export class StudentListComponent implements OnInit, OnDestroy {
     }
   }
 
-  isValidCSVFile(file: any) {  
-    return file.name.endsWith(".csv");  
+  isValidCSVFile(file: any) {
+    return file.name.endsWith('.csv');
   }
 
-  getHeaderArray(csvRecordsArr: any) {  
-    let headers = (<string>csvRecordsArr[0]).split(',');  
-    let headerArray = [];  
-    for (let j = 0; j < headers.length; j++) {  
-      headerArray.push(headers[j]);  
-    }  
-    return headerArray;  
-  }  
+  getHeaderArray(csvRecordsArr: any) {
+    let headers = (<string>csvRecordsArr[0]).split(',');
+    let headerArray = [];
+    for (let j = 0; j < headers.length; j++) {
+      headerArray.push(headers[j]);
+    }
+    return headerArray;
+  }
 
-  private initializeStudent(): IStudent {
+  private initializeStudent(): IPerson {
     // Return an initialized object
     return {
       id: 0,
-      fName: null,
-      lName: null,
       birthId: null,
-      password: null
+      password: '',
+      type: 1,
+      firstName: null,
+      lastName: null,
+      email: '',
+      token: '',
     };
   }
 }

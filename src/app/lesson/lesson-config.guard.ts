@@ -19,7 +19,7 @@ export class LessonConfigGuard implements CanDeactivate<LessonConfigComponent> {
     nextState?: RouterStateSnapshot
   ): boolean | Observable<boolean> | Promise<boolean> {
     if (component.isDirty) {
-      const lessonName = component.lesson.title || 'New Lesson';
+      const lessonName = component.lesson.name || 'New Lesson';
       return confirm(`Navigate away and lose all changes to ${lessonName}?`);
     }
     return true;

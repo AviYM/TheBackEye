@@ -1,8 +1,8 @@
-<div class="lesson-list" *ngIf="lessons.length">
+<div class="lesson-list" *ngIf="lessons && lessons.length">
   <div class="item-wrap" *ngFor="let l of lessons; let i = index">
     <mat-card [ngClass]="{ selected: l.isSelected }">
       <!-- <a [routerLink]="['/lesson', l.lesson.id]" > -->
-      <mat-card-title (click)="onLessonClick(l.lesson.id, i)">{{ l.lesson.title }}</mat-card-title>
+      <mat-card-title (click)="onLessonClick(l.lesson.id, i)">{{ l.lesson.name }}</mat-card-title>
       <mat-card-subtitle>{{ l.lesson.description }}</mat-card-subtitle>
       <!-- </a> -->
 
@@ -19,8 +19,8 @@
           <span>Delete</span>
         </button>
         <button mat-menu-item [routerLink]="['/lesson', l.lesson.id, 'students']">
-          <mat-icon>group_add</mat-icon>
-          <span>Add Student</span>
+          <mat-icon>people_alt</mat-icon>
+          <span>Students</span>
         </button>
       </mat-menu>
     </mat-card>

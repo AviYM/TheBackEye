@@ -1,73 +1,98 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, Subject, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
+import { IPerson } from '../shared/person.interface';
 import { HttpService } from '../shared/services/http/http.service';
 import { LogService } from '../shared/services/log/log.service';
-import { IStudent } from './student.interface';
+import { TeacherAuthService } from '../teacher/teacher-auth.service';
+import { StudentLesson } from './student.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StudentService {
-  private baseUrl = 'students';
+  private personUrl = 'Person';
+  private studentLessonUrl = 'StudentLesson';
+  private token: string;
 
-  private students: IStudent[] = [];
+  private students: IPerson[] = [];
   errorMessage: string = '';
 
   public studentListChanged: Subject<boolean>;
 
-  constructor(private http: HttpService, private logger: LogService) {
+  constructor(private http: HttpService, private logger: LogService, private teacherService: TeacherAuthService) {
     this.studentListChanged = new Subject<boolean>();
+    this.token = this.teacherService.getCurrentTeacherToken();
   }
 
-  public async getStudentList(): Promise<IStudent[]> {
+  public async getStudentList(lessonId: number): Promise<IPerson[]> {
+    const headers = { 'accept': 'text/plain', 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.token}` };
     this.logger.debug('The StudentService.getStudentList() is called');
-
-    return this.http.read<IStudent[]>(this.baseUrl).pipe(
+    this.logger.debug("***********" + lessonId);
+    return this.http.read<IPerson[]>(this.studentLessonUrl + '/' + lessonId, headers).pipe(
       tap(data => this.students = data),
       catchError(this.handleError)
     ).toPromise();
   }
 
-  public getSingleStudent(id: number): Observable<IStudent> {
+  public getSingleStudent(id: number): Observable<IPerson> {
     this.logger.debug('The StudentService.getSingleStudent(' + id + ') is called');
     if (id === 0) {
-      return of(this.initializeStudent());
+      return of(this.initializePerson());
     }
 
     return of(this.students.find((element) => element.id === id));
   }
 
-  public addStudent(newStudent: IStudent): Observable<IStudent> {
-    const headers = { 'Content-Type': 'application/json' };
+  public addStudent(newStudent: IPerson): Observable<IPerson> {
+    const headers = { 'accept': 'text/plain', 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.token}` };
     this.logger.debug('The StudentService.addStudent() is called');
-    newStudent.id = null;
 
-    return this.http.create<IStudent>(this.baseUrl, newStudent, headers).pipe(
+    return this.http.create<IPerson>(this.personUrl, newStudent, headers).pipe(
       tap((data) => this.logger.log('addStudent: ' + JSON.stringify(data))),
       catchError(this.handleError)
     );
   }
 
-  public editStudent(student: IStudent): Observable<IStudent> {
-    const headers = { 'Content-Type': 'application/json' };
+  public addStudentToLesson(lessonId: number, personId: number) {
+    const headers = { 'accept': 'text/plain', 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.token}` };
+
+    let studentLesson: StudentLesson = {
+      id: 0,
+      lesson: null,
+      lessonId: lessonId,
+      person: null,
+      personId: personId
+    }
+    return this.http.create<StudentLesson>(this.studentLessonUrl, studentLesson, headers).pipe(
+      tap((data) => this.logger.log('addStudent: ' + JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+  }
+
+  public editStudent(student: IPerson): Observable<IPerson> {
+    const headers = { 'accept': 'text/plain', 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.token}` };
     this.logger.debug('The StudentService.editStudent() is called');
     this.logger.info(student);
-    const url = `${this.baseUrl}/${student.id}`;
+    const url = `${this.personUrl}`;
 
-    return this.http.update<IStudent>(url, student, headers).pipe(
+    return this.http.update<IPerson>(url, student, headers).pipe(
       tap(() => this.logger.log('editStudent: ' + student.id)),
       map(() => student),
       catchError(this.handleError)
     );
   }
 
-  public removeStudent(id: number): Observable<IStudent> {
-    const headers = { 'Content-Type': 'application/json' };
+  public removeStudent(personId: number, lessonId: number): Observable<StudentLesson> {
+    if(personId <= 0 || lessonId <= 0) {
+      return null;
+    }
+
+    const headers = { 'accept': 'text/plain', 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.token}` };
     this.logger.debug('The StudentService.removeStudent() is called');
 
-    return this.http.delete<IStudent>(this.baseUrl, id, headers).pipe(
-      tap(() => this.logger.log('removeStudent: ' + id)),
+    return this.http.delete<StudentLesson>(this.studentLessonUrl, lessonId + '/' + personId, headers).pipe(
+      tap(() => this.logger.log('removeStudent: ' + personId)),
       catchError(this.handleError)
     );
   }
@@ -86,14 +111,16 @@ export class StudentService {
     return throwError(errorMessage);
   }
 
-  private initializeStudent(): IStudent {
-    // Return an initialized object
+  private initializePerson(): IPerson {
     return {
       id: 0,
-      fName: null,
-      lName: null,
       birthId: null,
-      password: null
-    };
+      password: '',
+      type: 1,
+      firstName: null,
+      lastName: null,
+      email: '',
+      token: ''
+    }
   }
 }

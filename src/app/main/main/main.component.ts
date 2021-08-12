@@ -29,7 +29,7 @@ export class MainComponent implements OnInit, OnDestroy {
       async (isChanged: boolean) => {
         if (isChanged) {
           let currentTeacherName = this.teacherService.getCurrentTeacherFirstName();
-          let len = (await this.lessonService.getLessonList()).length;
+          let len = this.lessonService.getLessonListLength();
           if(currentTeacherName && len > 0) {
             this.isSideBarOpen = true;
           }

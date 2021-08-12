@@ -23,7 +23,7 @@ export class HttpService {
     this.END_POINT = environment.api.baseUrl; //`${environment.api.baseUrl}`
   }
 
-  public create<T>(route: string, item: T, hdrs?: any): Observable<T> {
+  public create<T>(route: string, item: T | string, hdrs?: any): Observable<T> {
     const headers = new HttpHeaders(hdrs);
     return this.http
       .post<T>(`${this.END_POINT}/${route}`, item, { headers })
@@ -33,10 +33,12 @@ export class HttpService {
       );
   }
 
-  public read<T>(route: string): Observable<T> {
-    this.logger.log('HttpService.read is called with: ' + route);
+  public read<T>(route: string, hdrs?: any): Observable<T> {
+    let url = `${this.END_POINT}/${route}`;
+    const headers = new HttpHeaders(hdrs);
+    this.logger.log('HttpService.read is called with: ' + url);
     // const cfqu = this.correctFormatForQueryUrl(qp);
-    return this.http.get<T>(`${this.END_POINT}/${route}`).pipe(
+    return this.http.get<T>(url, { headers }).pipe(
       tap((data) => this.logger.log('readItem: ' + JSON.stringify(data))),
       catchError(this.handleError)
     );
@@ -52,7 +54,7 @@ export class HttpService {
       );
   }
 
-  public delete<T>(route: string, id: number, hdrs?: any): Observable<T> {
+  public delete<T>(route: string, id: number | string, hdrs?: any): Observable<T> {
     const headers = new HttpHeaders(hdrs);
     return this.http
       .delete<T>(`${this.END_POINT}/${route}/${id}`, { headers })

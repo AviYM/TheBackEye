@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   api: {
-    baseUrl: 'api'
+    baseUrl: 'https://datamanagementapi20210728183549.azurewebsites.net/api' //'api'
   }
 };
 

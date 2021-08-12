@@ -1,16 +1,18 @@
-<app-sign-in *ngIf="isSignIn"></app-sign-in>
-<app-sign-up *ngIf="!isSignIn"></app-sign-up>
-
-<div class="container" id="signin-footer" *ngIf="isSignIn">
-  <p class="signup">
-    Don't have an account ?
-    <button (click)="toggleForm()">Sign Up.</button>
-  </p>
-</div>
-
-<div class="container" id="signup-footer" *ngIf="!isSignIn">
-  <p class="signin">
-    Already have an account ?
-    <button (click)="toggleForm()">Sign in.</button>
-  </p>
+<div class="auth-container">
+  <app-sign-in *ngIf="isSignIn"></app-sign-in>
+  <app-sign-up *ngIf="!isSignIn"></app-sign-up>
+  
+  <div class="footer" *ngIf="isSignIn">
+    <p class="signup">
+      Don't have an account ?
+      <button (click)="toggleForm()">Sign Up.</button>
+    </p>
+  </div>
+  
+  <div class="footer" *ngIf="!isSignIn">
+    <p class="signin">
+      Already have an account ?
+      <button (click)="toggleForm()">Sign in.</button>
+    </p>
+  </div>
 </div>

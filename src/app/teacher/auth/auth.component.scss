@@ -1,11 +1,22 @@
-.container{
-  button {
-    background: none !important;
-    border: none;
-    padding: 0 !important;
-    text-decoration: underline;
-    color: #0d6efd;
-    // text-transform: uppercase;
-    cursor: pointer;
+.auth-container {
+  width: 350px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+
+  .footer{
+    button {
+      background: none !important;
+      border: none;
+      padding: 0 !important;
+      text-decoration: underline;
+      color: #0d6efd;
+      // text-transform: uppercase;
+      cursor: pointer;
+    }
   }
 }
+
+

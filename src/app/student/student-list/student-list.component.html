@@ -10,8 +10,8 @@
   </thead>
   <tbody>
     <tr *ngFor="let s of students">
-      <td>{{ s.fName }}</td>
-      <td>{{ s.lName }}</td>
+      <td>{{ s.firstName }}</td>
+      <td>{{ s.lastName }}</td>
       <td>{{ s.birthId }}</td>
       <td>{{ s.password }}</td>
 
@@ -40,11 +40,11 @@
     <fieldset>
       <!-- <legend>Add Student</legend> -->
       <li><b>Add Student</b></li>
-      <br>
+      <br />
       <div class="form-group row">
-        <label class="col-md-1 col-form-label"></label>
+        <label class="col-md-2 col-form-label"></label>
 
-        <div class="col-md-3">
+        <div class="col-md-2">
           <input
             class="form-control"
             id="fNameId"
@@ -52,7 +52,7 @@
             placeholder="First Name (required)"
             required
             minlength="2"
-            [(ngModel)]="student.fName"
+            [(ngModel)]="student.firstName"
             name="fName"
             #fNameVar="ngModel"
             [ngClass]="{
@@ -71,7 +71,7 @@
           </span>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-2">
           <input
             class="form-control"
             id="lNameId"
@@ -79,7 +79,7 @@
             placeholder="Last Name (required)"
             required
             minlength="2"
-            [(ngModel)]="student.lName"
+            [(ngModel)]="student.lastName"
             name="lName"
             #lNameVar="ngModel"
             [ngClass]="{
@@ -98,7 +98,7 @@
           </span>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-2">
           <input
             class="form-control"
             id="birthIdId"
@@ -120,29 +120,52 @@
               Student's ID is required.
             </span>
             <span *ngIf="birthIdVar.errors?.minlength">
-              Student's ID must be at least 2 characters.
+              Student's ID must be at least 8 characters.
             </span>
           </span>
         </div>
+
         <div class="col-md-1">
           <button
+            style="width: 72px"
             class="btn btn-outline-primary"
             type="button"
-            title="Enter all the required fields and then click Add"
+            [title]="
+              isValid()
+                ? 'Save your entered data'
+                : 'Disabled until the form data is valid'
+            "
+            [disabled]="!isValid()"
             (click)="saveStudent()"
           >
             Save
+          </button>
+        </div>
+        <div class="col-md-1">
+          <button
+            style="width: 72px"
+            class="btn btn-outline-secondary"
+            type="button"
+            title="cancel your edits"
+            (click)="onCancelClick()"
+          >
+            Cancel
           </button>
         </div>
       </div>
 
       <br />
       <li><b>Add students by file</b></li>
-      <br>
+      <br />
       <div class="form-group row">
-        <label class="col-md-1 col-form-label"></label>
+        <label class="col-md-2 col-form-label"></label>
         <div class="col-md-2">
-          <input type="file" id="students-file" (change)="fileChanged($event)" accept=".csv" />
+          <input
+            type="file"
+            id="students-file"
+            (change)="fileChanged($event)"
+            accept=".csv"
+          />
         </div>
       </div>
     </fieldset>
@@ -150,11 +173,11 @@
 </div>
 
 <div class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</div>
-<!-- <app-student-edit></app-student-edit> -->
 
 <div class="row mb-2" style="margin-top: 30px">
   <div class="col-md-4 buttons">
     <button
+      *ngIf="!showAddStudentForm"
       class="btn btn-primary mr-3"
       type="button"
       title="Add a new student"
@@ -167,9 +190,9 @@
       style="width: 80px"
       type="button"
       title="Cancel your edits"
-      [routerLink]="['']"
+      [routerLink]="['/welcome']"
     >
-      Cancel
+      Exit
     </button>
   </div>
 </div>

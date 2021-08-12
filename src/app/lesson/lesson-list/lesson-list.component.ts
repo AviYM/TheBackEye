@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { LogService } from 'src/app/shared/services/log/log.service';
-import { ILesson, SelectedLesson } from '../lesson.interface';
+import { LogService } from '../../shared/services/log/log.service';
+import { SelectedLesson } from '../lesson.interface';
 import { LessonListChangedAction, LessonService } from '../lesson.service';
 
 @Component({
@@ -41,7 +41,7 @@ export class LessonListComponent implements OnInit, OnDestroy {
 
   initLessonChangedSubscription() {
     this.lessonService.lessonListChanged.subscribe(
-      async (isChanged: number) => {
+        async (isChanged: number) => {
         if (isChanged === LessonListChangedAction.Reload) {
           let lessonList = await this.lessonService.getLessonList();
           this.lessons = [];
@@ -51,6 +51,7 @@ export class LessonListComponent implements OnInit, OnDestroy {
               isSelected: false,
             });
           });
+
         } else if(isChanged === LessonListChangedAction.Refresh) {
           this.lessons.forEach((lesson) => {
             if (lesson.isSelected) {
@@ -73,7 +74,7 @@ export class LessonListComponent implements OnInit, OnDestroy {
   }
 
   onDelete(sl: SelectedLesson) {
-    if (confirm(`Really delete the lesson: ${sl.lesson.title}?`)) {
+    if (confirm(`Really delete the lesson: ${sl.lesson.name}?`)) {
       this.lessonService.removeLesson(sl.lesson.id).subscribe({
         next: () => {
           this.logger.log('the lesson No. ' + sl.lesson.id + ' deleted');

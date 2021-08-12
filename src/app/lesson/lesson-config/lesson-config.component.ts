@@ -73,7 +73,7 @@ export class LessonConfigComponent implements OnInit {
       if (this.lesson.id === 0) {
         this.pageTitle = 'Add Lesson';
       } else {
-        this.pageTitle = `Edit Lesson: ${this.lesson.title}`;
+        this.pageTitle = `Edit Lesson: ${this.lesson.name}`;
       }
     }
   }
@@ -94,8 +94,8 @@ export class LessonConfigComponent implements OnInit {
     this.dataIsValid = {};
 
     if (
-      this.lesson.title &&
-      this.lesson.title.length >= 3 &&
+      this.lesson.name &&
+      this.lesson.name.length >= 3 &&
       this.lesson.platform &&
       this.lesson.link &&
       this.lesson.dayOfWeek &&
@@ -119,12 +119,12 @@ export class LessonConfigComponent implements OnInit {
     if (this.isValid()) {
       if (this.lesson.id === 0) {
         this.lessonService.addLesson(this.lesson).subscribe({
-          next: (retNewLesson) => this.onSaveComplete(retNewLesson, true, `The new ${retNewLesson.title} was saved`),
+          next: (retNewLesson) => this.onSaveComplete(retNewLesson, true, `The new ${retNewLesson.name} was saved`),
           error: (err) => (this.errorMessage = err),
         });
       } else {
         this.lessonService.editLesson(this.lesson).subscribe({
-          next: (retNewLesson) => this.onSaveComplete(retNewLesson, false, `The new ${retNewLesson.title} was saved`),
+          next: (retNewLesson) => this.onSaveComplete(retNewLesson, false, `The new ${retNewLesson.name} was saved`),
           error: (err) => (this.errorMessage = err),
         });
       }
@@ -142,19 +142,19 @@ export class LessonConfigComponent implements OnInit {
     if(continueToAddStudent) {
       this.router.navigate(['/lesson', l.id, 'students']);
     } else {
-      this.router.navigate(['']);
+      this.router.navigate(['/welcome']);
     }
   }
 
   deleteLesson(): void {
     if (this.lesson.id === 0) {
       // Don't delete, it was never saved.
-      this.onDeleteComplete(`${this.lesson.title} was deleted`);
+      this.onDeleteComplete(`${this.lesson.name} was deleted`);
     } else {
-      if (confirm(`Really delete the lesson: ${this.lesson.title}?`)) {
+      if (confirm(`Really delete the lesson: ${this.lesson.name}?`)) {
         this.lessonService.removeLesson(this.lesson.id).subscribe({
           next: () => {
-            this.onDeleteComplete(`${this.lesson.title} was deleted`);
+            this.onDeleteComplete(`${this.lesson.name} was deleted`);
             this.lessonService.lessonListChanged.next(LessonListChangedAction.Reload);
           },
           error: (err) => (this.errorMessage = err),
@@ -170,7 +170,7 @@ export class LessonConfigComponent implements OnInit {
     this.reset();
 
     // Navigate back
-    this.router.navigate(['']);
+    this.router.navigate(['/welcome']);
     // this.location.back();
   }
 
@@ -183,6 +183,6 @@ export class LessonConfigComponent implements OnInit {
   goBack() {
     //this.location.back();
     this.lessonService.lessonListChanged.next(LessonListChangedAction.Refresh);
-    this.router.navigate(['']);
+    this.router.navigate(['/welcome']);
   }
 }

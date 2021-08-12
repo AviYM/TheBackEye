@@ -14,11 +14,10 @@ import { MaterialModule } from './material/material.module';
 import { WelcomeComponent } from './main/welcome/welcome.component';
 import { ChartMeasurementComponent } from './dashboard/chart-measurement/chart-measurement.component';
 import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
-import { LessonEditComponent } from './lesson/lesson-edit/lesson-edit.component';
 import { LessonConfigComponent } from './lesson/lesson-config/lesson-config.component';
 import { StudentListComponent } from './student/student-list/student-list.component';
 
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+// import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MockDataService } from './shared/services/mock-data.service';
@@ -32,7 +31,6 @@ import { SignUpComponent } from './teacher/sign-up/sign-up.component';
     DashboardComponent,
     WelcomeComponent,
     ChartMeasurementComponent,
-    LessonEditComponent,
     LessonConfigComponent,
     StudentListComponent,
     AuthComponent,
@@ -49,7 +47,7 @@ import { SignUpComponent } from './teacher/sign-up/sign-up.component';
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
-    InMemoryWebApiModule.forRoot(MockDataService, { delay: 1000 }),
+    // InMemoryWebApiModule.forRoot(MockDataService, { delay: 1000 }),
     NgxChartsModule,
   ],
   providers: [],
