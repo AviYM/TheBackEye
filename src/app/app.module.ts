@@ -24,6 +24,7 @@ import { MockDataService } from './shared/services/mock-data.service';
 import { AuthComponent } from './teacher/auth/auth.component';
 import { SignInComponent } from './teacher/sign-in/sign-in.component';
 import { SignUpComponent } from './teacher/sign-up/sign-up.component';
+import { EditTeacherComponent } from './teacher/edit-teacher/edit-teacher.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { SignUpComponent } from './teacher/sign-up/sign-up.component';
     AuthComponent,
     SignInComponent,
     SignUpComponent,
+    EditTeacherComponent,
   ],
   imports: [
     BrowserModule,

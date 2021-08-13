@@ -61,6 +61,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   signOut(): void {
     this.teacherService.signOut();
     this.teacherService.currentTeacherChanged.next(true);
-    this.router.navigate(['/welcome']);
+    this.router.navigate(['']);
   }
 }

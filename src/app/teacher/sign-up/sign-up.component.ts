@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IPerson } from 'src/app/shared/person.interface';
+import { IPerson } from '../../shared/person.interface';
 import { TeacherAuthService } from '../teacher-auth.service';
 
 @Component({

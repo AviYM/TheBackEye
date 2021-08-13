@@ -101,7 +101,7 @@ export class LessonConfigComponent implements OnInit {
       this.lesson.dayOfWeek &&
       this.lesson.startTime &&
       this.lesson.endTime &&
-      this.lesson.maxLate
+      +this.lesson.maxLate >= 0
     ) {
       this.dataIsValid['info'] = true;
     } else {

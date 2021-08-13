@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { IPerson } from 'src/app/shared/person.interface';
+import { IPerson } from '../../shared/person.interface';
 import { LogService } from '../../shared/services/log/log.service';
 import { StudentService } from '../student.service';
 

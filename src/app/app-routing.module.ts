@@ -10,6 +10,7 @@ import { StudentListComponent } from './student/student-list/student-list.compon
 import { StudentResolver } from './student/student-resolver.service';
 import { AuthGuard } from './teacher/auth.guard';
 import { AuthComponent } from './teacher/auth/auth.component';
+import { EditTeacherComponent } from './teacher/edit-teacher/edit-teacher.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,7 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'welcome', pathMatch: 'full' },
       { path: 'welcome', component: WelcomeComponent, canActivate: [AuthGuard]},
+      { path: 'account/edit', component: EditTeacherComponent, canActivate: [AuthGuard] },
       { path: 'lesson/:id', component: DashboardComponent, canActivate: [AuthGuard] },
       {
         path: 'lesson/:id/edit',

@@ -1,0 +1,166 @@
+<form novalidate>
+  <fieldset>
+    <h2>{{ pageTitle }}</h2>
+
+    <div class="form-group row">
+      <label class="col-md-2 col-form-label">First Name</label>
+      <div class="col-md-8">
+        <input
+          class="form-control"
+          id="fNameId"
+          type="text"
+          placeholder="First Name:"
+          required
+          minlength="2"
+          [(ngModel)]="teacher.firstName"
+          name="fName"
+          #fNameVar="ngModel"
+          [ngClass]="{
+            'is-invalid':
+              (fNameVar.touched || fNameVar.dirty) && !fNameVar.valid
+          }"
+        />
+        <span class="invalid-feedback">
+          <span *ngIf="fNameVar.errors?.required">
+            The first name must be entered.
+          </span>
+          <span *ngIf="fNameVar.errors?.minlength">
+            The first name must be at least 2 characters.
+          </span>
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-md-2 col-form-label">Last Name</label>
+      <div class="col-md-8">
+        <input
+          class="form-control"
+          id="lNameId"
+          type="text"
+          placeholder="Last Name:"
+          required
+          minlength="2"
+          [(ngModel)]="teacher.lastName"
+          name="lName"
+          #lNameVar="ngModel"
+          [ngClass]="{
+            'is-invalid':
+              (lNameVar.touched || lNameVar.dirty) && !lNameVar.valid
+          }"
+        />
+        <span class="invalid-feedback">
+          <span *ngIf="lNameVar.errors?.required">
+            The last name must be entered.
+          </span>
+          <span *ngIf="lNameVar.errors?.minlength">
+            The last name must be at least 2 characters.
+          </span>
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-md-2 col-form-label">Email</label>
+      <div class="col-md-8">
+        <input
+          class="form-control"
+          id="emailId"
+          type="email"
+          placeholder="Email:"
+          required
+          [(ngModel)]="teacher.email"
+          name="email"
+          #emailVar="ngModel"
+          [ngClass]="{
+            'is-invalid':
+              (emailVar.touched || emailVar.dirty) && !emailVar.valid
+          }"
+        />
+        <span class="invalid-feedback">
+          <span *ngIf="emailVar.errors?.required"> Email is required. </span>
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-md-2 col-form-label">Password</label>
+      <div class="col-md-8">
+        <input
+          class="form-control"
+          id="passwordId"
+          type="password"
+          placeholder="Password:"
+          required
+          minlength="4"
+          [(ngModel)]="teacher.password"
+          name="password"
+          #passwordVar="ngModel"
+          [ngClass]="{
+            'is-invalid':
+              (passwordVar.touched || passwordVar.dirty) && !passwordVar.valid
+          }"
+        />
+        <span class="invalid-feedback">
+          <span *ngIf="passwordVar.errors?.required">
+            Password is required.
+          </span>
+          <span *ngIf="passwordVar.errors?.minlength">
+            The password must be at least 4 characters.
+          </span>
+        </span>
+      </div>
+    </div>
+
+    <!-- <div class="form-group row">
+      <div class="input wrap">
+        <input
+          class="form-control"
+          id="cPwdId"
+          type="password"
+          placeholder="Confirm Password:"
+          required
+          minlength="4"
+          ngModel
+          name="cPwd"
+          #cPwdVar="ngModel"
+          [ngClass]="{
+            'is-invalid': (cPwdVar.touched || cPwdVar.dirty) && !cPwdVar.valid
+          }"
+        />
+        <span class="invalid-feedback">
+          <span *ngIf="cPwdVar.errors?.required">
+            Confirm Password is required.
+          </span>
+          <span *ngIf="cPwdVar.errors?.minlength">
+            The password must be at least 4 characters.
+          </span>
+        </span>
+      </div>
+    </div> -->
+
+    <br />
+
+    <div class="row">
+      <div class="col-md-4 offset-md-0">
+        <button
+          class="btn btn-primary mr-3"
+          type="button"
+          [title]="
+            isValid()
+              ? 'Save your entered data'
+              : 'Disabled until the form data is valid'
+          "
+          [disabled]="!isValid()"
+          (click)="saveChanges()"
+        >
+          Save
+        </button>
+      </div>
+    </div>
+
+    <br />
+  </fieldset>
+</form>
+
+<div class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</div>

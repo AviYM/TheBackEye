@@ -11,13 +11,17 @@ import { LogService } from '../shared/services/log/log.service';
 export class TeacherAuthService {
   private baseUrl = 'Person';
 
-  currentTeacher: IPerson;
+  private currentTeacher: IPerson;
 
   get isSignIn(): boolean {
     if (this.currentTeacher) {
       return true;
     }
     return false;
+  }
+
+  get teacher(): IPerson {
+    return this.currentTeacher;
   }
 
   public currentTeacherChanged: Subject<boolean>;

@@ -17,9 +17,13 @@
       <mat-icon>person_outline</mat-icon> {{ currentTeacherName }}
     </button>
     <mat-menu #menu="matMenu">
+      <button mat-menu-item [routerLink]="['/account', 'edit']">
+        <mat-icon>edit</mat-icon>
+        <span>Edit account details</span>
+      </button>
       <button mat-menu-item (click)="signOut()">
         <mat-icon>exit_to_app</mat-icon>
-        Sign out
+        <span>Sign out</span>
       </button>
     </mat-menu>
   </mat-toolbar-row>

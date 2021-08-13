@@ -261,9 +261,18 @@
         </div>
         <div class="col-sm-1">
           <div class="form-check">
-            <mat-slide-toggle
+            <!-- // insert into <mat-slide-toggle:
               [checked]="lesson.isActive === true ? true : false"
-              (change)="setIsActive($event)"
+              (change)="setIsActive($event)" -->
+            <mat-slide-toggle
+              [(ngModel)]="lesson.isActive"
+              name="isActive"
+              #isActiveVar="ngModel"
+              [ngClass]="{
+                'is-invalid':
+                  (isActiveVar.touched || isActiveVar.dirty || lesson.id !== 0) &&
+                  !isActiveVar.valid
+              }"
             >
             </mat-slide-toggle>
           </div>
