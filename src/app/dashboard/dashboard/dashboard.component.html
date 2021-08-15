@@ -1,3 +1,13 @@
 <p>dashboard works!</p>
 
+<select class="form-control" [(ngModel)]="currentLesson" style="width: 300px;">
+    <option disabled [ngValue]="null">--Select Lesson--</option>
+    <option *ngFor="let lesson of lessonHistory" [ngValue]="lesson">{{ lesson }}</option>
+</select>
+<br>
+
+<button (click)="viewAttendanceReport()">
+    View Attendance Report
+</button>
+
 <app-chart-measurement></app-chart-measurement>

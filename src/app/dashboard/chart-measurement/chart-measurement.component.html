@@ -1,48 +1,47 @@
 <p>chart-measurement works!</p>
 
 <div id="wrap-chart">
-    <h1>1.)single</h1>
-     <ngx-charts-bar-vertical
-                  [view]="view"
-                  [scheme]="colorScheme"
-                  [results]="single"
-                  [gradient]="gradient"
-                  [xAxis]="showXAxis"
-                  [yAxis]="showYAxis"
-                  [legend]="showLegend"
-                  [showXAxisLabel]="showXAxisLabel"
-                  [showYAxisLabel]="showYAxisLabel"
-                  [xAxisLabel]="xAxisLabel"
-                  [yAxisLabel]="yAxisLabel"
-                  (select)="onSelect($event)">
-    </ngx-charts-bar-vertical>
-    <hr>
-    <h1>2.)pair</h1>
-     <ngx-charts-bar-vertical-2d
-                  [view]="view"
-                  [scheme]="colorScheme"
-                  [results]="multi"
-                  [gradient]="gradient"
-                  [xAxis]="showXAxis"
-                  [yAxis]="showYAxis"
-                  [legend]="showLegend"
-                  [showXAxisLabel]="showXAxisLabel"
-                  [showYAxisLabel]="showYAxisLabel"
-                  [xAxisLabel]="xAxisLabel"
-                  [yAxisLabel]="yAxisLabel"
-                  (select)="onSelect($event)">
-    </ngx-charts-bar-vertical-2d>
-    <hr>
-    <!-- <h1>3.)Pai-chart</h1>
-    <ngx-charts-pie-chart
-                    [view]="viewpie"
-                    [scheme]="colorScheme"
-                    [results]="single"
-                    [legend]="showLegend"
-                    [explodeSlices]="explodeSlices"
-                    [labels]="showLabels"
-                    [doughnut]="doughnut"
-                    [gradient]="gradient"
-                  >
-    </ngx-charts-pie-chart> -->
+  <h1>1.)single</h1>
+  <ngx-charts-bar-vertical
+    [view]="view"
+    [scheme]="colorScheme"
+    [results]="single"
+    [gradient]="gradient"
+    [xAxis]="showXAxis"
+    [yAxis]="showYAxis"
+    [legend]="showLegend"
+    [showXAxisLabel]="showXAxisLabel"
+    [showYAxisLabel]="showYAxisLabel"
+    [xAxisLabel]="xAxisLabel"
+    [yAxisLabel]="yAxisLabel"
+    (select)="onSelect($event)"
+  >
+  </ngx-charts-bar-vertical>
+  
+  <hr />
+  <!-- <h1>2.)pair</h1>
+  <ngx-charts-bar-vertical-2d
+    [view]="view"
+    [scheme]="colorScheme"
+    [results]="multi"
+    [gradient]="gradient"
+    [xAxis]="showXAxis"
+    [yAxis]="showYAxis"
+    [legend]="showLegend"
+    [showXAxisLabel]="showXAxisLabel"
+    [showYAxisLabel]="showYAxisLabel"
+    [xAxisLabel]="xAxisLabel"
+    [yAxisLabel]="yAxisLabel"
+    (select)="onSelect($event)"
+  >
+  </ngx-charts-bar-vertical-2d> -->
+  <hr />
+
+  <ngx-charts-pie-grid
+    [view]="view"
+    [scheme]="colorScheme"
+    [results]="single"
+    (select)="onSelect($event)"
+  >
+  </ngx-charts-pie-grid>
 </div>

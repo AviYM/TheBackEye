@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
+import { AttendanceComponent } from './lesson/attendance/attendance.component';
 import { LessonConfigGuard } from './lesson/lesson-config.guard';
 import { LessonConfigComponent } from './lesson/lesson-config/lesson-config.component';
 import { LessonResolver } from './lesson/lesson-resolver.service';
@@ -39,6 +40,11 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         // resolve: { studentResolver: StudentResolver },
       },
+      {
+        path: 'lesson/:id/attendance/:date',
+        component: AttendanceComponent,
+        canActivate: [AuthGuard],
+      }
     ],
   },
   // { path: '', redirectTo: 'main', pathMatch: 'full' },

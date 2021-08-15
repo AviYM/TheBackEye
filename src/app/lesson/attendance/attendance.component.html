@@ -1,0 +1,49 @@
+<table class="table" *ngIf="studentsAttendance.length">
+  <thead>
+    <tr>
+      <th>Full Name</th>
+      <th>Birth_ID</th>
+      <th>Attendance</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let student of studentsAttendance">
+      <td>{{ student.person.lastName + ' ' + student.person.firstName }}</td>
+      <td>{{ student.person.birthId }}</td>
+      <td>{{ student.entranceTime }}</td>
+
+      <td id="td-icons">
+        <button
+          mat-icon-button
+          title="View student's measurements"
+          (click)="studentMeasurements(student.person)"
+        >
+          <mat-icon>insert_chart_outlined</mat-icon>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="row mb-2">
+  <div class="col-md-4 buttons">
+    <button
+      class="btn btn-primary mr-3"
+      type="button"
+      title="Dowmload as file"
+      (click)="downloadAttendance()"
+    >
+      Dowmload attendance report
+    </button>
+    <button
+      class="btn btn-outline-secondary mr-3"
+      style="width: 80px"
+      type="button"
+      title="Cancel your edits"
+      (click)="goBack()"
+    >
+      Back
+    </button>
+  </div>
+</div>

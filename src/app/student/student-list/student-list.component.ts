@@ -27,8 +27,7 @@ export class StudentListComponent implements OnInit, OnDestroy {
 
   async ngOnInit(): Promise<void> {
     this.showAddStudentForm = false;
-    this.lessonId = +this.route.snapshot.paramMap.get('id'); 
-    console.log('~~~~~~*~~~~~~' + this.lessonId);
+    this.lessonId = +this.route.snapshot.paramMap.get('id');
 
     //this.students = await this.route.snapshot.data.studentResolver;
     this.students = await this.studentService.getStudentList(this.lessonId);

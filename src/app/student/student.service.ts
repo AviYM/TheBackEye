@@ -59,9 +59,7 @@ export class StudentService {
 
     let studentLesson: StudentLesson = {
       id: 0,
-      lesson: null,
       lessonId: lessonId,
-      person: null,
       personId: personId
     }
     return this.http.create<StudentLesson>(this.studentLessonUrl, studentLesson, headers).pipe(

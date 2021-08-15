@@ -90,6 +90,14 @@ export class LessonService {
     );
   }
 
+  public getLessonHistory​(lessonId: number): Promise<Date[]> {
+    const headers = { 'accept': 'text/plain', 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.token}` };
+    this.logger.debug('The LessonService.getLessonHistory​() is called');
+
+    return this.http
+      .read<Date[]>('Measurement/GetLessonHistory/' + lessonId, headers).toPromise();
+  }
+
   private checkDatesFormat(lesson: ILesson): ILesson {
     if (!lesson) {
       return null;
