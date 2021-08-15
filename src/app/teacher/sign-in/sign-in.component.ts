@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { TeacherAuthService } from '../teacher-auth.service';
+import { currentTeacherChangedAction, TeacherAuthService } from '../teacher-auth.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -25,6 +25,7 @@ export class SignInComponent implements OnInit {
       const password = signInForm.form.value.password;
 
       this.authService.signIn(email, password).subscribe(() => {
+        // this.authService.currentTeacherChanged.next(currentTeacherChangedAction.Init)
         this.router.navigate(['welcome']);
       });
     } else {

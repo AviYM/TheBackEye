@@ -1,11 +1,8 @@
 import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { TeacherAuthService } from 'src/app/teacher/teacher-auth.service';
-import {
-  LessonListChangedAction,
-  LessonService,
-} from '../../../lesson/lesson.service';
+import { currentTeacherChangedAction, TeacherAuthService } from 'src/app/teacher/teacher-auth.service';
+import { LessonListChangedAction, LessonService } from '../../../lesson/lesson.service';
 
 @Component({
   selector: 'app-header',
@@ -25,6 +22,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.currentTeacherName = null;
     this.initCurrentTeacherChangedSubscription();
   }
 
@@ -34,8 +32,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   initCurrentTeacherChangedSubscription(): void {
     this.sub = this.teacherService.currentTeacherChanged.subscribe(
-      async (isChanged: boolean) => {
-        if (isChanged) {
+      (isChanged: number) => {
+        if (isChanged == currentTeacherChangedAction.Init) {
           this.currentTeacherName = this.teacherService.getCurrentTeacherFirstName();
         }
       }
@@ -60,7 +58,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   signOut(): void {
     this.teacherService.signOut();
-    this.teacherService.currentTeacherChanged.next(true);
+    this.currentTeacherName = null;
+    // this.teacherService.currentTeacherChanged.next(true);
     this.router.navigate(['']);
   }
 }

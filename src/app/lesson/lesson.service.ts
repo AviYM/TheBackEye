@@ -7,7 +7,8 @@ import { TeacherAuthService } from '../teacher/teacher-auth.service';
 import { ILesson } from './lesson.interface';
 
 export enum LessonListChangedAction {
-  Reload = 1,
+  Init = 1,
+  Reload,
   Refresh,
 }
 

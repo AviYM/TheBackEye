@@ -1,26 +1,33 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { $$ } from 'protractor';
 import { Subscription } from 'rxjs';
 import { IPerson } from '../../shared/person.interface';
-import { TeacherAuthService } from '../teacher-auth.service';
+import { currentTeacherChangedAction, TeacherAuthService } from '../teacher-auth.service';
 
 @Component({
   selector: 'app-edit-teacher',
   templateUrl: './edit-teacher.component.html',
-  styleUrls: ['./edit-teacher.component.scss']
+  styleUrls: ['./edit-teacher.component.scss'],
 })
-export class EditTeacherComponent implements OnInit {
+export class EditTeacherComponent implements OnInit, OnDestroy {
   pageTitle: string = 'Account Details';
   sub!: Subscription;
   errorMessage: string = '';
   teacher: IPerson;
   private dataIsValid: boolean;
- 
-  constructor(private teacherService: TeacherAuthService) { }
+
+  constructor(private teacherService: TeacherAuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.dataIsValid = false;
-    this.teacher = this.teacherService.teacher
+    this.teacher = this.teacherService.teacher;
+  }
+
+  ngOnDestroy() {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
   }
 
   validate(t: IPerson = this.teacher): void {
@@ -31,7 +38,7 @@ export class EditTeacherComponent implements OnInit {
       t.lastName.length >= 2 &&
       t.email &&
       t.password &&
-      t.password.length >= 8
+      t.password.length >= 4
     ) {
       this.dataIsValid = true;
     } else {
@@ -44,7 +51,20 @@ export class EditTeacherComponent implements OnInit {
     return this.dataIsValid;
   }
 
-  saveChanges() {
+  reset(): void {
+    this.dataIsValid = false;
+  }
 
+  saveChanges() {
+    if (this.isValid()) {
+      this.teacherService.editTeacher(this.teacher).subscribe({
+        next: () => {
+          this.reset();
+          this.teacherService.currentTeacherChanged.next(currentTeacherChangedAction.Init);
+        },
+        error: (err) => (this.errorMessage = err),
+      });
+      this.router.navigate(['welcome']);
+    }
   }
 }

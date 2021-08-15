@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { LessonListChangedAction, LessonService } from '../../lesson/lesson.service';
-import { TeacherAuthService } from '../../teacher/teacher-auth.service';
 
 @Component({
   selector: 'app-main',
@@ -13,7 +12,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
   isSideBarOpen: boolean;
 
-  constructor(private teacherService: TeacherAuthService, private lessonService: LessonService) { }
+  constructor(private lessonService: LessonService) { }
 
   ngOnInit(): void {
     this.isSideBarOpen = false;
@@ -25,27 +24,15 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   initSubscriptions(): void {
-    this.sub = this.teacherService.currentTeacherChanged.subscribe(
-      async (isChanged: boolean) => {
-        if (isChanged) {
-          let currentTeacherName = this.teacherService.getCurrentTeacherFirstName();
-          let len = this.lessonService.getLessonListLength();
-          if(currentTeacherName && len > 0) {
-            this.isSideBarOpen = true;
-          }
-        }
-      }
-    );
-    this.sub.add(this.lessonService.lessonListChanged.subscribe(
+    this.sub = this.lessonService.lessonListChanged.subscribe(
       async (isChanged: number) => {
-      if (isChanged == LessonListChangedAction.Reload) {
-        let currentTeacherName = this.teacherService.getCurrentTeacherFirstName();
+      if (isChanged === LessonListChangedAction.Reload) {
         let len = (await this.lessonService.getLessonList()).length;
-        if(!currentTeacherName || len == 0) {
-          this.isSideBarOpen = false;
+        if(len > 0) {
+          this.isSideBarOpen = true;
         }
       }
-    }));
+    });
   }
 
   sideBarToggler() {

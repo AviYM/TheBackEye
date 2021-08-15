@@ -1,9 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { IPerson } from '../shared/person.interface';
 import { HttpService } from '../shared/services/http/http.service';
 import { LogService } from '../shared/services/log/log.service';
+
+export enum currentTeacherChangedAction {
+  SignOut = 0,
+  Init,
+  SignIn,
+}
 
 @Injectable({
   providedIn: 'root',
@@ -24,10 +30,10 @@ export class TeacherAuthService {
     return this.currentTeacher;
   }
 
-  public currentTeacherChanged: Subject<boolean>;
+  public currentTeacherChanged: Subject<number>;
 
   constructor(private logger: LogService, private http: HttpService) {
-    this.currentTeacherChanged = new Subject<boolean>();
+    this.currentTeacherChanged = new Subject<number>();
     this.currentTeacher = null;
   }
 
@@ -39,7 +45,7 @@ export class TeacherAuthService {
     return this.http.create<IPerson>(this.baseUrl + '/GetTeacher/' + email, '"' + password + '"', headers).pipe(
       tap((data) => {
         this.currentTeacher = data;
-        this.currentTeacherChanged.next(true);
+        this.currentTeacherChanged.next(currentTeacherChangedAction.Init);
       }),
       catchError(this.handleError)
     );
@@ -55,14 +61,20 @@ export class TeacherAuthService {
       tap((data) => {
         this.logger.log('addTeacher: ' + JSON.stringify(data));
         this.currentTeacher = data;
-        this.currentTeacherChanged.next(true);
+        this.currentTeacherChanged.next(currentTeacherChangedAction.Init);
       }),
       catchError(this.handleError)
     );
   }
 
   editTeacher(teacher: IPerson) { // : Observable<IPerson>
-    // TODO
+    const headers = { 'accept': 'text/plain', 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.getCurrentTeacherToken()}` };
+
+    return this.http.update<IPerson>(this.baseUrl, teacher, headers).pipe(
+      tap(() => this.logger.log('editStudent: ' + teacher.id)),
+      map(() => teacher),
+      catchError(this.handleError)
+    );
   }
 
   removeTeacher(id: number): Observable<IPerson> {
@@ -79,7 +91,7 @@ export class TeacherAuthService {
     if(this.currentTeacher) {
       return this.currentTeacher.firstName;
     }
-    return 'Chani'; // TODO ''
+    return '';
   }
 
   getCurrentTeacherToken(): string {
@@ -98,7 +110,7 @@ export class TeacherAuthService {
 
   signOut(): void {
     this.currentTeacher = null;
-    this.currentTeacherChanged.next(false);
+    this.currentTeacherChanged.next(currentTeacherChangedAction.SignOut);
   }
 
   private handleError(err: any): Observable<never> {

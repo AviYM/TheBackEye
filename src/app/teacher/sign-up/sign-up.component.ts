@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IPerson } from '../../shared/person.interface';
-import { TeacherAuthService } from '../teacher-auth.service';
+import { currentTeacherChangedAction, TeacherAuthService } from '../teacher-auth.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -32,9 +32,10 @@ export class SignUpComponent implements OnInit {
       newTeacher.email = formValue.email;
       newTeacher.password = formValue.password;
 
-      this.authService.signUp(newTeacher).subscribe(
-        () => this.router.navigate(['/welcome'])
-      );
+      this.authService.signUp(newTeacher).subscribe(() => {
+        // this.authService.currentTeacherChanged.next(currentTeacherChangedAction.Init);
+        this.router.navigate(['/welcome']);
+      });
     } else {
       this.errorMessage = 'Please enter a user name and password.';
     }

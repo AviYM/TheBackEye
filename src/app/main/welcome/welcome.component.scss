@@ -1,0 +1,21 @@
+.welcome-container {
+  background-color: #fafafa;
+
+  .wrap {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+
+    h2{
+        text-align: center;
+        margin: 0;
+    }
+
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: center;
+    // align-items :center;
+  }
+}
