@@ -44,6 +44,7 @@ export class TeacherAuthService {
 
     return this.http.create<IPerson>(this.baseUrl + '/GetTeacher/' + email, '"' + password + '"', headers).pipe(
       tap((data) => {
+        this.logger.log('Teacher signIn: ' + JSON.stringify(data));
         this.currentTeacher = data;
         this.currentTeacherChanged.next(currentTeacherChangedAction.Init);
       }),
@@ -59,7 +60,7 @@ export class TeacherAuthService {
 
     return this.http.create<IPerson>(this.baseUrl, newTeacher, headers).pipe(
       tap((data) => {
-        this.logger.log('addTeacher: ' + JSON.stringify(data));
+        this.logger.log('Teacher signUp: ' + JSON.stringify(data));
         this.currentTeacher = data;
         this.currentTeacherChanged.next(currentTeacherChangedAction.Init);
       }),
@@ -71,7 +72,11 @@ export class TeacherAuthService {
     const headers = { 'accept': 'text/plain', 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.getCurrentTeacherToken()}` };
 
     return this.http.update<IPerson>(this.baseUrl, teacher, headers).pipe(
-      tap(() => this.logger.log('editStudent: ' + teacher.id)),
+      tap((data) => {
+        this.logger.log('editTeacher: ' + teacher.id)
+        this.currentTeacher = data;
+        this.currentTeacherChanged.next(currentTeacherChangedAction.Init);
+      }),
       map(() => teacher),
       catchError(this.handleError)
     );
@@ -103,7 +108,7 @@ export class TeacherAuthService {
 
   getCurrentTeacherId(): number | null {
     if (!this.currentTeacher) {
-      return 1; // TODO null
+      return null;
     }
     return this.currentTeacher.id;
   }
@@ -127,16 +132,16 @@ export class TeacherAuthService {
     return throwError(errorMessage);
   }
 
-  private initializePerson(): IPerson {
-    return {
-      id: null,
-      birthId: null,
-      password: null,
-      type: 0,
-      firstName: null,
-      lastName: null,
-      email: null,
-      token: null
-    }
-  }
+  // private initializePerson(): IPerson {
+  //   return {
+  //     id: null,
+  //     birthId: null,
+  //     password: null,
+  //     type: 0,
+  //     firstName: null,
+  //     lastName: null,
+  //     email: null,
+  //     token: null
+  //   }
+  // }
 }
