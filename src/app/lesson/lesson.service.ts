@@ -18,7 +18,6 @@ export enum LessonListChangedAction {
 export class LessonService {
   private baseUrl = 'Lesson';
   teacherId: number;
-  token: string;
 
   private lessons: ILesson[] = [];
   errorMessage: string = '';
@@ -32,18 +31,16 @@ export class LessonService {
   ) {
     this.lessonListChanged = new Subject<number>();
     this.teacherId = this.teacherService.getCurrentTeacherId();
-    this.token = this.teacherService.getCurrentTeacherToken();
   }
 
   public getLessons(isRefresh?: boolean): Observable<ILesson[]> {
-    const headers = { 'accept': 'text/plain', 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.token}` };
     this.logger.debug('The LessonService.getLessons() is called');
 
     if (!isRefresh) {
       return of(this.lessons);
     } else {
       return this.http
-        .read<ILesson[]>(this.baseUrl + '/AllLessons/' + this.teacherId, headers)
+        .read<ILesson[]>(this.baseUrl + '/AllLessons/' + this.teacherId)
         .pipe(
           tap((data) => {
             this.logger.log('getLessons: ' + JSON.stringify(data));
@@ -65,11 +62,10 @@ export class LessonService {
   }
 
   public async getLessonList(): Promise<ILesson[]> {
-    const headers = { 'accept': 'text/plain', 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.token}` };
     this.logger.debug('The LessonService.getLessonList() is called');
 
     return this.http
-      .read<ILesson[]>(this.baseUrl + '/AllLessons/' + this.teacherId, headers)
+      .read<ILesson[]>(this.baseUrl + '/AllLessons/' + this.teacherId)
       .toPromise()
       .then((lessonList) => this.saveLessons(lessonList));
   }
@@ -91,11 +87,10 @@ export class LessonService {
   }
 
   public getLessonHistory​(lessonId: number): Promise<Date[]> {
-    const headers = { 'accept': 'text/plain', 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.token}` };
     this.logger.debug('The LessonService.getLessonHistory​() is called');
 
     return this.http
-      .read<Date[]>('Measurement/GetLessonHistory/' + lessonId, headers).toPromise();
+      .read<Date[]>('Measurement/GetLessonHistory/' + lessonId).toPromise();
   }
 
   private checkDatesFormat(lesson: ILesson): ILesson {
@@ -124,25 +119,23 @@ export class LessonService {
   }
 
   public addLesson(newLesson: ILesson): Observable<ILesson> {
-    const headers = { 'accept': 'text/plain', 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.token}` }; // ? token ?
     this.logger.debug('The LessonService.addLesson() is called');
 
     // let validLesson = this.checkDatesFormat(newLesson);
     this.logger.log(newLesson); //******************************************/
 
-    return this.http.create<ILesson>(this.baseUrl, newLesson, headers).pipe(
+    return this.http.create<ILesson>(this.baseUrl, newLesson).pipe(
       tap((data) => this.logger.log('addLesson: ' + JSON.stringify(data))),
       catchError(this.handleError)
     );
   }
 
   public editLesson(lesson: ILesson): Observable<ILesson> {
-    const headers = { 'accept': 'text/plain', 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.token}` };
     this.logger.debug('The LessonService.editLesson() is called');
     this.logger.info(lesson);
     // const url = `${this.baseUrl}/${lesson.id}`;
 
-    return this.http.update<ILesson>(this.baseUrl, lesson, headers).pipe(
+    return this.http.update<ILesson>(this.baseUrl, lesson).pipe(
       tap(() => this.logger.log('editLesson: ' + lesson.id)),
       map(() => lesson),
       catchError(this.handleError)
@@ -150,10 +143,9 @@ export class LessonService {
   }
 
   public removeLesson(id: number): Observable<ILesson> {
-    const headers = { 'accept': 'text/plain', 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.token}` };
     this.logger.debug('The LessonService.removeLesson() is called');
 
-    return this.http.delete<ILesson>(this.baseUrl, id, headers).pipe(
+    return this.http.delete<ILesson>(this.baseUrl, id).pipe(
       tap(() => this.logger.log('deleteLesson: ' + id)),
       catchError(this.handleError)
     );

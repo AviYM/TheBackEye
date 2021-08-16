@@ -1,13 +1,23 @@
-<p>dashboard works!</p>
+<div class="row mb-2">
+    <label class="col-sm-2 col-form-label" for="timeId"><b>Select lesson date:</b></label>
+    <div class="col-md-4">
+      <select class="form-control" [(ngModel)]="currentLesson" name="option">
+        <option disabled [ngValue]="null">--Select lesson date--</option>
+        <option *ngFor="let lesson of lessonHistory" [ngValue]="lesson">
+          {{ lesson }}
+        </option>
+      </select>
+    </div>
 
-<select class="form-control" [(ngModel)]="currentLesson" style="width: 300px;">
-    <option disabled [ngValue]="null">--Select Lesson--</option>
-    <option *ngFor="let lesson of lessonHistory" [ngValue]="lesson">{{ lesson }}</option>
-</select>
+    <div class="col-md-3">
+        <button class="btn btn-outline-primary mr-3" (click)="viewAttendanceReport()">
+            View Attendance Report
+          </button>
+    </div>
+</div>
+
+<br>
+<br>
 <br>
 
-<button (click)="viewAttendanceReport()">
-    View Attendance Report
-</button>
-
-<app-chart-measurement></app-chart-measurement>
+<app-chart-measurement [lessonId]="lessonId" [lessonDate]="currentLesson"></app-chart-measurement>

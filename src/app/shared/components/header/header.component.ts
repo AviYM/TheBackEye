@@ -24,6 +24,7 @@ import {
 export class HeaderComponent implements OnInit, OnDestroy {
   currentTeacherName: string;
   sub!: Subscription;
+  eyeGif: string = '../../../assets/images/eye.gif';
 
   @Output() toggleSidebar: EventEmitter<any> = new EventEmitter();
 
@@ -40,7 +41,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
   }
 
   initCurrentTeacherChangedSubscription(): void {

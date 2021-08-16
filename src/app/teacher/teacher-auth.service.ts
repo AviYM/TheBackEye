@@ -23,6 +23,10 @@ export class TeacherAuthService {
     if (this.currentTeacher) {
       return true;
     }
+    if (this.isThereTeacherInStorage()) {
+      this.currentTeacher = JSON.parse(localStorage.getItem('user'));
+      return true;
+    }
     return false;
   }
 
@@ -38,40 +42,76 @@ export class TeacherAuthService {
   }
 
   // Like getPerson func in another services.
-  signIn(email: string, password: string): Observable<IPerson> {
-    const headers = { 'accept': 'text/plain', 'Content-Type': 'application/json', 'Authorization': '' };
+  public signIn(email: string, password: string): Observable<IPerson> {
     this.logger.info('Email: ' + email + '; Password: ' + password);
 
-    return this.http.create<IPerson>(this.baseUrl + '/GetTeacher/' + email, '"' + password + '"', headers).pipe(
+    return this.http.create<IPerson>(this.baseUrl + '/GetTeacher/' + email, '"' + password + '"').pipe(
       tap((data) => {
-        this.logger.log('Teacher signIn: ' + JSON.stringify(data));
-        this.currentTeacher = data;
-        this.currentTeacherChanged.next(currentTeacherChangedAction.Init);
+        if (data && data.token) {
+          this.logger.log('Teacher signIn: ' + JSON.stringify(data));
+          this.onSignInComplete(data);
+        }
       }),
       catchError(this.handleError)
     );
   }
 
   // Like addPerson func in another services.
-  signUp(newTeacher: IPerson): Observable<IPerson> {
+  public signUp(newTeacher: IPerson): Observable<IPerson> {
     this.logger.info(newTeacher);
 
-    const headers = { 'accept': 'text/plain', 'Content-Type': 'application/json', 'Authorization': '' };
-
-    return this.http.create<IPerson>(this.baseUrl, newTeacher, headers).pipe(
+    return this.http.create<IPerson>(this.baseUrl, newTeacher).pipe(
       tap((data) => {
-        this.logger.log('Teacher signUp: ' + JSON.stringify(data));
-        this.currentTeacher = data;
-        this.currentTeacherChanged.next(currentTeacherChangedAction.Init);
+        if (data && data.token) {
+          this.logger.log('Teacher signUp: ' + JSON.stringify(data));
+          this.onSignInComplete(data);
+        }
       }),
       catchError(this.handleError)
     );
   }
 
-  editTeacher(teacher: IPerson) { // : Observable<IPerson>
-    const headers = { 'accept': 'text/plain', 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.getCurrentTeacherToken()}` };
+  private onSignInComplete(data: IPerson) {
+    this.saveToStorage(data);
+    this.currentTeacher = data;
+    this.currentTeacher.token = '';
+    this.currentTeacherChanged.next(currentTeacherChangedAction.Init);
+  }
 
-    return this.http.update<IPerson>(this.baseUrl, teacher, headers).pipe(
+  private saveToStorage(p: IPerson) {
+    this.setSession(p.token);
+    this.saveTeacher(p);
+  }
+
+  private setSession(token: string) {
+    localStorage.setItem('id_token', token);
+  }
+
+  private saveTeacher(p: IPerson) {
+    localStorage.setItem('user', JSON.stringify(p));
+  }
+
+  private isThereTeacherInStorage(): boolean {
+    if(localStorage.getItem('user')) {
+      return true;
+    }
+    return false;
+  }
+
+  public signOut(): void {
+    this.currentTeacher = null;
+    this.currentTeacherChanged.next(currentTeacherChangedAction.SignOut);
+
+    this.cleanStorage();
+  }
+
+  private cleanStorage() {
+    localStorage.removeItem("id_token");
+    localStorage.removeItem('user');
+  }
+
+  public editTeacher(teacher: IPerson): Observable<IPerson> {
+    return this.http.update<IPerson>(this.baseUrl, teacher).pipe(
       tap((data) => {
         this.logger.log('editTeacher: ' + teacher.id)
         this.currentTeacher = data;
@@ -82,40 +122,27 @@ export class TeacherAuthService {
     );
   }
 
-  removeTeacher(id: number): Observable<IPerson> {
-    const headers = { 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.getCurrentTeacherToken()}` };
+  public removeTeacher(id: number): Observable<IPerson> {
     this.logger.debug('The TeacherService.removeTeacher() is called');
 
-    return this.http.delete<IPerson>(this.baseUrl, id, headers).pipe(
+    return this.http.delete<IPerson>(this.baseUrl, id).pipe(
       tap(() => this.logger.log('deleteTeacher: ' + id)),
       catchError(this.handleError)
     );
   }
 
-  getCurrentTeacherFirstName(): string {
+  public getCurrentTeacherFirstName(): string {
     if(this.currentTeacher) {
       return this.currentTeacher.firstName;
     }
     return '';
   }
 
-  getCurrentTeacherToken(): string {
-    if (this.currentTeacher) {
-      return this.currentTeacher.token;
-    }
-    return '';
-  }
-
-  getCurrentTeacherId(): number | null {
+  public getCurrentTeacherId(): number | null {
     if (!this.currentTeacher) {
       return null;
     }
     return this.currentTeacher.id;
-  }
-
-  signOut(): void {
-    this.currentTeacher = null;
-    this.currentTeacherChanged.next(currentTeacherChangedAction.SignOut);
   }
 
   private handleError(err: any): Observable<never> {

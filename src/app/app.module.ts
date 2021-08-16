@@ -25,6 +25,8 @@ import { AuthComponent } from './teacher/auth/auth.component';
 import { SignInComponent } from './teacher/sign-in/sign-in.component';
 import { SignUpComponent } from './teacher/sign-up/sign-up.component';
 import { EditTeacherComponent } from './teacher/edit-teacher/edit-teacher.component';
+import { DatePipe } from '@angular/common';
+import { interceptorProviders } from './shared/interceptors/Interceptors';
 
 @NgModule({
   declarations: [
@@ -52,7 +54,7 @@ import { EditTeacherComponent } from './teacher/edit-teacher/edit-teacher.compon
     // InMemoryWebApiModule.forRoot(MockDataService, { delay: 1000 }),
     NgxChartsModule,
   ],
-  providers: [],
+  providers: [DatePipe, interceptorProviders],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { stringify } from '@angular/compiler/src/util';
+import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { LogService } from '../../shared/services/log/log.service';
+import { IMeasurement } from '../measurement.interface';
+import { MeasurementService } from '../measurement.service';
 
 @Component({
   selector: 'app-chart-measurement',
@@ -6,9 +12,28 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./chart-measurement.component.scss'],
 })
 export class ChartMeasurementComponent implements OnInit {
-  name = 'Angular';
-  // view: any[];
-  width: number = 1000;
+  measurements: IMeasurement[];
+  sub!: Subscription;
+  errorMessage: string = '';
+
+  private _lessonId: number;
+  @Input() set lessonId(id: number){
+    if (id) {
+      this._lessonId = id;
+    }
+  }
+
+  private _lessonDate: string;
+  @Input() set lessonDate(date: string) {
+    if(date) {
+      this._lessonDate = date.replace(' ', 'T');
+      this.logger.log('The updated lesson date is: ' + this._lessonDate);
+      this.fetchMeasurements();
+    }
+  }
+
+
+  width: number = 900;
   height: number = 300;
   fitContainer: boolean = false;
 
@@ -18,6 +43,7 @@ export class ChartMeasurementComponent implements OnInit {
   showYAxis = true;
   gradient = true;
   showLegend = true;
+  showLabels = true;
   showXAxisLabel = true;
   xAxisLabel = 'Country';
   showYAxisLabel = true;
@@ -31,9 +57,6 @@ export class ChartMeasurementComponent implements OnInit {
   //   domain: ['#5AA454', '#E44D25', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5']
   // };
 
-  //pie
-  showLabels = true;
-  // data goes here
   public single = [
     {
       name: 'China',
@@ -60,94 +83,52 @@ export class ChartMeasurementComponent implements OnInit {
       value: 204617,
     },
   ];
-  // public multi = [
-  //   {
-  //     name: 'China',
-  //     series: [
-  //       {
-  //         name: '2018',
-  //         value: 2243772,
-  //       },
-  //       {
-  //         name: '2017',
-  //         value: 1227770,
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     name: 'USA',
-  //     series: [
-  //       {
-  //         name: '2018',
-  //         value: 1126000,
-  //       },
-  //       {
-  //         name: '2017',
-  //         value: 764666,
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     name: 'Norway',
-  //     series: [
-  //       {
-  //         name: '2018',
-  //         value: 296215,
-  //       },
-  //       {
-  //         name: '2017',
-  //         value: 209122,
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     name: 'Japan',
-  //     series: [
-  //       {
-  //         name: '2018',
-  //         value: 257363,
-  //       },
-  //       {
-  //         name: '2017',
-  //         value: 205350,
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     name: 'Germany',
-  //     series: [
-  //       {
-  //         name: '2018',
-  //         value: 196750,
-  //       },
-  //       {
-  //         name: '2017',
-  //         value: 129246,
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     name: 'France',
-  //     series: [
-  //       {
-  //         name: '2018',
-  //         value: 204617,
-  //       },
-  //       {
-  //         name: '2017',
-  //         value: 149797,
-  //       },
-  //     ],
-  //   },
-  // ];
 
-  constructor() {
-    //Object.assign(this, this.single);
-  }
+  constructor(
+    private measurementService: MeasurementService,
+    private logger: LogService,
+    private route: ActivatedRoute
+  ) {}
 
   onSelect(event) {
-    console.log(event);
+    this.logger.log(event);
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.fetchMeasurements();
+    
+    // this.route.params.subscribe(async params => {
+    //   this.lessonId = params['id'];
+    // });
+  }
+
+  private async fetchMeasurements() {
+    if (this._lessonId && this._lessonDate) {
+      this.measurements = await this.measurementService.getLessonMeasurements(this._lessonId, this._lessonDate);
+      this.processMeasurments()
+    }
+  }
+
+  processMeasurments() {
+    interface MeasurementFrequencyCounter {
+      name: string;
+      counter: number;
+    }
+    let counters: MeasurementFrequencyCounter[] = [];
+    let measurementTitles = [
+      'headPose', 'faceRecognition', 'sleepDetector', 'onTop', 'faceDetector', 'objectDetection', 'soundCheck'
+    ];
+
+    measurementTitles.forEach((t) => counters.push({"name": t, "counter": 0}));
+
+    this.measurements.forEach((m) => {
+      measurementTitles.forEach((t) => {
+        if (m[t] === true) {
+          counters.find((element) => element.name === t).counter += 1;
+        }
+      });
+    });
+
+    this.logger.log(counters);
+  }
 }

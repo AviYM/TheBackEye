@@ -3,8 +3,12 @@
     <button mat-icon-button class="icon" (click)="toggleSideBar()">
       <mat-icon>menu</mat-icon>
     </button>
+
+    <span class="spacer"></span>
+
     <span class="logo" (click)="onLogoClick()">
-      The-Back-Eye
+      <img id="eye" [src]="eyeGif">
+      Back eye
     </span>
 
     <span class="spacer"></span>

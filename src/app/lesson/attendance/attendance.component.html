@@ -27,23 +27,24 @@
 </table>
 
 <div class="row mb-2">
-  <div class="col-md-4 buttons">
+  <div class="col-md-10 buttons">
     <button
       class="btn btn-primary mr-3"
       type="button"
       title="Dowmload as file"
       (click)="downloadAttendance()"
     >
-      Dowmload attendance report
+    <mat-icon style="vertical-align:middle;">file_download</mat-icon>
+      Dowmload report
     </button>
     <button
       class="btn btn-outline-secondary mr-3"
-      style="width: 80px"
       type="button"
-      title="Cancel your edits"
+      title="Return back"
       (click)="goBack()"
     >
-      Back
+    <mat-icon style="vertical-align: middle;">chevron_left</mat-icon>
+    <span style="vertical-align: middle;">Back</span>
     </button>
   </div>
 </div>

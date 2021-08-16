@@ -3,11 +3,13 @@
 }
 
 .logo {
-  margin-left: 20px;
   cursor: pointer;
-  a {
-    text-decoration: none;
-    color: #212121;
+  font-weight: 600;
+  color: #000;
+  #eye {
+    width: 25px;
+    height: 25px;
+    margin-right: 5px;
   }
 }
 
