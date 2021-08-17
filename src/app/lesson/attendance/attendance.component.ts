@@ -60,7 +60,7 @@ export class AttendanceComponent implements OnInit, OnDestroy {
   }
 
   studentMeasurements(student: IPerson) {
-    this.router.navigate(['/lesson', this.lessonId, this.lessonDate, student.id]);
+    this.router.navigate(['/lesson', this.lessonId, this.lessonDate, 'student', student.id]);
   }
 
   downloadAttendance() {

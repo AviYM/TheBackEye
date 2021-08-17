@@ -1,1 +1,26 @@
-<p>student-measurements works!</p>
+<div class="row mb-2">
+  <div class="col-md-10 buttons">
+    <button
+      class="btn btn-outline-secondary mr-3"
+      type="button"
+      title="Return back"
+      (click)="goBack()"
+    >
+      <mat-icon style="vertical-align: middle">chevron_left</mat-icon>
+      <span style="vertical-align: middle">Back</span>
+    </button>
+  </div>
+</div>
+
+<div class="wrap-chart">
+  <ngx-charts-pie-grid
+    *ngIf="pieGridData && pieGridData.length"
+    [view]="viewPieGrid"
+    [scheme]="pieGridColorScheme"
+    [results]="pieGridData"
+    [designatedTotal]="100"
+    [minWidth]="100"
+    (select)="onSelect($event)"
+  >
+  </ngx-charts-pie-grid>
+</div>

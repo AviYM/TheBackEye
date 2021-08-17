@@ -1,32 +1,34 @@
-<div class="charts-container"></div>
-<div class="wrap-chart">
-  <ngx-charts-line-chart *ngIf="lineChartData && lineChartData.length"
-    [view]="viewLineChart"
-    [scheme]="lineChartColorScheme"
-    [results]="lineChartData"
-    [yScaleMax]="100"
-    [gradient]="gradient"
-    [xAxis]="showXAxis"
-    [yAxis]="showYAxis"
-    [showXAxisLabel]="showXAxisLabel"
-    [showYAxisLabel]="showYAxisLabel"
-    [xAxisLabel]="'Time'"
-    [yAxisLabel]="'Average Concentration'"
-    (select)="onSelect($event)"
-  >
-  </ngx-charts-line-chart>
-</div>
-<div class="wrap-chart">
-
-  <ngx-charts-pie-grid *ngIf="pieGridData && pieGridData.length"
-    [view]="viewPieGrid"
-    [scheme]="pieGridColorScheme"
-    [results]="pieGridData"
-    [designatedTotal]="100"
-    [minWidth]="100"
-    (select)="onSelect($event)"
-  >
-  </ngx-charts-pie-grid>
+<div class="charts-container">
+  <div class="wrap-chart">
+    <ngx-charts-line-chart
+      *ngIf="lineChartData && lineChartData.length"
+      [view]="viewLineChart"
+      [scheme]="lineChartColorScheme"
+      [results]="lineChartData"
+      [yScaleMax]="100"
+      [gradient]="gradient"
+      [xAxis]="showXAxis"
+      [yAxis]="showYAxis"
+      [showXAxisLabel]="showXAxisLabel"
+      [showYAxisLabel]="showYAxisLabel"
+      [xAxisLabel]="'Time'"
+      [yAxisLabel]="'Average Concentration'"
+      (select)="onSelect($event)"
+    >
+    </ngx-charts-line-chart>
+  </div>
+  <div class="wrap-chart">
+    <ngx-charts-pie-grid
+      *ngIf="pieGridData && pieGridData.length"
+      [view]="viewPieGrid"
+      [scheme]="pieGridColorScheme"
+      [results]="pieGridData"
+      [designatedTotal]="100"
+      [minWidth]="100"
+      (select)="onSelect($event)"
+    >
+    </ngx-charts-pie-grid>
+  </div>
 </div>
 
 <div class="no-data" *ngIf="!showCharts">
