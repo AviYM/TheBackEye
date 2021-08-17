@@ -10,13 +10,12 @@
     </div>
 
     <div class="col-md-3">
-        <button class="btn btn-outline-primary mr-3" (click)="viewAttendanceReport()">
-            View Attendance Report
-          </button>
+        <button class="btn btn-outline-primary mr-3" (click)="viewAttendanceReport()" [disabled]="disableAttendanceButton">
+          View Attendance Report
+        </button>
     </div>
 </div>
 
-<br>
 <br>
 <br>
 

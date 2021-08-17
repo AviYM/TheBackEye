@@ -13,6 +13,7 @@ export class DashboardComponent implements OnInit {
   lessonId: number;
   lessonHistory: string[]; // * string[] *
   currentLesson: string;
+  disableAttendanceButton: boolean;
 
   constructor(
     private route: ActivatedRoute, 
@@ -43,6 +44,11 @@ export class DashboardComponent implements OnInit {
     }); 
     this.logger.info(this.lessonHistory);
     this.currentLesson = this.lessonHistory[0];
+    if (this.currentLesson) {
+      this.disableAttendanceButton = false;
+    } else {
+      this.disableAttendanceButton = true;
+    }
   }
 
   viewAttendanceReport() {

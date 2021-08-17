@@ -25,6 +25,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   currentTeacherName: string;
   sub!: Subscription;
   eyeGif: string = '../../../assets/images/eye.gif';
+  eyeHover: string = '../../../assets/images/eye_hover.gif';
 
   @Output() toggleSidebar: EventEmitter<any> = new EventEmitter();
 

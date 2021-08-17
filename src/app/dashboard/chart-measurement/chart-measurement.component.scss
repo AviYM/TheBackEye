@@ -1,5 +1,15 @@
-#wrap-chart {
-  display: block;
-  width: 400px;
-  height: 400px;
+.no-data {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+
+  h2 {
+    color: red;
+  }
 }
+
+// :host::ng-deep g .pie-grid-item:nth-child(5) {
+//   transform: translate(210, 185) !important;
+// }

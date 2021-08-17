@@ -27,6 +27,7 @@ import { SignUpComponent } from './teacher/sign-up/sign-up.component';
 import { EditTeacherComponent } from './teacher/edit-teacher/edit-teacher.component';
 import { DatePipe } from '@angular/common';
 import { interceptorProviders } from './shared/interceptors/Interceptors';
+import { StudentMeasurementsComponent } from './dashboard/student-measurements/student-measurements.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { interceptorProviders } from './shared/interceptors/Interceptors';
     SignInComponent,
     SignUpComponent,
     EditTeacherComponent,
+    StudentMeasurementsComponent,
   ],
   imports: [
     BrowserModule,

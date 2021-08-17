@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CsvDataService } from '../../shared/services/CsvDataService';
 import { MeasurementService } from '../../dashboard/measurement.service';
@@ -22,6 +22,7 @@ export class AttendanceComponent implements OnInit, OnDestroy {
   constructor(
     private measurementService: MeasurementService, 
     private route: ActivatedRoute, 
+    private router: Router,
     private location: Location,
     private logger: LogService
   ) { }
@@ -59,7 +60,7 @@ export class AttendanceComponent implements OnInit, OnDestroy {
   }
 
   studentMeasurements(student: IPerson) {
-    
+    this.router.navigate(['/lesson', this.lessonId, this.lessonDate, student.id]);
   }
 
   downloadAttendance() {

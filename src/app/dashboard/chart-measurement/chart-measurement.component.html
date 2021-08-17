@@ -1,45 +1,34 @@
-<div id="wrap-chart">
-  <h1>1.)single</h1>
-  <ngx-charts-bar-vertical
-    [view]="view"
-    [scheme]="colorScheme"
-    [results]="single"
+<div class="charts-container"></div>
+<div class="wrap-chart">
+  <ngx-charts-line-chart *ngIf="lineChartData && lineChartData.length"
+    [view]="viewLineChart"
+    [scheme]="lineChartColorScheme"
+    [results]="lineChartData"
+    [yScaleMax]="100"
     [gradient]="gradient"
     [xAxis]="showXAxis"
     [yAxis]="showYAxis"
-    [legend]="showLegend"
     [showXAxisLabel]="showXAxisLabel"
     [showYAxisLabel]="showYAxisLabel"
-    [xAxisLabel]="xAxisLabel"
-    [yAxisLabel]="yAxisLabel"
+    [xAxisLabel]="'Time'"
+    [yAxisLabel]="'Average Concentration'"
     (select)="onSelect($event)"
   >
-  </ngx-charts-bar-vertical>
-  
-  <hr />
-  <!-- <h1>2.)pair</h1>
-  <ngx-charts-bar-vertical-2d
-    [view]="view"
-    [scheme]="colorScheme"
-    [results]="multi"
-    [gradient]="gradient"
-    [xAxis]="showXAxis"
-    [yAxis]="showYAxis"
-    [legend]="showLegend"
-    [showXAxisLabel]="showXAxisLabel"
-    [showYAxisLabel]="showYAxisLabel"
-    [xAxisLabel]="xAxisLabel"
-    [yAxisLabel]="yAxisLabel"
-    (select)="onSelect($event)"
-  >
-  </ngx-charts-bar-vertical-2d> -->
-  <hr />
+  </ngx-charts-line-chart>
+</div>
+<div class="wrap-chart">
 
-  <ngx-charts-pie-grid
-    [view]="view"
-    [scheme]="colorScheme"
-    [results]="single"
+  <ngx-charts-pie-grid *ngIf="pieGridData && pieGridData.length"
+    [view]="viewPieGrid"
+    [scheme]="pieGridColorScheme"
+    [results]="pieGridData"
+    [designatedTotal]="100"
+    [minWidth]="100"
     (select)="onSelect($event)"
   >
   </ngx-charts-pie-grid>
+</div>
+
+<div class="no-data" *ngIf="!showCharts">
+  <h2>No information on lesson history</h2>
 </div>

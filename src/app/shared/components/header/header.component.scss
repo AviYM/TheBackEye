@@ -6,10 +6,22 @@
   cursor: pointer;
   font-weight: 600;
   color: #000;
-  #eye {
+  .logo-gif {
     width: 25px;
     height: 25px;
     margin-right: 5px;
+  }
+  #eye-hover {
+    display: none;
+  }
+}
+.logo:hover {
+  color: #4949f9;
+  #eye {
+    display: none;
+  }
+  #eye-hover {
+    display: inline;
   }
 }
 
@@ -24,8 +36,20 @@
   box-shadow: none !important;
   color: #fff;
   background-color: #4949f9;
-  button:hover {
-    // opacity: 0.5;
-    background: #4949f9b3;
+}
+.custom-button:hover {
+  opacity: 0.8;
+}
+
+.icon {
+  .mat-icon:hover {
+    color: #4949f9;
+  }
+}
+
+.user-menu {
+  margin-left: 10px;
+  .mat-button {
+    padding: 0 8px;
   }
 }

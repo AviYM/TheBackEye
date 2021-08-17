@@ -7,7 +7,8 @@
     <span class="spacer"></span>
 
     <span class="logo" (click)="onLogoClick()">
-      <img id="eye" [src]="eyeGif">
+      <img class="logo-gif" id="eye" [src]="eyeGif" />
+      <img class="logo-gif" id="eye-hover" [src]="eyeHover">
       Back eye
     </span>
 
@@ -17,18 +18,20 @@
       <mat-icon>add</mat-icon>
     </button>
 
-    <button mat-button [matMenuTriggerFor]="menu">
-      <mat-icon>person_outline</mat-icon> {{ currentTeacherName }}
-    </button>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item [routerLink]="['/account', 'edit']">
-        <mat-icon>edit</mat-icon>
-        <span>Edit account details</span>
+    <div class="user-menu">
+      <button mat-button [matMenuTriggerFor]="menu">
+        <mat-icon>person_outline</mat-icon> {{ currentTeacherName }}
       </button>
-      <button mat-menu-item (click)="signOut()">
-        <mat-icon>exit_to_app</mat-icon>
-        <span>Sign out</span>
-      </button>
-    </mat-menu>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item [routerLink]="['/account', 'edit']">
+          <mat-icon>edit</mat-icon>
+          <span>Edit account details</span>
+        </button>
+        <button mat-menu-item (click)="signOut()">
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Sign out</span>
+        </button>
+      </mat-menu>
+    </div>
   </mat-toolbar-row>
 </mat-toolbar>

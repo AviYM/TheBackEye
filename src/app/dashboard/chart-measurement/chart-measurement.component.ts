@@ -1,10 +1,19 @@
-import { stringify } from '@angular/compiler/src/util';
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { GroupByService } from '../../shared/services/GroupByService';
 import { LogService } from '../../shared/services/log/log.service';
 import { IMeasurement } from '../measurement.interface';
 import { MeasurementService } from '../measurement.service';
+
+interface NameValueMap {
+  name: string;
+  value: number;
+}
+
+interface NameSeries {
+  name: string;
+  series: NameValueMap[];
+}
 
 @Component({
   selector: 'app-chart-measurement',
@@ -12,7 +21,10 @@ import { MeasurementService } from '../measurement.service';
   styleUrls: ['./chart-measurement.component.scss'],
 })
 export class ChartMeasurementComponent implements OnInit {
+  showCharts: boolean = true;
   measurements: IMeasurement[];
+  pieGridData: NameValueMap[] = [];
+  lineChartData: NameSeries[] = [];
   sub!: Subscription;
   errorMessage: string = '';
 
@@ -20,74 +32,44 @@ export class ChartMeasurementComponent implements OnInit {
   @Input() set lessonId(id: number){
     if (id) {
       this._lessonId = id;
+      this.logger.log('The updated lesson ID is: ' + this._lessonId);
     }
   }
 
   private _lessonDate: string;
   @Input() set lessonDate(date: string) {
     if(date) {
+      this.showCharts = true;
       this._lessonDate = date.replace(' ', 'T');
       this.logger.log('The updated lesson date is: ' + this._lessonDate);
+      this.pieGridData = [];
+      this.lineChartData = [];
       this.fetchMeasurements();
+    } else {
+      this.showCharts = false;
+      this.pieGridData = null;
+      this.lineChartData = null;
     }
   }
 
-
-  width: number = 900;
-  height: number = 300;
-  fitContainer: boolean = false;
-
-  view:[number, number] = [this.width, this.height];
-  // options for the chart
+  // Chart definitions
+  viewLineChart:[number, number] = [980, 300];
+  viewPieGrid:[number, number] = [980, 200];
   showXAxis = true;
   showYAxis = true;
-  gradient = true;
-  showLegend = true;
-  showLabels = true;
+  gradient = false;
   showXAxisLabel = true;
-  xAxisLabel = 'Country';
+  // xAxisLabel: "''";
   showYAxisLabel = true;
-  yAxisLabel = 'Sales';
-  timeline = true;
-  doughnut = true;
-  colorScheme = {
-    domain: ['#9370DB', '#87CEFA', '#FA8072', '#FF7F50', '#90EE90', '#9370DB'],
+  // yAxisLabel: "''";
+  pieGridColorScheme = {
+    domain: ['#994800', '#b12c2c', '#ff5a50', '#fc9f9d', '#97b6f4', '#4949f9', '#100b7b'],
   };
-  // colorScheme = {
-  //   domain: ['#5AA454', '#E44D25', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5']
-  // };
-
-  public single = [
-    {
-      name: 'China',
-      value: 2243772,
-    },
-    {
-      name: 'USA',
-      value: 1126000,
-    },
-    {
-      name: 'Norway',
-      value: 296215,
-    },
-    {
-      name: 'Japan',
-      value: 257363,
-    },
-    {
-      name: 'Germany',
-      value: 196750,
-    },
-    {
-      name: 'France',
-      value: 204617,
-    },
-  ];
+  lineChartColorScheme = { domain: ['#4949f9'],}
 
   constructor(
     private measurementService: MeasurementService,
     private logger: LogService,
-    private route: ActivatedRoute
   ) {}
 
   onSelect(event) {
@@ -96,10 +78,6 @@ export class ChartMeasurementComponent implements OnInit {
 
   ngOnInit() {
     this.fetchMeasurements();
-    
-    // this.route.params.subscribe(async params => {
-    //   this.lessonId = params['id'];
-    // });
   }
 
   private async fetchMeasurements() {
@@ -109,26 +87,123 @@ export class ChartMeasurementComponent implements OnInit {
     }
   }
 
-  processMeasurments() {
-    interface MeasurementFrequencyCounter {
-      name: string;
-      counter: number;
-    }
-    let counters: MeasurementFrequencyCounter[] = [];
+  private getTimeFromDate(date: string) {
+    return date.split('T')[1].substring(0, 7);
+  }
+
+  private generateLineChart() {
+    interface TimeToPositiveAndAllMeasurments {
+      time: string;
+      positiveMeasurementsCount: number;
+      allMeasurementsCount: number;
+    };
+    let timesData: TimeToPositiveAndAllMeasurments[] = [];
+
+    // all boolean measurements.
+    let measurementTitles = [
+     'headPose', 'faceRecognition', 'sleepDetector', 'onTop', 'faceDetector', 'objectDetection', 'soundCheck'
+    ];
+
+    let gbTime = GroupByService.groupBy(this.measurements, (m: IMeasurement) => this.getTimeFromDate(m.dateTime.toString()));
+    // gbTime.forEach((val, key) => {
+    //   this.logger.log('^^^^^^^^ In the time: ' + key + ', there are: ' + val.length + ' measuremrnts.')
+    // });
+
+    gbTime.forEach((val, key) => {
+      let tData: TimeToPositiveAndAllMeasurments = {
+        "time": key,
+        "positiveMeasurementsCount": 0,
+        "allMeasurementsCount": 0
+      }
+
+      val.forEach((m) => {
+        measurementTitles.forEach((t) => {
+          tData.allMeasurementsCount++;
+          if (m[t] === true) {
+            tData.positiveMeasurementsCount++;
+          }
+        });
+      });
+
+      timesData.push(tData);
+      this.logger.log(tData.time + '===' + tData.positiveMeasurementsCount + '===' + tData.allMeasurementsCount);
+    });
+
+    let dataToLineChart: NameValueMap[] = [];
+    timesData.forEach((e) => {
+      dataToLineChart.push({"name": e.time, "value": 100 * (e.positiveMeasurementsCount / e.allMeasurementsCount)});
+    });
+
+    this.lineChartData.push({"name": "Average class concentration", "series": dataToLineChart});
+  }
+
+  private generatePieGrid() {
+    // all boolean measurements.
     let measurementTitles = [
       'headPose', 'faceRecognition', 'sleepDetector', 'onTop', 'faceDetector', 'objectDetection', 'soundCheck'
     ];
 
-    measurementTitles.forEach((t) => counters.push({"name": t, "counter": 0}));
+    // Count how many 'true' there are for each measurement in the list of measurements.
+    // let measurementFrequencyCounters: NameValueMap[] = [];// MeasurementFrequencyCounter
+    // measurementTitles.forEach((t) => measurementFrequencyCounters.push({"name": t, "value": 0}));
+    // this.measurements.forEach((m) => {
+    //   measurementTitles.forEach((t) => {
+    //     if (m[t] === true) {
+    //       measurementFrequencyCounters.find((element) => element.name === t).value += 1;
+    //     }
+    //   });
+    // });
+    // this.logger.log(measurementFrequencyCounters);
+ 
+    let gbPersonId = GroupByService.groupBy(this.measurements, (m: IMeasurement) => m.personId.toString());
 
-    this.measurements.forEach((m) => {
-      measurementTitles.forEach((t) => {
-        if (m[t] === true) {
-          counters.find((element) => element.name === t).counter += 1;
-        }
+    // map between personId - specific student and his data processed data.
+    let map: Map<string, NameValueMap[]> = new Map();
+    gbPersonId.forEach((val, key) => {
+      // this.logger.log('The Key: ' + key);
+      // this.logger.log(JSON.stringify(val));
+
+      let c: NameValueMap[] = [];
+      measurementTitles.forEach((t) => c.push({"name": t, "value": 0}));
+
+      val.forEach((m) => {
+        measurementTitles.forEach((t) => {
+          if (m[t] === true) {
+            c.find((element) => element.name === t).value += 1;
+          }
+        });
       });
+
+      c.forEach((e) => e.value /= val.length);
+      map.set(key, c);
     });
 
-    this.logger.log(counters);
+    // map.forEach((val, key) => {
+    //   this.logger.log('The Key: ' + key);
+    //   this.logger.log(JSON.stringify(val));
+    // });
+
+    let finalResults: NameValueMap[] = [];
+    measurementTitles.forEach((t) => finalResults.push({"name": t, "value": 0}));
+
+    // calc the average of each measure based on all students.
+    let keysNum = 0;
+    map.forEach((val, key) => {
+      measurementTitles.forEach((t) => {
+        finalResults.find((e) => e.name === t).value += val.find((e) => e.name === t).value;
+      });
+      keysNum++;
+    });
+
+    finalResults.forEach((fr) => fr.value = (fr.value / keysNum) * 100);
+    finalResults.forEach((fr) => this.pieGridData.push({"name": `${fr.name[0].toUpperCase()}${fr.name.slice(1)}`.replace(/([A-Z])/g, ' $1').trim(), "value": fr.value}));
+
+    this.logger.log(finalResults);
+    this.logger.log(keysNum);
+  }
+
+  private processMeasurments() {
+    this.generateLineChart()
+    this.generatePieGrid();
   }
 }
