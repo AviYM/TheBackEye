@@ -10,6 +10,12 @@
   }
 }
 
+.wrap-chart {
+  display: inline-block;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+}
+
 // :host::ng-deep g .pie-grid-item:nth-child(5) {
 //   transform: translate(210, 185) !important;
 // }
