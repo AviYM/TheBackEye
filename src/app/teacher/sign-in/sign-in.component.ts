@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { currentTeacherChangedAction, TeacherAuthService } from '../teacher-auth.service';
+import { TeacherAuthService } from '../teacher-auth.service';
 
 @Component({
   selector: 'app-sign-in',
