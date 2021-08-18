@@ -44,14 +44,15 @@ export class LessonListComponent implements OnInit, OnDestroy {
         async (isChanged: number) => {
         if (isChanged === LessonListChangedAction.Reload) {
           let lessonList = await this.lessonService.getLessonList();
-          this.lessons = [];
-          lessonList.forEach((l) => {
-            this.lessons.push({
-              lesson: l,
-              isSelected: false,
+          if (lessonList) {
+            this.lessons = [];
+            lessonList.forEach((l) => {
+              this.lessons.push({
+                lesson: l,
+                isSelected: false,
+              });
             });
-          });
-
+          }
         } else if(isChanged === LessonListChangedAction.Refresh) {
           this.lessons.forEach((lesson) => {
             if (lesson.isSelected) {

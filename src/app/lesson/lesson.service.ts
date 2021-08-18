@@ -3,7 +3,7 @@ import { Observable, of, Subject, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { HttpService } from '../shared/services/http/http.service';
 import { LogService } from '../shared/services/log/log.service';
-import { TeacherAuthService } from '../teacher/teacher-auth.service';
+import { currentTeacherChangedAction, TeacherAuthService } from '../teacher/teacher-auth.service';
 import { ILesson } from './lesson.interface';
 
 export enum LessonListChangedAction {
@@ -30,11 +30,21 @@ export class LessonService {
     private teacherService: TeacherAuthService
   ) {
     this.lessonListChanged = new Subject<number>();
-    this.teacherId = this.teacherService.getCurrentTeacherId();
+    this.teacherService.currentTeacherChanged.subscribe((status: number) => {
+      if (status === currentTeacherChangedAction.Init) {
+        this.teacherId = this.teacherService.getCurrentTeacherId();
+        this.lessonListChanged.next(LessonListChangedAction.Reload);
+      } else if (status === currentTeacherChangedAction.SignOut) {
+        this.teacherId = null;
+      }
+    });
   }
 
   public getLessons(isRefresh?: boolean): Observable<ILesson[]> {
     this.logger.debug('The LessonService.getLessons() is called');
+    if (!this.teacherId) {
+      return null;
+    }
 
     if (!isRefresh) {
       return of(this.lessons);
@@ -63,6 +73,9 @@ export class LessonService {
 
   public async getLessonList(): Promise<ILesson[]> {
     this.logger.debug('The LessonService.getLessonList() is called');
+    if (!this.teacherId) {
+      return null;
+    }
 
     return this.http
       .read<ILesson[]>(this.baseUrl + '/AllLessons/' + this.teacherId)
@@ -71,9 +84,11 @@ export class LessonService {
   }
 
   public getSingleLesson(id: number): Observable<ILesson> {
-    this.logger.debug(
-      'The LessonService.getSingleLesson(' + id + ') is called'
-    );
+    this.logger.debug('The LessonService.getSingleLesson(' + id + ') is called');
+    if (!this.teacherId) {
+      return null;
+    }
+
     if (id === 0) {
       return of(this.initializeLesson());
     }
@@ -88,6 +103,9 @@ export class LessonService {
 
   public getLessonHistory​(lessonId: number): Promise<Date[]> {
     this.logger.debug('The LessonService.getLessonHistory​() is called');
+    if (!this.teacherId) {
+      return null;
+    }
 
     return this.http
       .read<Date[]>('Measurement/GetLessonHistory/' + lessonId).toPromise();
@@ -120,6 +138,9 @@ export class LessonService {
 
   public addLesson(newLesson: ILesson): Observable<ILesson> {
     this.logger.debug('The LessonService.addLesson() is called');
+    if (!this.teacherId) {
+      return null;
+    }
 
     // let validLesson = this.checkDatesFormat(newLesson);
     this.logger.log(newLesson); //******************************************/
@@ -132,8 +153,9 @@ export class LessonService {
 
   public editLesson(lesson: ILesson): Observable<ILesson> {
     this.logger.debug('The LessonService.editLesson() is called');
-    this.logger.info(lesson);
-    // const url = `${this.baseUrl}/${lesson.id}`;
+    if (!this.teacherId) {
+      return null;
+    }
 
     return this.http.update<ILesson>(this.baseUrl, lesson).pipe(
       tap(() => this.logger.log('editLesson: ' + lesson.id)),
@@ -144,6 +166,9 @@ export class LessonService {
 
   public removeLesson(id: number): Observable<ILesson> {
     this.logger.debug('The LessonService.removeLesson() is called');
+    if (!this.teacherId) {
+      return null;
+    }
 
     return this.http.delete<ILesson>(this.baseUrl, id).pipe(
       tap(() => this.logger.log('deleteLesson: ' + id)),

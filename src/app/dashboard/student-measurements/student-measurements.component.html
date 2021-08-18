@@ -14,7 +14,7 @@
 
 <br>
 
-<div class="wrap-chart">
+<div class="wrap-chart" *ngIf="showCharts">
   <ngx-charts-pie-grid
     *ngIf="pieGridData && pieGridData.length"
     [view]="viewPieGrid"
@@ -25,4 +25,8 @@
     (select)="onSelect($event)"
   >
   </ngx-charts-pie-grid>
+</div>
+
+<div class="no-data" *ngIf="!showCharts">
+  <h2>No information on lesson history</h2>
 </div>

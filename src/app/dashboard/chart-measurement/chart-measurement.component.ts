@@ -2,13 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { GroupByService } from '../../shared/services/GroupByService';
 import { LogService } from '../../shared/services/log/log.service';
-import { IMeasurement, NameValueMap } from '../measurement.interface';
+import { IMeasurement, NameSeries, NameValueMap } from '../measurement.interface';
 import { MeasurementService } from '../measurement.service';
-
-interface NameSeries {
-  name: string;
-  series: NameValueMap[];
-}
 
 @Component({
   selector: 'app-chart-measurement',
@@ -78,6 +73,9 @@ export class ChartMeasurementComponent implements OnInit {
   private async fetchMeasurements() {
     if (this._lessonId && this._lessonDate) {
       this.measurements = await this.measurementService.getLessonMeasurements(this._lessonId, this._lessonDate);
+      if (!this.measurements) {
+        this.showCharts = false;
+      }
       this.processMeasurments();
     }
   }

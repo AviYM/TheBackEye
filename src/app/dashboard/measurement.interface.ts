@@ -16,3 +16,8 @@ export interface NameValueMap {
   name: string;
   value: number;
 }
+
+export interface NameSeries {
+  name: string;
+  series: NameValueMap[];
+}

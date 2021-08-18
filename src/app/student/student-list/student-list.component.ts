@@ -100,7 +100,7 @@ export class StudentListComponent implements OnInit, OnDestroy {
 
   editStudent(s: IPerson) {
     this.showAddStudentForm = true;
-    this.student = s;
+    this.student = JSON.parse(JSON.stringify(s));
   }
 
   onCancelClick() {

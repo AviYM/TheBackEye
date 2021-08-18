@@ -11,6 +11,7 @@ import { MeasurementService } from '../measurement.service';
   styleUrls: ['./student-measurements.component.scss'],
 })
 export class StudentMeasurementsComponent implements OnInit {
+  showCharts: boolean;
   lessonId: number;
   lessonDate: string;
   studentId: number;
@@ -33,6 +34,11 @@ export class StudentMeasurementsComponent implements OnInit {
     this.lessonId = +this.route.snapshot.paramMap.get('id');
     this.lessonDate = this.route.snapshot.paramMap.get('date');
     this.studentId = +this.route.snapshot.paramMap.get('personId');
+    if (!this.lessonId || !this.studentId) {
+      this.showCharts = false;
+    } else {
+      this.showCharts = true;
+    }
 
     this.fetchMeasurements();
   }
@@ -45,6 +51,9 @@ export class StudentMeasurementsComponent implements OnInit {
         this.studentId,
         this.lessonDate
       );
+      if (!this.studentMeasurements || !this.studentMeasurements.length) {
+        this.showCharts = false;
+      }
       // this.logger.log(JSON.stringify(this.studentMeasurement));
 
       this.processMeasurments();

@@ -1,3 +1,15 @@
+.no-data {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+
+  h2 {
+    color: red;
+  }
+}
+
 .wrap-chart {
   display: inline-block;
   border: 1px solid #cccccc;
