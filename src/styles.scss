@@ -55,3 +55,41 @@ g.line-chart > g:last-of-type > g:nth-child(n) g.line-series > path {
     background-color: $main-color !important;
   }
 }
+
+.form-control:focus {
+  border-color: $main-color;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px #4949f999;
+}
+
+// select > option[selected] {
+//   // background: $main-color;
+//   // color: #fff;
+//   // text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+//   // box-shadow: 0 0 10px 100px $main-color inset !important;  
+//   // transition: all .2s ease-in-out;  
+// }
+
+// select option:checked {
+//   background: $main-color -webkit-linear-gradient(bottom, $main-color 0%, $main-color 100%);
+//   color: #fff;
+// }
+// select > option:hover {
+//   background: $main-color -webkit-linear-gradient(bottom, $main-color 0%, $main-color 100%);
+//   color: #fff;
+// }
+
+/* ************** */
+::-moz-selection {
+  background: $main-color;
+  color:#fff;
+}
+
+::-webkit-selection {
+  background: $main-color;
+  color:#fff;
+}
+
+::selection {
+  background: $main-color;
+  color:#fff;
+}
