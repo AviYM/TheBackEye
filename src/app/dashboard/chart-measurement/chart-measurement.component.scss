@@ -10,10 +10,18 @@
   }
 }
 
+.charts-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .wrap-chart {
   display: inline-block;
   border: 1px solid #cccccc;
   border-radius: 5px;
+  margin: 3px 0;
 }
 
 // :host::ng-deep g .pie-grid-item:nth-child(5) {

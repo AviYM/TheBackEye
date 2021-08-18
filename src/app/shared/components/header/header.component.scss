@@ -1,3 +1,5 @@
+@import "../../../styles/vars";
+
 .spacer {
   flex: 1 0.5 auto;
 }
@@ -14,14 +16,14 @@
   #eye-hover {
     display: none;
   }
-}
-.logo:hover {
-  color: #4949f9;
-  #eye {
-    display: none;
-  }
-  #eye-hover {
-    display: inline;
+  &:hover {
+    color: $main-color;
+    #eye {
+      display: none;
+    }
+    #eye-hover {
+      display: inline;
+    }
   }
 }
 
@@ -35,7 +37,7 @@
 .custom-button {
   box-shadow: none !important;
   color: #fff;
-  background-color: #4949f9;
+  background-color: $main-color;
 }
 .custom-button:hover {
   opacity: 0.8;
@@ -43,7 +45,7 @@
 
 .icon {
   .mat-icon:hover {
-    color: #4949f9;
+    color: $main-color;
   }
 }
 

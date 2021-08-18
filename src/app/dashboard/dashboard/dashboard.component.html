@@ -1,5 +1,6 @@
 <div class="row mb-2">
-    <label class="col-sm-2 col-form-label" for="timeId"><b>Select lesson date:</b></label>
+  <div class="select_wrap">
+    <label class="col-form-label" for="timeId"><b>Select lesson date:</b></label>
     <div class="col-md-4">
       <select class="form-control" [(ngModel)]="currentLesson" name="option">
         <option disabled [ngValue]="null">--Select lesson date--</option>
@@ -8,15 +9,20 @@
         </option>
       </select>
     </div>
+  </div>
 
-    <div class="col-md-3">
-        <button class="btn btn-outline-primary mr-3" (click)="viewAttendanceReport()" [disabled]="disableAttendanceButton">
-          View Attendance Report
-        </button>
-    </div>
+  <div class="col-md-3">
+    <button
+      class="btn btn-outline-primary mr-3"
+      (click)="viewAttendanceReport()"
+      [disabled]="disableAttendanceButton"
+    >
+      View Attendance Report
+    </button>
+  </div>
 </div>
 
-<br>
-<br>
-
-<app-chart-measurement [lessonId]="lessonId" [lessonDate]="currentLesson"></app-chart-measurement>
+<app-chart-measurement
+  [lessonId]="lessonId"
+  [lessonDate]="currentLesson"
+></app-chart-measurement>

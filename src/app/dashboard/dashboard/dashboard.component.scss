@@ -1,9 +1,12 @@
 .btn {
-  position: absolute;
+ position: absolute;
   top: 20px;
-  right: 0;
+  right: 4px; 
 }
 
-label {
-  text-align: right;
+.select_wrap {
+  display: flex;
+   select {
+     margin-left: 10px;
+   }
 }

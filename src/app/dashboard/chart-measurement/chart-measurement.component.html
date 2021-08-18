@@ -1,8 +1,8 @@
-<div class="charts-container">
+<div #containerRef class="charts-container">
   <div class="wrap-chart">
     <ngx-charts-line-chart
       *ngIf="lineChartData && lineChartData.length"
-      [view]="viewLineChart"
+      [view]="[containerRef.offsetWidth, 300]"
       [scheme]="lineChartColorScheme"
       [results]="lineChartData"
       [yScaleMax]="119"
@@ -17,10 +17,10 @@
     >
     </ngx-charts-line-chart>
   </div>
-  <div class="wrap-chart">
+  <div #containerRef class="wrap-chart">
     <ngx-charts-pie-grid
       *ngIf="pieGridData && pieGridData.length"
-      [view]="viewPieGrid"
+      [view]="[containerRef.offsetWidth, 200]"
       [scheme]="pieGridColorScheme"
       [results]="pieGridData"
       [designatedTotal]="100"

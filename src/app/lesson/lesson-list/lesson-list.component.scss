@@ -1,11 +1,16 @@
+@import "../../styles/vars";
+
 .mat-card {
   .mat-card-title {
     cursor: pointer;
     font-size: 15px;
-  }
+    &:hover {
+      color: $main-color;
+    }
 
-  .mat-card-subtitle {
-    margin-bottom: 0;
+    .mat-card-subtitle {
+      margin-bottom: 0;
+    }
   }
 
   .mat-icon-button {
@@ -14,6 +19,9 @@
 
   .mat-icon {
     font-size: 20px;
+    &:hover {
+      color: $main-color;
+    }
   }
 
   .menu-vert {
@@ -39,8 +47,4 @@
 
 .selected{
   background: #dde8fc; 
-}
-
-.mat-icon:hover {
-  color: #4949f9;
 }
