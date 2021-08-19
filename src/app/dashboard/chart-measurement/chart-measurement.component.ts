@@ -84,6 +84,13 @@ export class ChartMeasurementComponent implements OnInit {
     return date.split('T')[1].substring(0, 7);
   }
 
+  private isAccurateMetric(metricName: string): boolean {
+    if (metricName === 'onTop' || metricName === 'soundCheck') {
+      return true;
+    }
+    return false;
+  }
+
   private generateLineChart() {
     interface TimeToPositiveAndAllMeasurments {
       time: string;
@@ -111,9 +118,10 @@ export class ChartMeasurementComponent implements OnInit {
 
       val.forEach((m) => {
         measurementTitles.forEach((t) => {
-          tData.allMeasurementsCount++;
+          let accurateMetric = this.isAccurateMetric(t);
+          accurateMetric ? tData.allMeasurementsCount += 2: tData.allMeasurementsCount++;
           if (m[t] === true) {
-            tData.positiveMeasurementsCount++;
+            accurateMetric ? tData.positiveMeasurementsCount += 2: tData.positiveMeasurementsCount++;
           }
         });
       });

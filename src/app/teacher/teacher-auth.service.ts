@@ -93,6 +93,7 @@ export class TeacherAuthService {
 
   private isThereTeacherInStorage(): boolean {
     if(localStorage.getItem('user')) {
+      console.log('****************' + localStorage.getItem('user'));
       return true;
     }
     return false;

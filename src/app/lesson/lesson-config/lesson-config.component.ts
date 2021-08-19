@@ -17,6 +17,7 @@ export class LessonConfigComponent implements OnInit {
   private originalLessson: ILesson;
 
   get lesson(): ILesson {
+    this.currentLesson = JSON.parse(JSON.stringify(this.currentLesson));
     return this.currentLesson;
   }
   set lesson(value: ILesson) {

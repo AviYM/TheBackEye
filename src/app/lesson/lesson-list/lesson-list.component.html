@@ -4,6 +4,7 @@
       <!-- <a [routerLink]="['/lesson', l.lesson.id]" > -->
       <mat-card-title id="card-title" (click)="onLessonClick(l.lesson.id, i)">{{ l.lesson.name }}</mat-card-title>
       <mat-card-subtitle>{{ l.lesson.description }}</mat-card-subtitle>
+      <mat-card-subtitle style="color: #000; margin-top: 2px;">{{ 'The class code: ' + l.lesson.classCode }}</mat-card-subtitle>
       <!-- </a> -->
 
       <button mat-icon-button title="Lesson menu" class="icon" [matMenuTriggerFor]="vert">
