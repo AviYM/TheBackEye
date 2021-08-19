@@ -127,7 +127,7 @@ export class ChartMeasurementComponent implements OnInit {
       });
 
       timesData.push(tData);
-      this.logger.log(tData.time + '===' + tData.positiveMeasurementsCount + '===' + tData.allMeasurementsCount);
+      // this.logger.log(tData.time + '===' + tData.positiveMeasurementsCount + '===' + tData.allMeasurementsCount);
     });
 
     let dataToLineChart: NameValueMap[] = [];

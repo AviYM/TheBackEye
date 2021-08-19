@@ -12,14 +12,30 @@
   </div>
 </div>
 
-<br>
-
-<div class="charts-container" *ngIf="showCharts">
-  <h1 style="margin: 20px 0 10px 0; text-align: center;">Student measurement charts</h1>
+<div #containerRef class="charts-container" *ngIf="showCharts">
+  <h1 style="margin: 10px 0 0 0;">Student measurement charts</h1>
+  <div class="wrap-chart">
+    <ngx-charts-line-chart
+      *ngIf="lineChartData && lineChartData.length"
+      [view]="[containerRef.offsetWidth, 450]"
+      [scheme]="lineChartColorScheme"
+      [results]="lineChartData"
+      [yScaleMax]="119"
+      [gradient]="gradient"
+      [xAxis]="showXAxis"
+      [yAxis]="showYAxis"
+      [showXAxisLabel]="showXAxisLabel"
+      [showYAxisLabel]="showYAxisLabel"
+      [xAxisLabel]="'Time'"
+      [yAxisLabel]="'Average Concentration'"
+      (select)="onSelect($event)"
+    >
+    </ngx-charts-line-chart>
+  </div>
   <div class="wrap-chart">
     <ngx-charts-pie-grid
       *ngIf="pieGridData && pieGridData.length"
-      [view]="viewPieGrid"
+      [view]="[containerRef.offsetWidth, 200]"
       [scheme]="pieGridColorScheme"
       [results]="pieGridData"
       [designatedTotal]="100"
