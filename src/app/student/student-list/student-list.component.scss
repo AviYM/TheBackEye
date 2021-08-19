@@ -1,3 +1,5 @@
+@import "../../styles/vars";
+
 :host ::ng-deep .mat-icon-button {
   line-height: 24px !important;
   height: 20px !important;
@@ -13,4 +15,7 @@
 
 #td-icons {
   width: 100px;
+  .mat-icon:hover {
+    color: $main-color;
+  }
 }
