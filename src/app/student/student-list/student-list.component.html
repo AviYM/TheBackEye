@@ -1,39 +1,44 @@
-<table class="table" *ngIf="students.length">
-  <thead>
-    <tr>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Birth_ID</th>
-      <th>Password</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let s of students">
-      <td>{{ s.firstName }}</td>
-      <td>{{ s.lastName }}</td>
-      <td>{{ s.birthId }}</td>
-      <td>{{ s.password }}</td>
+<div class="table-container" *ngIf="students.length">
+  <h2 style="margin: 20px 0 15px 0;">Student list</h2>
 
-      <td id="td-icons">
-        <button
-          mat-icon-button
-          title="Delete this lesson"
-          (click)="deleteStudent(s)"
-        >
-          <mat-icon style="font-size: 20px">delete</mat-icon>
-        </button>
-        <button
-          mat-icon-button
-          title="Edit this lesson"
-          (click)="editStudent(s)"
-        >
-          <mat-icon style="font-size: 20px">edit</mat-icon>
-        </button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Birth_ID</th>
+        <th>Password</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let s of students">
+        <td>{{ s.firstName }}</td>
+        <td>{{ s.lastName }}</td>
+        <td>{{ s.birthId }}</td>
+        <td>{{ s.password }}</td>
+  
+        <td id="td-icons">
+          <button
+            mat-icon-button
+            title="Delete this lesson"
+            (click)="deleteStudent(s)"
+          >
+            <mat-icon style="font-size: 20px">delete</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            title="Edit this lesson"
+            (click)="editStudent(s)"
+          >
+            <mat-icon style="font-size: 20px">edit</mat-icon>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 
 <div class="card-body" *ngIf="showAddStudentForm">
   <form novalidate>

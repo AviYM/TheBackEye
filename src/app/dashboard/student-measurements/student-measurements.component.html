@@ -14,18 +14,22 @@
 
 <br>
 
-<div class="wrap-chart" *ngIf="showCharts">
-  <ngx-charts-pie-grid
-    *ngIf="pieGridData && pieGridData.length"
-    [view]="viewPieGrid"
-    [scheme]="pieGridColorScheme"
-    [results]="pieGridData"
-    [designatedTotal]="100"
-    [minWidth]="100"
-    (select)="onSelect($event)"
-  >
-  </ngx-charts-pie-grid>
+<div class="charts-container" *ngIf="showCharts">
+  <h1 style="margin: 20px 0 10px 0; text-align: center;">Student measurement charts</h1>
+  <div class="wrap-chart">
+    <ngx-charts-pie-grid
+      *ngIf="pieGridData && pieGridData.length"
+      [view]="viewPieGrid"
+      [scheme]="pieGridColorScheme"
+      [results]="pieGridData"
+      [designatedTotal]="100"
+      [minWidth]="100"
+      (select)="onSelect($event)"
+    >
+    </ngx-charts-pie-grid>
+  </div>
 </div>
+
 
 <div class="no-data" *ngIf="!showCharts">
   <h2>No information on lesson history</h2>

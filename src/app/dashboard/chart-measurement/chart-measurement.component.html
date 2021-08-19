@@ -1,4 +1,5 @@
-<div #containerRef class="charts-container">
+<div #containerRef class="charts-container" *ngIf="showCharts">
+  <h1 style="margin: 25px 0 0 0">Lesson measurement charts</h1>
   <div class="wrap-chart">
     <ngx-charts-line-chart
       *ngIf="lineChartData && lineChartData.length"

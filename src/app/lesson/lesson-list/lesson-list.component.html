@@ -6,19 +6,19 @@
       <mat-card-subtitle>{{ l.lesson.description }}</mat-card-subtitle>
       <!-- </a> -->
 
-      <button mat-icon-button class="icon" [matMenuTriggerFor]="vert">
+      <button mat-icon-button title="Lesson menu" class="icon" [matMenuTriggerFor]="vert">
         <mat-icon>more_vert</mat-icon>
       </button>
       <mat-menu #vert="matMenu" class="menu-vert">
-        <button mat-menu-item [routerLink]="['/lesson', l.lesson.id, 'edit']">
+        <button mat-menu-item title="Lesson configuration" [routerLink]="['/lesson', l.lesson.id, 'edit']">
           <mat-icon>edit</mat-icon>
           <span>Edit</span>
         </button>
-        <button mat-menu-item (click)="onDelete(l)">
+        <button mat-menu-item title="Delete this lesson" (click)="onDelete(l)">
           <mat-icon>delete</mat-icon>
           <span>Delete</span>
         </button>
-        <button mat-menu-item [routerLink]="['/lesson', l.lesson.id, 'students']">
+        <button mat-menu-item title="The student list" [routerLink]="['/lesson', l.lesson.id, 'students']">
           <mat-icon>people_alt</mat-icon>
           <span>Students</span>
         </button>
