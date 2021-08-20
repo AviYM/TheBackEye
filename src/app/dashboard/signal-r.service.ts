@@ -22,7 +22,7 @@ export class SignalRService {
     };
 
     this.connection = new signalR.HubConnectionBuilder()
-      .withUrl(this.remote, options)
+      .withUrl(this.remote) //, options
       .build();
 
     this.connection
