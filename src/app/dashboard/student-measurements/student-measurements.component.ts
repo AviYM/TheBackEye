@@ -20,18 +20,18 @@ export class StudentMeasurementsComponent implements OnInit {
   pieGridData: NameValueMap[] = [];
   lineChartData: NameSeries[] = [];
 
-// Chart definitions
-showXAxis = true;
-showYAxis = true;
-gradient = false;
-showXAxisLabel = true;
-// xAxisLabel: "''";
-showYAxisLabel = true;
-// yAxisLabel: "''";
-pieGridColorScheme = {
-  domain: ['#994800', '#b12c2c', '#ff5a50', '#fc9f9d', '#97b6f4', '#4949f9', '#100b7b'],
-};
-lineChartColorScheme = { domain: ['#4949f9'],}  
+  // Chart definitions
+  showXAxis = true;
+  showYAxis = true;
+  gradient = false;
+  showXAxisLabel = true;
+  // xAxisLabel: "''";
+  showYAxisLabel = true;
+  // yAxisLabel: "''";
+  pieGridColorScheme = {
+    domain: ['#994800', '#b12c2c', '#ff5a50', '#fc9f9d', '#97b6f4', '#4949f9', '#100b7b'],
+  };
+  lineChartColorScheme = { domain: ['#4949f9'],};
 
   constructor(
     private measurementService: MeasurementService,

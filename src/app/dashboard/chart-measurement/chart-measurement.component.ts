@@ -91,6 +91,19 @@ export class ChartMeasurementComponent implements OnInit {
     return false;
   }
 
+  
+  private getBooleanMetricNames() {
+    return [
+      'headPose',
+      'faceRecognition',
+      'sleepDetector',
+      'onTop',
+      'faceDetector',
+      'objectDetection',
+      'soundCheck',
+    ];
+  }
+
   private generateLineChart() {
     interface TimeToPositiveAndAllMeasurments {
       time: string;
@@ -100,9 +113,7 @@ export class ChartMeasurementComponent implements OnInit {
     let timesData: TimeToPositiveAndAllMeasurments[] = [];
 
     // all boolean measurements.
-    let measurementTitles = [
-     'headPose', 'faceRecognition', 'sleepDetector', 'onTop', 'faceDetector', 'objectDetection', 'soundCheck'
-    ];
+    let measurementTitles = this.getBooleanMetricNames();
 
     let gbTime = GroupByService.groupBy(this.measurements, (m: IMeasurement) => this.getTimeFromDate(m.dateTime.toString()));
     // gbTime.forEach((val, key) => {
@@ -140,9 +151,7 @@ export class ChartMeasurementComponent implements OnInit {
 
   private generatePieGrid() {
     // all boolean measurements.
-    let measurementTitles = [
-      'headPose', 'faceRecognition', 'sleepDetector', 'onTop', 'faceDetector', 'objectDetection', 'soundCheck'
-    ];
+    let measurementTitles = this.getBooleanMetricNames();
 
     // Count how many 'true' there are for each measurement in the list of measurements.
     // let measurementFrequencyCounters: NameValueMap[] = [];// MeasurementFrequencyCounter
