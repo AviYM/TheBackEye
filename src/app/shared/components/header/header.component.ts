@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { SignalRService } from 'src/app/dashboard/signal-r.service';
 import {
   currentTeacherChangedAction,
   TeacherAuthService,
@@ -24,6 +25,7 @@ import {
 export class HeaderComponent implements OnInit, OnDestroy {
   currentTeacherName: string;
   sub!: Subscription;
+  isLessonLive: boolean = false;
   eyeGif: string = '../../../assets/images/eye.gif';
   eyeHover: string = '../../../assets/images/eye_hover.gif';
 
@@ -32,19 +34,35 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private lessonService: LessonService,
-    private teacherService: TeacherAuthService
+    private teacherService: TeacherAuthService,
+    private signalR: SignalRService
   ) {}
 
   ngOnInit(): void {
     this.currentTeacherName = null;
     this.initCurrentTeacherChangedSubscription();
     this.teacherService.currentTeacherChanged.next(currentTeacherChangedAction.Init);
+
+    this.signalR.startConnection();
+    this.signalR.addTransferChartDataListener();
+    this.signalR.emitMeasurements.subscribe((data) => {
+      console.log('?----------Header---------?' + JSON.stringify(data));
+      if (data) {
+        this.isLessonLive = true;
+      } else {
+        this.isLessonLive = false;
+      }
+    });
   }
 
   ngOnDestroy(): void {
     if (this.sub) {
       this.sub.unsubscribe();
     }
+  }
+
+  isLessonAlive(): boolean {
+    return !this.signalR.isDataFinished();
   }
 
   initCurrentTeacherChangedSubscription(): void {
@@ -56,6 +74,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
         }
       }
     );
+  }
+
+  onLiveBtnClick() {
+    if (this.isLessonLive) {
+      this.router.navigate(['/live']);
+    }
   }
 
   toggleSideBar() {

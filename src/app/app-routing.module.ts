@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
+import { LiveComponent } from './dashboard/live/live.component';
 import { StudentMeasurementsComponent } from './dashboard/student-measurements/student-measurements.component';
 import { AttendanceComponent } from './lesson/attendance/attendance.component';
 import { LessonConfigGuard } from './lesson/lesson-config.guard';
@@ -49,6 +50,11 @@ const routes: Routes = [
       {
         path: 'lesson/:id/:date/student/:personId',
         component: StudentMeasurementsComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'live',
+        component: LiveComponent,
         canActivate: [AuthGuard],
       }
     ],

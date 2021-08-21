@@ -4,12 +4,18 @@
       <mat-icon>menu</mat-icon>
     </button>
 
+    <div class="live-btn" *ngIf="isLessonLive && isLessonAlive()">
+      <button mat-button (click)="onLiveBtnClick()">
+        <mat-icon>play_circle_filled</mat-icon> Live
+      </button>
+    </div>
+
     <span class="spacer"></span>
 
     <span class="logo" (click)="onLogoClick()">
       <img class="logo-gif" id="eye" [src]="eyeGif" />
       <img class="logo-gif" id="eye-hover" [src]="eyeHover">
-      Back eye
+      Back Eye
     </span>
 
     <span class="spacer"></span>

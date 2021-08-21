@@ -28,6 +28,7 @@ import { EditTeacherComponent } from './teacher/edit-teacher/edit-teacher.compon
 import { DatePipe } from '@angular/common';
 import { interceptorProviders } from './shared/interceptors/Interceptors';
 import { StudentMeasurementsComponent } from './dashboard/student-measurements/student-measurements.component';
+import { LiveComponent } from './dashboard/live/live.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { StudentMeasurementsComponent } from './dashboard/student-measurements/s
     SignUpComponent,
     EditTeacherComponent,
     StudentMeasurementsComponent,
+    LiveComponent,
   ],
   imports: [
     BrowserModule,

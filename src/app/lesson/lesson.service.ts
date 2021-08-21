@@ -101,6 +101,10 @@ export class LessonService {
     );
   }
 
+  public isLessonOfTeacher(id: number): boolean {
+    return this.lessons.find((element) => element.id === id)? true: false;
+  }
+
   public getLessonHistory​(lessonId: number): Promise<Date[]> {
     this.logger.debug('The LessonService.getLessonHistory​() is called');
     if (!this.teacherId) {
@@ -143,7 +147,7 @@ export class LessonService {
     }
 
     // let validLesson = this.checkDatesFormat(newLesson);
-    this.logger.log(newLesson); //******************************************/
+    // this.logger.log(newLesson);
 
     return this.http.create<ILesson>(this.baseUrl, newLesson).pipe(
       tap((data) => this.logger.log('addLesson: ' + JSON.stringify(data))),

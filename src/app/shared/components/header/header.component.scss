@@ -49,6 +49,22 @@
   }
 }
 
+.live-btn {
+  color: red;
+  margin-left: 20px;
+  border: 1px solid red;
+  .mat-icon {
+    color: red;
+  }
+  &:hover {
+    color:  #fff;
+    background-color: red;
+    .mat-icon {
+      color: #fff;
+    }
+  }
+}
+
 .user-menu {
   margin-left: 10px;
   .mat-button {

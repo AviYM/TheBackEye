@@ -7,6 +7,8 @@ import * as signalR from '@microsoft/signalr';
   providedIn: 'root',
 })
 export class SignalRService {
+  private currentDate: Date;
+
   public emitMeasurements: BehaviorSubject<IMeasurement[]>;
 
   private remote =
@@ -33,11 +35,25 @@ export class SignalRService {
 
   public addTransferChartDataListener = () => {
     this.connection.on('TransferMeasurements', (data) => {
-      //debugger
+      this.setCurrentDate();
       this.emitMeasurements.next(data);
-      console.log('```````````````````````````````' + data);
     });
   };
+
+  public isDataFinished(): boolean {
+    if (this.currentDate) {
+      let timeDiff = new Date().getTime() - this.currentDate.getTime();
+      if (Math.round(timeDiff / 1000) < 120) {
+        return false;
+      }
+      this.currentDate = null; 
+    } 
+    return true;
+  }
+
+  private setCurrentDate() {
+    this.currentDate = new Date();
+  }
 
   constructor() {
     this.emitMeasurements = new BehaviorSubject<IMeasurement[]>(null);
