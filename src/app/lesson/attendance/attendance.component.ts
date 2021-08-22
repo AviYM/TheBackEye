@@ -73,15 +73,10 @@ export class AttendanceComponent implements OnInit, OnDestroy {
     let data: Row[] = [];
 
     this.studentsAttendance.forEach((sa) => {
-      let d = sa.entranceTime;
-      if (d instanceof Date) {
-        d = d.toISOString();
-      }
-
       data.push({
         "Full_Name": sa.person.lastName + ' ' + sa.person.firstName,
         "Birth_ID": sa.person.birthId,
-        "Entrance_Time": d
+        "Entrance_Time": sa.entranceTime.toString()
       });
     });
 

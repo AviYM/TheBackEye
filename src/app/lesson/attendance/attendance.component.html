@@ -14,7 +14,7 @@
       <tr *ngFor="let student of studentsAttendance">
         <td>{{ student.person.lastName + ' ' + student.person.firstName }}</td>
         <td>{{ student.person.birthId }}</td>
-        <td>{{ student.entranceTime }}</td>
+        <td>{{ student.entranceTime | date:'short'}}</td>
   
         <td id="td-icons">
           <button

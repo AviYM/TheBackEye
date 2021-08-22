@@ -1,4 +1,3 @@
-import { ILesson } from "../lesson/lesson.interface";
 import { IPerson } from "../shared/person.interface";
 
 export interface StudentLesson {
@@ -9,5 +8,5 @@ export interface StudentLesson {
 
 export interface StudentAttendance {
   person: IPerson;
-  entranceTime: Date | string;
+  entranceTime: Date;
 }

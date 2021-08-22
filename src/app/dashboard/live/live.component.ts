@@ -190,6 +190,19 @@ export class LiveComponent implements OnInit {
       fr.name = this.rewriteMetricNameToDisplay(fr.name);
       this.pieGridData.push({ name: fr.name, value: fr.value });
     });
+  //   if (this.pieGridData.length) {
+  //     finalResults.forEach((fr) => {
+  //       let metric = this.pieGridData.find((e) => e.name === fr.name);
+  //       metric.name = this.rewriteMetricNameToDisplay(fr.name);
+  //       metric.value = (metric.value + fr.value) / 2;
+  //     });
+  //     this.pieGridData = [...this.pieGridData];
+  //   } else {
+  //     finalResults.forEach((fr) => {
+  //       fr.name = this.rewriteMetricNameToDisplay(fr.name);
+  //       this.pieGridData.push({ name: fr.name, value: fr.value });
+  //     });
+  //   }
   }
 
   private processMeasurments(measurements: IMeasurement[]) {

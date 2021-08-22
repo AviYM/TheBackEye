@@ -43,7 +43,7 @@ export class SignalRService {
   public isDataFinished(): boolean {
     if (this.currentDate) {
       let timeDiff = new Date().getTime() - this.currentDate.getTime();
-      if (Math.round(timeDiff / 1000) < 120) {
+      if (Math.round(timeDiff / 1000) < 30) {
         return false;
       }
       this.currentDate = null; 

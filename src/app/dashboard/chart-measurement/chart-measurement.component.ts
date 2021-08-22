@@ -81,7 +81,7 @@ export class ChartMeasurementComponent implements OnInit {
   }
 
   private getTimeFromDate(date: string) {
-    return date.split('T')[1].substring(0, 7);
+    return date.split('T')[1].substring(0, 5); //~~~~~~~ 7 ~~~~~~~//
   }
 
   private isAccurateMetric(metricName: string): boolean {
