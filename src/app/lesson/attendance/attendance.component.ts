@@ -1,4 +1,4 @@
-import { Location } from '@angular/common';
+import { Location, DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -15,7 +15,7 @@ import { StudentAttendance } from '../../student/student.interface';
 })
 export class AttendanceComponent implements OnInit, OnDestroy {
   lessonId: number;
-  lessonDate: Date | string;
+  lessonDate: string;
   studentsAttendance: StudentAttendance[];
   sub!: Subscription;
 
@@ -24,7 +24,8 @@ export class AttendanceComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute, 
     private router: Router,
     private location: Location,
-    private logger: LogService
+    private logger: LogService,
+    private datepipe: DatePipe
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -76,11 +77,11 @@ export class AttendanceComponent implements OnInit, OnDestroy {
       data.push({
         "Full_Name": sa.person.lastName + ' ' + sa.person.firstName,
         "Birth_ID": sa.person.birthId,
-        "Entrance_Time": sa.entranceTime.toString()
+        "Entrance_Time": sa.entranceTime? this.datepipe.transform(sa.entranceTime.toString(), 'short').replace(',', ' '): ''
       });
     });
 
-    CsvDataService.exportToCsv(this.lessonDate + '.csv', data);
+    CsvDataService.exportToCsv(this.lessonDate.replace('T', ' ').substring(0, 19) + '.csv', data); //<---------------
   }
 
   goBack() {
