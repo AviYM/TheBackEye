@@ -35,6 +35,7 @@ export class SignalRService {
 
   public addTransferChartDataListener = () => {
     this.connection.on('TransferMeasurements', (data) => {
+      console.log(JSON.stringify(data));
       this.setCurrentDate();
       this.emitMeasurements.next(data);
     });

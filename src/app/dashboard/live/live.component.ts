@@ -18,6 +18,9 @@ export class LiveComponent implements OnInit {
   pieGridData: NameValueMap[] = [];
   lineChartData: NameSeries[] = [];
 
+  measurements: IMeasurement[];
+  StartAMinute: Date;
+
   // Chart definitions
   showXAxis = true;
   showYAxis = true;
@@ -38,16 +41,21 @@ export class LiveComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.measurements = [];
+    this.StartAMinute = new Date();
+
     this.signalRService.emitMeasurements.subscribe((data: IMeasurement[]) => {
       console.log('?---------Live----------?' + JSON.stringify(data));
-      if (data) {
-        let measurements: IMeasurement[] = [];
+      if (data && this.measurements) {
         data.forEach((m) => {
           if (this.lessonService.isLessonOfTeacher(m.lessonId)) {
-            measurements.push(m);
+            this.measurements.push(m);
           }
         });
-        this.processMeasurments(measurements);
+        let timeDiff = new Date().getTime() - this.StartAMinute.getTime();
+        if (Math.round(timeDiff / 1000) >= 30) {
+          this.processMeasurments();
+        } 
       }
     });
   }
@@ -89,7 +97,7 @@ export class LiveComponent implements OnInit {
       .trim();
   }
 
-  private generateLineChart(measurements: IMeasurement[]) {
+  private generateLineChart() {
     interface TimeToPositiveAndAllMeasurments {
       time: string;
       positiveMeasurementsCount: number;
@@ -97,9 +105,13 @@ export class LiveComponent implements OnInit {
     }
     let timesData: TimeToPositiveAndAllMeasurments[] = [];
 
+    if(!this.measurements || !this.measurements.length) {
+      return;
+    }
+
     let metricNames = this.getBooleanMetricNames();
 
-    let gbTime = GroupByService.groupBy(measurements, (m: IMeasurement) =>
+    let gbTime = GroupByService.groupBy(this.measurements, (m: IMeasurement) =>
       this.getTimeFromDate(m.dateTime.toString())
     );
 
@@ -146,10 +158,14 @@ export class LiveComponent implements OnInit {
     }
   }
 
-  private generatePieGrid(measurements: IMeasurement[]) {
+  private generatePieGrid() {
+    if(!this.measurements || !this.measurements.length) {
+      return;
+    }
+
     let metricNames = this.getBooleanMetricNames();
 
-    let gbPersonId = GroupByService.groupBy(measurements, (m: IMeasurement) =>
+    let gbPersonId = GroupByService.groupBy(this.measurements, (m: IMeasurement) =>
       m.personId.toString()
     );
 
@@ -205,8 +221,12 @@ export class LiveComponent implements OnInit {
   //   }
   }
 
-  private processMeasurments(measurements: IMeasurement[]) {
-    this.generateLineChart(measurements);
-    this.generatePieGrid(measurements);
+  private processMeasurments() {
+    this.generateLineChart();
+    this.generatePieGrid();
+
+    // initialize data for a new minute.
+    this.measurements = [];
+    this.StartAMinute = new Date();
   }
 }
